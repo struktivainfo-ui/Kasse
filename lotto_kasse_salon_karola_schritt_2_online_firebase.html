@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lotto-Kasse Online | Salon Karola</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel2: #1f2937;
+      --gold: #d6b25e;
+      --gold2: #f3d98b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --line: rgba(255,255,255,.12);
+      --danger: #ef4444;
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --input: #0b1220;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(214,178,94,.22), transparent 34%),
+        linear-gradient(135deg, #020617, #111827 55%, #0f172a);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .app {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 28px 0 60px;
+    }
+
+    .hero, .card {
+      border: 1px solid var(--line);
+      background: rgba(15,23,42,.82);
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.22);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, rgba(17,24,39,.95), rgba(31,41,55,.82));
+    }
+
+    .kicker {
+      color: var(--gold2);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 820px;
+      line-height: 1.55;
+    }
+
+    .statusbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius: 999px;
+      padding: 8px 11px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .pill.ok { color: #bbf7d0; border-color: rgba(34,197,94,.28); background: rgba(34,197,94,.10); }
+    .pill.warn { color: #fde68a; border-color: rgba(245,158,11,.28); background: rgba(245,158,11,.10); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card { padding: 22px; }
+
+    .card h2 {
+      margin: 0 0 16px;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.14);
+      background: var(--input);
+      color: var(--text);
+      border-radius: 15px;
+      padding: 13px 14px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: rgba(214,178,94,.9);
+      box-shadow: 0 0 0 4px rgba(214,178,94,.12);
+    }
+
+    input:disabled, textarea:disabled, button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 84px;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    .calc { display: grid; gap: 12px; }
+
+    .metric {
+      background: linear-gradient(135deg, rgba(31,41,55,.8), rgba(15,23,42,.8));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .metric strong {
+      font-size: 21px;
+      color: var(--white);
+      white-space: nowrap;
+    }
+
+    .metric.diff.ok strong { color: var(--ok); }
+    .metric.diff.bad strong { color: var(--danger); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      padding: 13px 17px;
+      border-radius: 16px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #111827;
+      background: linear-gradient(135deg, var(--gold2), var(--gold));
+      box-shadow: 0 10px 25px rgba(214,178,94,.22);
+    }
+
+    button.secondary {
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    button.danger {
+      background: rgba(239,68,68,.16);
+      color: #fecaca;
+      border: 1px solid rgba(239,68,68,.35);
+      box-shadow: none;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      background: rgba(2,6,23,.28);
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--gold2);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: rgba(255,255,255,.04);
+    }
+
+    td.num, th.num { text-align: right; white-space: nowrap; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .badge.ok {
+      color: #bbf7d0;
+      background: rgba(34,197,94,.12);
+      border: 1px solid rgba(34,197,94,.22);
+    }
+
+    .badge.bad {
+      color: #fecaca;
+      background: rgba(239,68,68,.12);
+      border: 1px solid rgba(239,68,68,.22);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+
+    .toolbar label { min-width: 190px; }
+
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+
+    .error {
+      color: #fecaca;
+      background: rgba(239,68,68,.12);
+      border: 1px solid rgba(239,68,68,.25);
+      border-radius: 16px;
+      padding: 12px;
+      display: none;
+      margin-top: 12px;
+      line-height: 1.45;
+    }
+
+    .hidden { display: none !important; }
+
+    .small { font-size: 12px; color: var(--muted); }
+
+    code {
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 2px 6px;
+      color: var(--gold2);
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .hero { padding: 22px; }
+    }
+
+    @media print {
+      body { background: white; color: black; }
+      .hero, .card { box-shadow: none; background: white; color: black; border: 1px solid #ddd; }
+      .actions, .toolbar, .entry-card, .login-card { display: none !important; }
+      .app { width: 100%; padding: 0; }
+      th { color: black; }
+      td, th { color: black; border-color: #ddd; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <div class="kicker">Salon Karola · Lotto-Kasse Online</div>
+      <h1>Gemeinsame Kasse für dich und den Steuerberater</h1>
+      <p class="subtitle">
+        Diese Version ist für Firebase vorbereitet: Du meldest dich an, speicherst den Tagesabschluss online,
+        und dein Steuerberater sieht dieselben Daten mit eigenem Login.
+      </p>
+      <div class="statusbar">
+        <span class="pill warn" id="firebaseStatus">Firebase noch nicht verbunden</span>
+        <span class="pill" id="loginStatus">Nicht angemeldet</span>
+        <span class="pill" id="roleStatus">Rolle: —</span>
+      </div>
+    </section>
+
+    <section class="card login-card" id="loginCard">
+      <h2>Login</h2>
+      <form id="loginForm" class="form-grid">
+        <label>
+          E-Mail
+          <input type="email" id="email" autocomplete="email" required placeholder="deine@email.de" />
+        </label>
+        <label>
+          Passwort
+          <input type="password" id="password" autocomplete="current-password" required placeholder="Passwort" />
+        </label>
+        <div class="actions full">
+          <button type="submit">Einloggen</button>
+        </div>
+      </form>
+      <div class="error" id="loginError"></div>
+      <p class="note">
+        Benutzer werden nicht in dieser App registriert. Du legst sie einmal in Firebase Authentication an:
+        dich als Admin und den Steuerberater als Leser.
+      </p>
+    </section>
+
+    <section class="grid hidden" id="appGrid">
+      <div class="card entry-card">
+        <h2>Neuen Tag erfassen</h2>
+
+        <form id="cashForm" class="form-grid">
+          <label>
+            Datum
+            <input type="date" id="date" required />
+          </label>
+
+          <label>
+            Wechselgeld Anfang (€)
+            <input type="number" id="startCash" step="0.01" min="0" placeholder="300,00" required />
+          </label>
+
+          <label>
+            Tagesabschluss gesamt (€)
+            <input type="number" id="dailyTotal" step="0.01" min="0" placeholder="1245,80" required />
+          </label>
+
+          <label>
+            EC-Zahlungen (€)
+            <input type="number" id="cardPayments" step="0.01" min="0" placeholder="245,80" required />
+          </label>
+
+          <label>
+            Abschöpfung (€)
+            <input type="number" id="skimming" step="0.01" min="0" placeholder="1000,00" required />
+          </label>
+
+          <label>
+            Wechselgeld Ende gezählt (€)
+            <input type="number" id="endCashCounted" step="0.01" min="0" placeholder="300,00" required />
+          </label>
+
+          <label class="full">
+            Bemerkung
+            <textarea id="note" placeholder="Optional, z. B. Differenz erklärt, Sonderfall, Korrekturhinweis"></textarea>
+          </label>
+
+          <div class="actions full">
+            <button type="submit" id="saveDay">Tag online speichern</button>
+            <button type="button" class="secondary" id="resetForm">Formular leeren</button>
+          </div>
+        </form>
+
+        <p class="note">
+          Formel: Tagesabschluss gesamt – EC-Zahlungen = Bar-Anteil.
+          Wechselgeld Anfang + Bar-Anteil – Abschöpfung = Wechselgeld Ende Soll.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Live-Kontrolle</h2>
+        <div class="calc">
+          <div class="metric">
+            <span>Bar-Anteil</span>
+            <strong id="cashShare">0,00 €</strong>
+          </div>
+          <div class="metric">
+            <span>Wechselgeld Ende Soll</span>
+            <strong id="endCashExpected">0,00 €</strong>
+          </div>
+          <div class="metric diff ok" id="diffBox">
+            <span>Differenz</span>
+            <strong id="difference">0,00 €</strong>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="secondary" onclick="window.print()">Monatsliste drucken / als PDF speichern</button>
+          <button type="button" class="secondary" id="exportCsv">CSV exportieren</button>
+          <button type="button" class="secondary" id="logoutButton">Ausloggen</button>
+        </div>
+
+        <p class="note">
+          Wenn die Rolle <code>viewer</code> ist, kann der Steuerberater ansehen und exportieren, aber nicht speichern.
+        </p>
+      </div>
+    </section>
+
+    <section class="card hidden" id="tableCard" style="margin-top:18px;">
+      <h2>Gespeicherte Lotto-Kassentage</h2>
+
+      <div class="toolbar">
+        <label>
+          Monat filtern
+          <input type="month" id="monthFilter" />
+        </label>
+        <button type="button" class="secondary" id="clearFilter">Alle anzeigen</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th class="num">Wechselgeld Anfang</th>
+              <th class="num">Tagesabschluss gesamt</th>
+              <th class="num">EC-Zahlungen</th>
+              <th class="num">Bar-Anteil</th>
+              <th class="num">Abschöpfung</th>
+              <th class="num">Ende Soll</th>
+              <th class="num">Ende gezählt</th>
+              <th class="num">Differenz</th>
+              <th>Status</th>
+              <th>Bemerkung</th>
+            </tr>
+          </thead>
+          <tbody id="entriesBody"></tbody>
+        </table>
+      </div>
+
+      <p class="small" id="summary"></p>
+    </section>
+  </main>
+
+  <script type="module">
+    /*
+      SCHRITT 2:
+      Hier deine Firebase-Konfiguration einfügen.
+      Du bekommst sie in Firebase unter:
+      Projekteinstellungen > Deine Apps > Web-App > Firebase SDK-Konfiguration
+
+      Beispiel:
+      const firebaseConfig = {
+        apiKey: "...",
+        authDomain: "...",
+        projectId: "...",
+        storageBucket: "...",
+        messagingSenderId: "...",
+        appId: "..."
+      };
+    */
+
+    const firebaseConfig = {
+      apiKey: "HIER_EINFUEGEN",
+      authDomain: "HIER_EINFUEGEN",
+      projectId: "HIER_EINFUEGEN",
+      storageBucket: "HIER_EINFUEGEN",
+      messagingSenderId: "HIER_EINFUEGEN",
+      appId: "HIER_EINFUEGEN"
+    };
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      doc,
+      setDoc,
+      getDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    const isConfigured = firebaseConfig.apiKey !== "HIER_EINFUEGEN" && firebaseConfig.projectId !== "HIER_EINFUEGEN";
+
+    const ui = {
+      firebaseStatus: document.getElementById("firebaseStatus"),
+      loginStatus: document.getElementById("loginStatus"),
+      roleStatus: document.getElementById("roleStatus"),
+      loginCard: document.getElementById("loginCard"),
+      loginForm: document.getElementById("loginForm"),
+      loginError: document.getElementById("loginError"),
+      appGrid: document.getElementById("appGrid"),
+      tableCard: document.getElementById("tableCard"),
+      cashForm: document.getElementById("cashForm"),
+      saveDay: document.getElementById("saveDay"),
+      logoutButton: document.getElementById("logoutButton"),
+      monthFilter: document.getElementById("monthFilter"),
+      entriesBody: document.getElementById("entriesBody"),
+      summary: document.getElementById("summary"),
+      date: document.getElementById("date"),
+      startCash: document.getElementById("startCash"),
+      dailyTotal: document.getElementById("dailyTotal"),
+      cardPayments: document.getElementById("cardPayments"),
+      skimming: document.getElementById("skimming"),
+      endCashCounted: document.getElementById("endCashCounted"),
+      note: document.getElementById("note"),
+      cashShare: document.getElementById("cashShare"),
+      endCashExpected: document.getElementById("endCashExpected"),
+      difference: document.getElementById("difference"),
+      diffBox: document.getElementById("diffBox")
+    };
+
+    let app = null;
+    let auth = null;
+    let db = null;
+    let currentUser = null;
+    let currentRole = null;
+    let allEntries = [];
+    let unsubscribeEntries = null;
+
+    if (!isConfigured) {
+      ui.firebaseStatus.textContent = "Firebase-Konfiguration fehlt";
+      ui.firebaseStatus.className = "pill warn";
+      showError("Firebase ist noch nicht verbunden. Bitte zuerst die Firebase-Konfiguration in der HTML-Datei einfügen.");
+    } else {
+      try {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        ui.firebaseStatus.textContent = "Firebase verbunden";
+        ui.firebaseStatus.className = "pill ok";
+        initAuth();
+      } catch (error) {
+        ui.firebaseStatus.textContent = "Firebase Fehler";
+        ui.firebaseStatus.className = "pill warn";
+        showError(error.message);
+      }
+    }
+
+    function initAuth() {
+      onAuthStateChanged(auth, async (user) => {
+        currentUser = user;
+
+        if (!user) {
+          currentRole = null;
+          ui.loginStatus.textContent = "Nicht angemeldet";
+          ui.roleStatus.textContent = "Rolle: —";
+          ui.loginCard.classList.remove("hidden");
+          ui.appGrid.classList.add("hidden");
+          ui.tableCard.classList.add("hidden");
+          if (unsubscribeEntries) unsubscribeEntries();
+          return;
+        }
+
+        ui.loginStatus.textContent = user.email;
+        ui.loginStatus.className = "pill ok";
+
+        currentRole = await loadRole(user.uid);
+        ui.roleStatus.textContent = "Rolle: " + currentRole;
+
+        const canWrite = currentRole === "admin";
+        setFormWritable(canWrite);
+
+        ui.loginCard.classList.add("hidden");
+        ui.appGrid.classList.remove("hidden");
+        ui.tableCard.classList.remove("hidden");
+
+        subscribeEntries();
+      });
+    }
+
+    async function loadRole(uid) {
+      try {
+        const snap = await getDoc(doc(db, "users", uid));
+        if (snap.exists() && snap.data().role) return snap.data().role;
+      } catch (e) {
+        console.warn(e);
+      }
+      return "viewer";
+    }
+
+    function setFormWritable(canWrite) {
+      const inputs = ui.cashForm.querySelectorAll("input, textarea, button");
+      inputs.forEach(el => el.disabled = !canWrite);
+      document.getElementById("resetForm").disabled = !canWrite;
+      ui.saveDay.textContent = canWrite ? "Tag online speichern" : "Nur Ansicht";
+    }
+
+    ui.loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      hideError();
+      if (!isConfigured) {
+        showError("Firebase-Konfiguration fehlt noch.");
+        return;
+      }
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (error) {
+        showError("Login fehlgeschlagen: " + cleanFirebaseError(error.message));
+      }
+    });
+
+    ui.logoutButton.addEventListener("click", async () => {
+      await signOut(auth);
+    });
+
+    function subscribeEntries() {
+      if (unsubscribeEntries) unsubscribeEntries();
+
+      const q = query(collection(db, "lottoKasse"), orderBy("date", "desc"));
+      unsubscribeEntries = onSnapshot(q, (snapshot) => {
+        allEntries = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderEntries();
+      }, (error) => {
+        showError("Daten konnten nicht geladen werden: " + cleanFirebaseError(error.message));
+      });
+    }
+
+    ui.cashForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      hideError();
+
+      if (currentRole !== "admin") {
+        showError("Dieser Zugang darf nur ansehen, nicht speichern.");
+        return;
+      }
+
+      const calc = calculate();
+
+      if (num("cardPayments") > num("dailyTotal")) {
+        showError("EC-Zahlungen dürfen nicht höher sein als der Tagesabschluss gesamt.");
+        return;
+      }
+
+      const entry = {
+        date: ui.date.value,
+        startCash: num("startCash"),
+        dailyTotal: num("dailyTotal"),
+        cardPayments: num("cardPayments"),
+        cashShare: calc.cashShare,
+        skimming: num("skimming"),
+        endExpected: calc.endExpected,
+        endCashCounted: num("endCashCounted"),
+        diff: calc.diff,
+        note: ui.note.value.trim(),
+        updatedAt: serverTimestamp(),
+        updatedBy: currentUser.email
+      };
+
+      try {
+        await setDoc(doc(db, "lottoKasse", entry.date), entry);
+        ui.cashForm.reset();
+        ui.date.value = todayISO();
+        calculate();
+      } catch (error) {
+        showError("Speichern fehlgeschlagen: " + cleanFirebaseError(error.message));
+      }
+    });
+
+    ["startCash", "dailyTotal", "cardPayments", "skimming", "endCashCounted"].forEach(id => {
+      ui[id].addEventListener("input", calculate);
+    });
+
+    document.getElementById("resetForm").addEventListener("click", () => {
+      ui.cashForm.reset();
+      ui.date.value = todayISO();
+      calculate();
+    });
+
+    ui.monthFilter.addEventListener("change", renderEntries);
+
+    document.getElementById("clearFilter").addEventListener("click", () => {
+      ui.monthFilter.value = "";
+      renderEntries();
+    });
+
+    document.getElementById("exportCsv").addEventListener("click", () => {
+      const entries = filteredEntries().sort((a, b) => a.date.localeCompare(b.date));
+
+      const header = [
+        "Datum",
+        "Wechselgeld Anfang",
+        "Tagesabschluss gesamt",
+        "EC-Zahlungen",
+        "Bar-Anteil",
+        "Abschöpfung",
+        "Wechselgeld Ende Soll",
+        "Wechselgeld Ende gezählt",
+        "Differenz",
+        "Bemerkung",
+        "Bearbeitet von"
+      ];
+
+      const rows = entries.map(e => [
+        e.date,
+        decimal(e.startCash),
+        decimal(e.dailyTotal),
+        decimal(e.cardPayments),
+        decimal(e.cashShare),
+        decimal(e.skimming),
+        decimal(e.endExpected),
+        decimal(e.endCashCounted),
+        decimal(e.diff),
+        e.note || "",
+        e.updatedBy || ""
+      ]);
+
+      const csv = [header, ...rows]
+        .map(row => row.map(cell => `"${String(cell).replaceAll('"', '""')}"`).join(";"))
+        .join("\n");
+
+      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `lotto-kasse-online${ui.monthFilter.value ? "-" + ui.monthFilter.value : ""}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    function filteredEntries() {
+      const filter = ui.monthFilter.value;
+      if (!filter) return [...allEntries];
+      return allEntries.filter(e => e.date && e.date.startsWith(filter));
+    }
+
+    function renderEntries() {
+      const entries = filteredEntries().sort((a, b) => b.date.localeCompare(a.date));
+      ui.entriesBody.innerHTML = "";
+
+      let sumTotal = 0;
+      let sumEc = 0;
+      let sumCash = 0;
+      let sumSkimming = 0;
+      let diffCount = 0;
+
+      for (const e of entries) {
+        sumTotal += Number(e.dailyTotal || 0);
+        sumEc += Number(e.cardPayments || 0);
+        sumCash += Number(e.cashShare || 0);
+        sumSkimming += Number(e.skimming || 0);
+        if (Math.abs(Number(e.diff || 0)) >= 0.01) diffCount++;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${formatDate(e.date)}</td>
+          <td class="num">${money(e.startCash)}</td>
+          <td class="num">${money(e.dailyTotal)}</td>
+          <td class="num">${money(e.cardPayments)}</td>
+          <td class="num">${money(e.cashShare)}</td>
+          <td class="num">${money(e.skimming)}</td>
+          <td class="num">${money(e.endExpected)}</td>
+          <td class="num">${money(e.endCashCounted)}</td>
+          <td class="num">${money(e.diff)}</td>
+          <td>${Math.abs(Number(e.diff || 0)) < 0.01 ? '<span class="badge ok">OK</span>' : '<span class="badge bad">Prüfen</span>'}</td>
+          <td>${escapeHtml(e.note || "")}</td>
+        `;
+        ui.entriesBody.appendChild(tr);
+      }
+
+      ui.summary.textContent =
+        `Angezeigt: ${entries.length} Tage · Tagesabschluss gesamt: ${money(sumTotal)} · EC: ${money(sumEc)} · Bar-Anteil: ${money(sumCash)} · Abschöpfung: ${money(sumSkimming)} · Tage mit Differenz: ${diffCount}`;
+    }
+
+    function calculate() {
+      const startCash = num("startCash");
+      const dailyTotal = num("dailyTotal");
+      const cardPayments = num("cardPayments");
+      const skimming = num("skimming");
+      const endCashCounted = num("endCashCounted");
+
+      const cashShare = round2(dailyTotal - cardPayments);
+      const endExpected = round2(startCash + cashShare - skimming);
+      const diff = round2(endCashCounted - endExpected);
+
+      ui.cashShare.textContent = money(cashShare);
+      ui.endCashExpected.textContent = money(endExpected);
+      ui.difference.textContent = money(diff);
+
+      ui.diffBox.classList.toggle("ok", Math.abs(diff) < 0.01);
+      ui.diffBox.classList.toggle("bad", Math.abs(diff) >= 0.01);
+
+      return { cashShare, endExpected, diff };
+    }
+
+    function num(id) {
+      return round2(parseFloat(ui[id].value || "0"));
+    }
+
+    function round2(n) {
+      return Math.round((Number(n || 0) + Number.EPSILON) * 100) / 100;
+    }
+
+    function money(value) {
+      return Number(value || 0).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
+    }
+
+    function decimal(n) {
+      return Number(n || 0).toFixed(2).replace(".", ",");
+    }
+
+    function todayISO() {
+      const d = new Date();
+      const offset = d.getTimezoneOffset();
+      const local = new Date(d.getTime() - offset * 60000);
+      return local.toISOString().slice(0, 10);
+    }
+
+    function formatDate(iso) {
+      if (!iso) return "";
+      const [y, m, d] = iso.split("-");
+      return `${d}.${m}.${y}`;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function showError(message) {
+      ui.loginError.style.display = "block";
+      ui.loginError.textContent = message;
+    }
+
+    function hideError() {
+      ui.loginError.style.display = "none";
+      ui.loginError.textContent = "";
+    }
+
+    function cleanFirebaseError(message) {
+      return String(message || "")
+        .replace("Firebase: ", "")
+        .replace(/\(auth\/.*?\)\.?/g, "")
+        .replace(/\(firestore\/.*?\)\.?/g, "")
+        .trim();
+    }
+
+    ui.date.value = todayISO();
+    const now = new Date();
+    ui.monthFilter.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    calculate();
+  </script>
+</body>
+</html>
