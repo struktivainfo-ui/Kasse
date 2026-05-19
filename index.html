@@ -35,6 +35,7 @@
     .btn-danger{background:rgba(218,106,106,.12);border-color:rgba(218,106,106,.42);color:#ffdede}
     .btn:hover{filter:brightness(1.05)}
     .btn:disabled{opacity:.62;cursor:not-allowed}
+    .btn-picker{background:#20232d;border-color:#444a5c;color:var(--gold-soft);white-space:nowrap}
 
     .login{padding:18px}
     .login-box{max-width:460px;margin:0 auto;display:grid;gap:12px}
@@ -46,6 +47,7 @@
     textarea{resize:vertical;min-height:86px}
     .stay{display:inline-flex;align-items:center;gap:8px}
     .stay input{width:16px;height:16px;accent-color:var(--gold);margin:0}
+    .picker-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
     .error{display:none;border:1px solid rgba(218,106,106,.35);background:rgba(218,106,106,.13);color:#ffdede;border-radius:10px;padding:9px 11px;font-size:.9rem}
     .error.show{display:block}
 
@@ -74,7 +76,7 @@
     .receipt-box{border:1px solid var(--line);border-radius:11px;background:#181a22;padding:10px;display:grid;gap:8px}
 
     .table-card{padding:14px}
-    .toolbar{display:grid;gap:8px;grid-template-columns:minmax(230px,280px) repeat(4,max-content);align-items:end;margin-bottom:10px}
+    .toolbar{display:grid;gap:8px;grid-template-columns:minmax(230px,280px) max-content repeat(4,max-content);align-items:end;margin-bottom:10px}
     .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#191b23}
     table{width:100%;min-width:1640px;border-collapse:collapse}
     th,td{border-bottom:1px solid #2f3441;padding:10px 9px;text-align:left;vertical-align:top;font-size:.87rem}
@@ -91,10 +93,11 @@
       .topbar,.layout,.stats,.toolbar,.grid-2{grid-template-columns:1fr}
       .top-actions{justify-content:flex-start}
       .toolbar .btn{width:100%}
+      .picker-row{grid-template-columns:1fr}
     }
     @media print{
       body{background:#fff;color:#000}
-      .topbar,#loginCard,#formSection,.toolbar,.table-actions,#printButton,#csvButton,#reloadButton,#currentMonthButton,#clearFilterButton,#splash{display:none !important}
+      .topbar,#loginCard,#formSection,.toolbar,.table-actions,#printButton,#csvButton,#reloadButton,#currentMonthButton,#clearFilterButton,#openMonthPicker,#splash{display:none !important}
       .card,.table-wrap,.stat,.last,.metric{background:#fff !important;color:#000 !important;border-color:#ddd !important;box-shadow:none !important}
       th,td{color:#000 !important;border-color:#ddd !important}
       .print-only{display:block;font-size:1.35rem;margin-bottom:10px}
@@ -157,7 +160,13 @@
         <section id="formSection">
           <div class="head"><h2>Tagesabschluss</h2></div>
           <form id="entryForm" class="grid grid-2" novalidate>
-            <label>Datum<input id="date" type="date" required /></label>
+            <label>
+              Datum
+              <div class="picker-row">
+                <input id="date" type="date" required />
+                <button id="openDatePicker" class="btn btn-picker" type="button">Kalender</button>
+              </div>
+            </label>
             <label>Wechselgeld Anfang<input id="startCash" type="text" inputmode="decimal" required /></label>
             <label>Tagesabschluss gesamt<input id="dailyTotal" type="text" inputmode="decimal" required /></label>
             <label>EC-Zahlungen<input id="cardPayments" type="text" inputmode="decimal" required /></label>
@@ -204,6 +213,7 @@
       </div>
       <div class="toolbar">
         <label>Monat<input id="monthFilter" type="month" /></label>
+        <button id="openMonthPicker" class="btn btn-picker" type="button">Monat wählen</button>
         <button id="currentMonthButton" class="btn btn-muted" type="button">Aktueller Monat</button>
         <button id="clearFilterButton" class="btn btn-muted" type="button">Alle anzeigen</button>
         <button id="reloadButton" class="btn btn-muted" type="button">Aktualisieren</button>
@@ -253,11 +263,11 @@
       loginCard: byId("loginCard"), loginForm: byId("loginForm"), email: byId("email"), password: byId("password"), rememberMe: byId("rememberMe"), loginError: byId("loginError"),
       dashboardCard: byId("dashboardCard"), tableCard: byId("tableCard"), formSection: byId("formSection"), entryForm: byId("entryForm"), formError: byId("formError"),
       userChip: byId("userChip"), roleChip: byId("roleChip"), userMail: byId("userMail"), roleText: byId("roleText"), logoutBtn: byId("logoutBtn"), connectionChip: byId("connectionChip"),
-      date: byId("date"), startCash: byId("startCash"), dailyTotal: byId("dailyTotal"), cardPayments: byId("cardPayments"), skimming: byId("skimming"), endCashCounted: byId("endCashCounted"),
+      date: byId("date"), openDatePicker: byId("openDatePicker"), startCash: byId("startCash"), dailyTotal: byId("dailyTotal"), cardPayments: byId("cardPayments"), skimming: byId("skimming"), endCashCounted: byId("endCashCounted"),
       note: byId("note"), hasReceipt: byId("hasReceipt"), receiptNumber: byId("receiptNumber"), receiptNote: byId("receiptNote"),
       saveBtn: byId("saveBtn"), resetBtn: byId("resetBtn"), cancelEditBtn: byId("cancelEditBtn"),
       liveCashShare: byId("liveCashShare"), liveEndExpected: byId("liveEndExpected"), liveDiff: byId("liveDiff"), liveDiffMetric: byId("liveDiffMetric"), liveState: byId("liveState"),
-      monthFilter: byId("monthFilter"), currentMonthButton: byId("currentMonthButton"), clearFilterButton: byId("clearFilterButton"), reloadButton: byId("reloadButton"),
+      monthFilter: byId("monthFilter"), openMonthPicker: byId("openMonthPicker"), currentMonthButton: byId("currentMonthButton"), clearFilterButton: byId("clearFilterButton"), reloadButton: byId("reloadButton"),
       printButton: byId("printButton"), csvButton: byId("csvButton"), entriesBody: byId("entriesBody"), tableSummary: byId("tableSummary"),
       sumDaily: byId("sumDaily"), sumCard: byId("sumCard"), sumCash: byId("sumCash"), sumSkim: byId("sumSkim"), sumDiffDays: byId("sumDiffDays"),
       lastDate: byId("lastDate"), lastDiff: byId("lastDiff"), lastBy: byId("lastBy")
@@ -291,10 +301,22 @@
       ui.reloadButton.addEventListener("click", render);
       ui.printButton.addEventListener("click", () => window.print());
       ui.csvButton.addEventListener("click", exportCsv);
+      ui.openDatePicker.addEventListener("click", () => openNativePicker(ui.date));
+      ui.openMonthPicker.addEventListener("click", () => openNativePicker(ui.monthFilter));
       [ui.startCash, ui.dailyTotal, ui.cardPayments, ui.skimming, ui.endCashCounted].forEach((el) => {
         el.addEventListener("input", calcLive);
         el.addEventListener("blur", normalizeMoneyInput);
       });
+    }
+
+    function openNativePicker(input) {
+      if (!input) return;
+      if (typeof input.showPicker === "function") {
+        input.showPicker();
+      } else {
+        input.focus();
+        input.click();
+      }
     }
 
     function watchConnectivity() {
