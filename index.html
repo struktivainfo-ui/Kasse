@@ -1001,7 +1001,7 @@
       const now = new Date();
       const hour = now.getHours();
       const greeting = hour >= 5 && hour <= 10 ? "Guten Morgen" : hour >= 11 && hour <= 17 ? "Guten Tag" : "Guten Abend";
-      const name = role === "admin" ? "Sven" : "Sahra";
+      const name = role === "admin" ? "Sven" : "Sarah";
       const subtitle = role === "admin" ? "Lotto-Kasse Salon Karola" : "Steuerberater-Zugang";
 
       ui.welcomeTitle.textContent = `${greeting}, ${name}`;
