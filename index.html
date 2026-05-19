@@ -246,6 +246,24 @@
       display: block;
     }
 
+    .stay-logged {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .stay-logged input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--gold);
+      cursor: pointer;
+      margin: 0;
+    }
+
     .workspace-grid {
       display: grid;
       gap: 14px;
@@ -438,6 +456,52 @@
       display: none;
     }
 
+    .splash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8, 8, 10, 0.95);
+      backdrop-filter: blur(6px);
+      transition: opacity 0.26s ease;
+    }
+
+    .splash.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash-box {
+      width: min(520px, calc(100% - 34px));
+      border: 1px solid #363946;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #1c1e26, #15171d);
+      padding: 22px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .splash-box small {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .splash-box h2 {
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      margin-bottom: 6px;
+    }
+
+    .splash-box p {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
     @media (max-width: 1100px) {
       .workspace-grid,
       .stats-grid,
@@ -499,6 +563,14 @@
 </head>
 <body>
   <main class="app">
+    <section class="splash hidden" id="welcomeSplash" aria-live="polite" aria-label="Willkommen">
+      <div class="splash-box">
+        <small>Lotto-Kasse Salon Karola</small>
+        <h2 id="welcomeTitle">Willkommen</h2>
+        <p id="welcomeSubtitle">Digitaler Tagesabschluss</p>
+      </div>
+    </section>
+
     <header class="card topbar">
       <div class="brand">
         <small>Salon Karola · Lotto-Kasse</small>
@@ -524,6 +596,10 @@
           <label>
             Passwort
             <input type="password" id="password" autocomplete="current-password" required placeholder="Passwort" />
+          </label>
+          <label class="full stay-logged">
+            <input type="checkbox" id="rememberMe" checked />
+            <span>Angemeldet bleiben</span>
           </label>
           <div class="full">
             <button type="submit" class="btn btn-primary">Einloggen</button>
@@ -643,7 +719,7 @@
           <input type="month" id="monthFilter" />
         </label>
         <button type="button" class="btn btn-muted" id="currentMonthButton">Aktueller Monat</button>
-        <button type="button" class="btn btn-muted" id="clearFilterButton">Alle Monate</button>
+        <button type="button" class="btn btn-muted" id="clearFilterButton">Alle anzeigen</button>
         <button type="button" class="btn btn-muted" id="reloadButton">Aktualisieren</button>
       </div>
 
@@ -676,8 +752,11 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import {
+      browserLocalPersistence,
+      browserSessionPersistence,
       getAuth,
       onAuthStateChanged,
+      setPersistence,
       signInWithEmailAndPassword,
       signOut
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
@@ -715,6 +794,7 @@
       loginForm: document.getElementById("loginForm"),
       email: document.getElementById("email"),
       password: document.getElementById("password"),
+      rememberMe: document.getElementById("rememberMe"),
       loginError: document.getElementById("loginError"),
       formError: document.getElementById("formError"),
       userChip: document.getElementById("userChip"),
@@ -756,7 +836,10 @@
       sumDiffCount: document.getElementById("sumDiffCount"),
       lastCloseDate: document.getElementById("lastCloseDate"),
       lastCloseDiff: document.getElementById("lastCloseDiff"),
-      lastCloseBy: document.getElementById("lastCloseBy")
+      lastCloseBy: document.getElementById("lastCloseBy"),
+      welcomeSplash: document.getElementById("welcomeSplash"),
+      welcomeTitle: document.getElementById("welcomeTitle"),
+      welcomeSubtitle: document.getElementById("welcomeSubtitle")
     };
 
     const state = {
@@ -768,7 +851,8 @@
       entries: [],
       unsubscribeEntries: null,
       editingId: null,
-      configReady: false
+      configReady: false,
+      isLoggingOut: false
     };
 
     boot();
@@ -861,6 +945,7 @@
           }
           clearTable();
           resetSummary();
+          state.isLoggingOut = false;
           return;
         }
 
@@ -874,6 +959,9 @@
 
         state.role = await loadRole(user.uid);
         ui.roleLabel.textContent = state.role === "admin" ? "Admin" : "Steuerberater";
+        if (!state.isLoggingOut) {
+          await showWelcomeSplash(state.role);
+        }
         ui.viewerOnlyHint.classList.toggle("hidden", state.role === "admin");
         ui.formSection.classList.toggle("hidden", state.role !== "admin");
 
@@ -889,19 +977,43 @@
       event.preventDefault();
       hideError(ui.loginError);
       try {
+        await setPersistence(
+          state.auth,
+          ui.rememberMe.checked ? browserLocalPersistence : browserSessionPersistence
+        );
         await signInWithEmailAndPassword(state.auth, ui.email.value.trim(), ui.password.value);
         ui.password.value = "";
       } catch {
-        showError(ui.loginError, "Anmeldung fehlgeschlagen.");
+        showError(ui.loginError, "Login fehlgeschlagen. Bitte E-Mail und Passwort prüfen.");
       }
     }
 
     async function handleLogout() {
       try {
+        state.isLoggingOut = true;
         await signOut(state.auth);
       } catch {
         showError(ui.loginError, "Abmeldung fehlgeschlagen.");
       }
+    }
+
+    function showWelcomeSplash(role) {
+      const now = new Date();
+      const hour = now.getHours();
+      const greeting = hour >= 5 && hour <= 10 ? "Guten Morgen" : hour >= 11 && hour <= 17 ? "Guten Tag" : "Guten Abend";
+      const name = role === "admin" ? "Sven" : "Sahra";
+      const subtitle = role === "admin" ? "Lotto-Kasse Salon Karola" : "Steuerberater-Zugang";
+
+      ui.welcomeTitle.textContent = `${greeting}, ${name}`;
+      ui.welcomeSubtitle.textContent = subtitle;
+      ui.welcomeSplash.classList.remove("hidden");
+
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          ui.welcomeSplash.classList.add("hidden");
+          resolve();
+        }, 1700);
+      });
     }
 
     async function loadRole(uid) {
