@@ -9,7 +9,6 @@
     :root {
       --bg: #101014;
       --panel: #181a21;
-      --panel-soft: #20222b;
       --line: #2f3340;
       --text: #f3efe6;
       --muted: #bbb4a3;
@@ -22,9 +21,7 @@
       --radius-lg: 14px;
       --radius-md: 10px;
     }
-
     * { box-sizing: border-box; }
-
     html, body {
       margin: 0;
       padding: 0;
@@ -33,29 +30,19 @@
       color: var(--text);
       font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     }
-
     h1, h2, h3, th {
       margin: 0;
       font-family: Cambria, "Times New Roman", serif;
       letter-spacing: -0.02em;
     }
-
     button, input, textarea, select { font: inherit; }
-
-    .app {
-      width: min(1280px, calc(100% - 22px));
-      margin: 12px auto 26px;
-      display: grid;
-      gap: 12px;
-    }
-
+    .app { width: min(1280px, calc(100% - 22px)); margin: 12px auto 26px; display: grid; gap: 12px; }
     .card {
       border: 1px solid var(--line);
       border-radius: var(--radius-xl);
       background: linear-gradient(180deg, #1a1c24, #151720);
       box-shadow: var(--shadow);
     }
-
     .topbar {
       padding: 14px 16px;
       display: grid;
@@ -63,7 +50,6 @@
       gap: 10px;
       align-items: center;
     }
-
     .brand small {
       display: block;
       color: var(--gold-soft);
@@ -72,19 +58,8 @@
       letter-spacing: 0.11em;
       margin-bottom: 3px;
     }
-
-    .brand h1 {
-      font-size: clamp(1.4rem, 2.2vw, 1.95rem);
-      line-height: 1.07;
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: end;
-    }
-
+    .brand h1 { font-size: clamp(1.4rem, 2.2vw, 1.95rem); line-height: 1.07; }
+    .top-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: end; }
     .chip {
       min-height: 36px;
       border-radius: 999px;
@@ -98,29 +73,18 @@
       font-weight: 600;
       white-space: nowrap;
     }
-
     .chip strong { color: var(--text); margin-left: 6px; }
     .chip.alert {
       border-color: rgba(223, 108, 108, 0.4);
       background: rgba(223, 108, 108, 0.12);
       color: #ffd8d8;
     }
-
     .workspace, .login-card { padding: 16px; }
-
-    .login-wrap {
-      max-width: 470px;
-      margin: 0 auto;
-      display: grid;
-      gap: 12px;
-    }
-
+    .login-wrap { max-width: 470px; margin: 0 auto; display: grid; gap: 12px; }
     .login-title { font-size: 1.5rem; }
     .login-subtitle { color: var(--muted); font-size: 0.95rem; }
-
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
     .full { grid-column: 1 / -1; }
-
     label {
       display: grid;
       gap: 6px;
@@ -128,7 +92,6 @@
       font-size: 0.85rem;
       font-weight: 700;
     }
-
     input, textarea, select {
       width: 100%;
       border: 1px solid #383c49;
@@ -139,15 +102,12 @@
       outline: none;
       transition: border-color 0.14s ease, box-shadow 0.14s ease;
     }
-
     input:focus, textarea:focus, select:focus {
       border-color: var(--gold);
       box-shadow: 0 0 0 3px rgba(204, 169, 91, 0.18);
     }
-
     textarea { min-height: 86px; resize: vertical; }
     input:disabled, textarea:disabled, button:disabled { opacity: 0.62; cursor: not-allowed; }
-
     .stay {
       display: inline-flex;
       gap: 8px;
@@ -157,7 +117,6 @@
       font-weight: 600;
     }
     .stay input { width: 16px; height: 16px; accent-color: var(--gold); margin: 0; cursor: pointer; }
-
     .btn {
       border: 1px solid transparent;
       border-radius: 11px;
@@ -174,7 +133,6 @@
     }
     .btn-muted { background: #22242e; border-color: #393d4b; color: var(--text); }
     .btn-danger { background: rgba(223, 108, 108, 0.13); border-color: rgba(223, 108, 108, 0.4); color: #ffd8d8; }
-
     .error {
       display: none;
       border: 1px solid rgba(223, 108, 108, 0.4);
@@ -185,7 +143,6 @@
       font-size: 0.9rem;
     }
     .error.show { display: block; }
-
     .splash {
       position: fixed;
       inset: 0;
@@ -217,13 +174,11 @@
     }
     .splash-box h2 { font-size: clamp(1.45rem, 3vw, 2rem); margin-bottom: 5px; }
     .splash-box p { color: var(--muted); }
-
     .stats-grid {
       display: grid;
       gap: 9px;
       grid-template-columns: repeat(5, minmax(0, 1fr));
     }
-
     .stat {
       border: 1px solid #313543;
       border-radius: 12px;
@@ -241,7 +196,6 @@
       letter-spacing: 0.06em;
     }
     .stat strong { font-size: clamp(1.02rem, 1.8vw, 1.45rem); }
-
     .last-close {
       border: 1px solid #313543;
       border-radius: 12px;
@@ -253,7 +207,6 @@
       display: grid;
       gap: 4px;
     }
-
     .workspace-grid {
       margin-top: 11px;
       display: grid;
@@ -261,7 +214,6 @@
       grid-template-columns: minmax(0, 1.08fr) minmax(330px, 0.92fr);
       align-items: start;
     }
-
     .section-head {
       margin-bottom: 10px;
       display: flex;
@@ -271,7 +223,6 @@
       flex-wrap: wrap;
     }
     .section-head h2 { font-size: 1.26rem; }
-
     .metrics-grid { display: grid; gap: 8px; }
     .metric {
       border: 1px solid #313543;
@@ -291,41 +242,14 @@
     .metric.diff.ok strong { color: var(--ok); }
     .metric.diff.bad strong { color: var(--danger); }
     .metric-state { margin-top: 6px; color: var(--muted); font-size: 0.9rem; }
-
-    .upload-box {
-      border: 1px dashed #3a3f4d;
+    .receipt-note-box {
+      border: 1px solid #313543;
       border-radius: 11px;
       background: #171920;
       padding: 10px;
       display: grid;
       gap: 8px;
     }
-    .upload-box small { color: var(--muted); font-size: 0.82rem; }
-    .file-list {
-      display: grid;
-      gap: 7px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    .file-item {
-      border: 1px solid #323645;
-      border-radius: 10px;
-      background: #1d2028;
-      padding: 8px;
-      display: grid;
-      gap: 6px;
-      font-size: 0.84rem;
-    }
-    .file-item img {
-      width: 100%;
-      max-height: 124px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid #353949;
-    }
-    .file-meta { color: var(--muted); }
-
     .toolbar {
       display: grid;
       gap: 8px;
@@ -333,14 +257,13 @@
       align-items: end;
       margin-bottom: 10px;
     }
-
     .table-wrap {
       overflow-x: auto;
       border: 1px solid #313543;
       border-radius: 14px;
       background: #171920;
     }
-    table { width: 100%; min-width: 1540px; border-collapse: collapse; }
+    table { width: 100%; min-width: 1580px; border-collapse: collapse; }
     th, td {
       border-bottom: 1px solid #2b2e3a;
       padding: 10px 9px;
@@ -359,7 +282,6 @@
       font-size: 0.73rem;
     }
     .num, th.num { text-align: right; white-space: nowrap; }
-
     .badge {
       min-width: 84px;
       border-radius: 999px;
@@ -381,83 +303,18 @@
       border: 1px solid rgba(223, 108, 108, 0.4);
       background: rgba(223, 108, 108, 0.16);
     }
-
     .summary-line { margin-top: 9px; color: var(--muted); font-size: 0.86rem; }
     .empty { text-align: center; color: var(--muted); padding: 20px; }
     .hidden { display: none !important; }
     .print-only { display: none; }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 9000;
-      background: rgba(7, 7, 9, 0.74);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-    }
-    .modal {
-      width: min(760px, 100%);
-      max-height: calc(100vh - 30px);
-      overflow: auto;
-      border: 1px solid #353949;
-      border-radius: 14px;
-      background: linear-gradient(180deg, #1b1e27, #151821);
-      box-shadow: var(--shadow);
-      padding: 14px;
-      display: grid;
-      gap: 10px;
-    }
-    .modal-grid {
-      display: grid;
-      gap: 8px;
-    }
-    .receipt-card {
-      border: 1px solid #313543;
-      border-radius: 10px;
-      background: #1a1d26;
-      padding: 9px;
-      display: grid;
-      gap: 7px;
-      font-size: 0.86rem;
-    }
-    .receipt-card img {
-      width: 100%;
-      max-height: 190px;
-      object-fit: cover;
-      border: 1px solid #353949;
-      border-radius: 8px;
-    }
-    .receipt-actions {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
-
     @media (max-width: 1100px) {
-      .topbar,
-      .grid-2,
-      .workspace-grid,
-      .stats-grid,
-      .toolbar {
-        grid-template-columns: 1fr;
-      }
-
+      .topbar, .grid-2, .workspace-grid, .stats-grid, .toolbar { grid-template-columns: 1fr; }
       .top-actions { justify-content: start; }
       .toolbar .btn { width: 100%; }
     }
-
     @media print {
       body { background: #fff; color: #000; }
-      .topbar,
-      .login-card,
-      #formSection,
-      .toolbar,
-      .table-actions,
-      #viewerOnlyHint,
-      #welcomeSplash,
-      #receiptsModal {
+      .topbar, .login-card, #formSection, .toolbar, .table-actions, #viewerOnlyHint, #welcomeSplash {
         display: none !important;
       }
       .card, .table-wrap, .stat, .last-close {
@@ -546,11 +403,20 @@
             <label>Wechselgeld Ende gezählt<input type="text" id="endCashCounted" inputmode="decimal" required /></label>
             <label class="full">Bemerkung<textarea id="note" placeholder="Optional"></textarea></label>
             <label class="full">
-              Beleg hinzufügen
-              <div class="upload-box">
-                <input type="file" id="receiptFiles" accept="image/*,.pdf" multiple capture="environment" />
-                <small>Optional</small>
-                <ul class="file-list" id="receiptPreviewList"></ul>
+              Beleg vorhanden
+              <div class="receipt-note-box">
+                <select id="hasReceipt">
+                  <option value="false" selected>Nein</option>
+                  <option value="true">Ja</option>
+                </select>
+                <label>
+                  Belegnummer
+                  <input type="text" id="receiptNumber" placeholder="z. B. B-2026-001" />
+                </label>
+                <label>
+                  Beleg-Hinweis
+                  <textarea id="receiptNote" placeholder="z. B. Beleg liegt im Ordner Mai 2026"></textarea>
+                </label>
               </div>
             </label>
             <div class="full" style="display:flex; gap:7px; flex-wrap:wrap;">
@@ -606,7 +472,9 @@
               <th class="num">Ende gezählt</th>
               <th class="num">Differenz</th>
               <th>Status</th>
-              <th>Belege</th>
+              <th>Beleg</th>
+              <th>Belegnummer</th>
+              <th>Beleg-Hinweis</th>
               <th>Bemerkung</th>
               <th>Bearbeitet</th>
               <th class="table-actions">Aktion</th>
@@ -616,16 +484,6 @@
         </table>
       </div>
       <div class="summary-line" id="tableSummary"></div>
-    </section>
-
-    <section class="modal-backdrop hidden" id="receiptsModal">
-      <div class="modal">
-        <div class="section-head">
-          <h3>Belege zum Tagesabschluss <span id="modalDateLabel"></span></h3>
-          <button type="button" class="btn btn-muted" id="closeModalButton">Schließen</button>
-        </div>
-        <div class="modal-grid" id="modalReceiptsList"></div>
-      </div>
     </section>
   </main>
 
@@ -652,13 +510,6 @@
       serverTimestamp,
       setDoc
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-    import {
-      deleteObject,
-      getDownloadURL,
-      getStorage,
-      ref,
-      uploadBytes
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCjVk6GVn7Zttyl3O6G1C85rAHmMhu8XEE",
@@ -669,9 +520,6 @@
       appId: "1:861345289461:web:22ec03e33b5fd5e13761bc"
     };
 
-    const MAX_FILES = 5;
-    const MAX_FILE_SIZE = 8 * 1024 * 1024;
-    const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "application/pdf"]);
     const EURO = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
     const DATE_LABEL = new Intl.DateTimeFormat("de-DE", { dateStyle: "medium" });
     const DATE_TIME_LABEL = new Intl.DateTimeFormat("de-DE", { dateStyle: "short", timeStyle: "short" });
@@ -705,8 +553,9 @@
       skimming: document.getElementById("skimming"),
       endCashCounted: document.getElementById("endCashCounted"),
       note: document.getElementById("note"),
-      receiptFiles: document.getElementById("receiptFiles"),
-      receiptPreviewList: document.getElementById("receiptPreviewList"),
+      hasReceipt: document.getElementById("hasReceipt"),
+      receiptNumber: document.getElementById("receiptNumber"),
+      receiptNote: document.getElementById("receiptNote"),
       saveButton: document.getElementById("saveButton"),
       resetButton: document.getElementById("resetButton"),
       cancelEditButton: document.getElementById("cancelEditButton"),
@@ -730,23 +579,17 @@
       sumDiffCount: document.getElementById("sumDiffCount"),
       lastCloseDate: document.getElementById("lastCloseDate"),
       lastCloseDiff: document.getElementById("lastCloseDiff"),
-      lastCloseBy: document.getElementById("lastCloseBy"),
-      receiptsModal: document.getElementById("receiptsModal"),
-      modalDateLabel: document.getElementById("modalDateLabel"),
-      modalReceiptsList: document.getElementById("modalReceiptsList"),
-      closeModalButton: document.getElementById("closeModalButton")
+      lastCloseBy: document.getElementById("lastCloseBy")
     };
 
     const state = {
       app: null,
       auth: null,
       db: null,
-      storage: null,
       user: null,
       role: null,
       entries: [],
       editingId: null,
-      selectedFiles: [],
       unsubscribeEntries: null,
       isLoggingOut: false
     };
@@ -763,7 +606,6 @@
         state.app = initializeApp(firebaseConfig);
         state.auth = getAuth(state.app);
         state.db = getFirestore(state.app);
-        state.storage = getStorage(state.app);
       } catch {
         showError(ui.loginError, "Verbindung konnte nicht hergestellt werden.");
         return;
@@ -780,9 +622,7 @@
         }
 
         state.role = await loadRole(user.uid);
-        if (!state.isLoggingOut) {
-          await showWelcomeSplash(state.role);
-        }
+        if (!state.isLoggingOut) await showWelcomeSplash(state.role);
 
         ui.userEmail.textContent = user.email || "-";
         ui.roleLabel.textContent = state.role === "admin" ? "Admin" : "Steuerberater";
@@ -794,11 +634,7 @@
         ui.logoutButton.classList.remove("hidden");
         ui.viewerOnlyHint.classList.toggle("hidden", state.role === "admin");
         ui.formSection.classList.toggle("hidden", state.role !== "admin");
-
-        if (state.role !== "admin") {
-          cancelEditMode();
-        }
-
+        if (state.role !== "admin") cancelEditMode();
         subscribeEntries();
       });
     }
@@ -815,14 +651,6 @@
       ui.reloadButton.addEventListener("click", renderEntries);
       ui.csvButton.addEventListener("click", exportCsv);
       ui.printButton.addEventListener("click", () => window.print());
-      ui.receiptFiles.addEventListener("change", onReceiptSelectionChange);
-      ui.closeModalButton.addEventListener("click", closeReceiptsModal);
-      ui.receiptsModal.addEventListener("click", (event) => {
-        if (event.target === ui.receiptsModal) {
-          closeReceiptsModal();
-        }
-      });
-
       [ui.startCash, ui.dailyTotal, ui.cardPayments, ui.skimming, ui.endCashCounted].forEach((input) => {
         input.addEventListener("input", calculateLive);
         input.addEventListener("blur", normalizeMoneyInput);
@@ -865,8 +693,6 @@
       state.role = null;
       state.entries = [];
       state.editingId = null;
-      state.selectedFiles = [];
-      renderSelectedFiles();
       ui.loginCard.classList.remove("hidden");
       ui.workspaceCard.classList.add("hidden");
       ui.tableCard.classList.add("hidden");
@@ -874,7 +700,6 @@
       ui.roleChip.classList.add("hidden");
       ui.logoutButton.classList.add("hidden");
       ui.viewerOnlyHint.classList.add("hidden");
-      closeReceiptsModal();
       clearTable();
       resetSummary();
       if (state.unsubscribeEntries) {
@@ -919,50 +744,6 @@
       });
     }
 
-    function onReceiptSelectionChange() {
-      if (state.role !== "admin") return;
-      const incoming = Array.from(ui.receiptFiles.files || []);
-      const validation = validateFiles(incoming);
-      if (!validation.ok) {
-        showError(ui.formError, validation.message);
-        ui.receiptFiles.value = "";
-        return;
-      }
-      state.selectedFiles = incoming;
-      hideError(ui.formError);
-      renderSelectedFiles();
-    }
-
-    function validateFiles(files) {
-      if (files.length > MAX_FILES) return { ok: false, message: `Maximal ${MAX_FILES} Belege pro Tagesabschluss.` };
-      for (const file of files) {
-        if (!ALLOWED_TYPES.has(file.type)) return { ok: false, message: "Dateityp nicht erlaubt. Zulässig: JPG, PNG, WEBP, PDF." };
-        if (file.size > MAX_FILE_SIZE) return { ok: false, message: "Datei zu groß. Maximal 8 MB pro Datei." };
-      }
-      return { ok: true };
-    }
-
-    function renderSelectedFiles() {
-      ui.receiptPreviewList.innerHTML = "";
-      if (!state.selectedFiles.length) return;
-      for (const file of state.selectedFiles) {
-        const li = document.createElement("li");
-        li.className = "file-item";
-        const isImage = file.type.startsWith("image/");
-        li.innerHTML = `
-          <div><strong>${escapeHtml(file.name)}</strong></div>
-          <div class="file-meta">${formatFileSize(file.size)} · ${isImage ? "Bild" : "PDF"}</div>
-        `;
-        if (isImage) {
-          const img = document.createElement("img");
-          img.alt = file.name;
-          img.src = URL.createObjectURL(file);
-          li.appendChild(img);
-        }
-        ui.receiptPreviewList.appendChild(li);
-      }
-    }
-
     async function handleSave(event) {
       event.preventDefault();
       hideError(ui.formError);
@@ -970,15 +751,8 @@
         showError(ui.formError, "Nur Admin darf speichern.");
         return;
       }
-
       const entry = buildEntryFromForm();
       if (!entry) return;
-
-      const validation = validateFiles(state.selectedFiles);
-      if (!validation.ok) {
-        showError(ui.formError, validation.message);
-        return;
-      }
 
       try {
         ui.saveButton.disabled = true;
@@ -994,9 +768,7 @@
             return;
           }
         }
-
         const existingData = exists ? existingSnap.data() : null;
-        const receiptsExisting = Array.isArray(existingData?.receipts) ? existingData.receipts : [];
 
         await setDoc(doc(state.db, "lottoKasse", entry.date), {
           date: entry.date,
@@ -1009,23 +781,14 @@
           endCashCountedCents: entry.endCashCountedCents,
           diffCents: entry.diffCents,
           note: entry.note,
+          hasReceipt: entry.hasReceipt,
+          receiptNumber: entry.receiptNumber,
+          receiptNote: entry.receiptNote,
           updatedAt: serverTimestamp(),
           updatedBy: state.user.email,
           createdAt: existingData?.createdAt ?? serverTimestamp(),
-          createdBy: existingData?.createdBy ?? state.user.email,
-          receipts: receiptsExisting
+          createdBy: existingData?.createdBy ?? state.user.email
         });
-
-        let receiptsFinal = receiptsExisting;
-        if (state.selectedFiles.length) {
-          const uploaded = await uploadReceipts(entry.date, state.selectedFiles);
-          receiptsFinal = [...receiptsExisting, ...uploaded];
-          await setDoc(doc(state.db, "lottoKasse", entry.date), {
-            receipts: receiptsFinal,
-            updatedAt: serverTimestamp(),
-            updatedBy: state.user.email
-          }, { merge: true });
-        }
 
         ui.saveButton.textContent = "Gespeichert";
         window.setTimeout(() => {
@@ -1036,72 +799,19 @@
       } catch {
         ui.saveButton.disabled = false;
         ui.saveButton.textContent = "Speichern";
-        showError(ui.formError, "Beleg konnte nicht hochgeladen werden.");
+        showError(ui.formError, "Speichern fehlgeschlagen.");
       }
-    }
-
-    async function uploadReceipts(date, files) {
-      const uploaded = [];
-      for (const file of files) {
-        const stamp = Date.now();
-        const safeName = file.name.replace(/[^\w.\-]/g, "_");
-        const path = `receipts/${date}/${stamp}_${safeName}`;
-        const storageRef = ref(state.storage, path);
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        uploaded.push({
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          path,
-          url,
-          uploadedAt: new Date().toISOString(),
-          uploadedBy: state.user.email
-        });
-      }
-      return uploaded;
     }
 
     async function handleDeleteEntry(id, dateLabel) {
       if (state.role !== "admin") return;
       const ok = window.confirm(`Eintrag vom ${dateLabel} wirklich entfernen?`);
       if (!ok) return;
-
       try {
-        const entry = state.entries.find((x) => x.id === id);
-        if (entry?.receipts?.length) {
-          for (const receipt of entry.receipts) {
-            if (receipt.path) {
-              await deleteObject(ref(state.storage, receipt.path)).catch(() => {});
-            }
-          }
-        }
         await deleteDoc(doc(state.db, "lottoKasse", id));
         if (state.editingId === id) resetForm();
       } catch {
         showError(ui.formError, "Eintrag konnte nicht entfernt werden.");
-      }
-    }
-
-    async function handleDeleteReceipt(entryId, receiptIndex) {
-      if (state.role !== "admin") return;
-      const entry = state.entries.find((x) => x.id === entryId);
-      if (!entry || !Array.isArray(entry.receipts) || !entry.receipts[receiptIndex]) return;
-      const ok = window.confirm("Beleg wirklich entfernen?");
-      if (!ok) return;
-
-      const receipt = entry.receipts[receiptIndex];
-      try {
-        if (receipt.path) await deleteObject(ref(state.storage, receipt.path)).catch(() => {});
-        const nextReceipts = entry.receipts.filter((_, i) => i !== receiptIndex);
-        await setDoc(doc(state.db, "lottoKasse", entryId), {
-          receipts: nextReceipts,
-          updatedAt: serverTimestamp(),
-          updatedBy: state.user.email
-        }, { merge: true });
-        openReceiptsModal(entryId);
-      } catch {
-        showError(ui.formError, "Beleg konnte nicht entfernt werden.");
       }
     }
 
@@ -1116,7 +826,6 @@
       const cardPaymentsCents = parseMoneyToCents(ui.cardPayments.value);
       const skimmingCents = parseMoneyToCents(ui.skimming.value);
       const endCashCountedCents = parseMoneyToCents(ui.endCashCounted.value);
-
       const values = [
         ["Wechselgeld Anfang", startCashCents],
         ["Tagesabschluss gesamt", dailyTotalCents],
@@ -1124,7 +833,6 @@
         ["Abschöpfung", skimmingCents],
         ["Wechselgeld Ende gezählt", endCashCountedCents]
       ];
-
       for (const [label, amount] of values) {
         if (amount === null) {
           showError(ui.formError, `${label}: ungültiger Betrag.`);
@@ -1139,11 +847,9 @@
         showError(ui.formError, "EC-Zahlungen dürfen nicht höher als der Tagesabschluss gesamt sein.");
         return null;
       }
-
       const cashShareCents = dailyTotalCents - cardPaymentsCents;
       const endExpectedCents = startCashCents + cashShareCents - skimmingCents;
       const diffCents = endCashCountedCents - endExpectedCents;
-
       return {
         date,
         startCashCents,
@@ -1154,7 +860,10 @@
         endExpectedCents,
         endCashCountedCents,
         diffCents,
-        note: ui.note.value.trim()
+        note: ui.note.value.trim(),
+        hasReceipt: ui.hasReceipt.value === "true",
+        receiptNumber: ui.receiptNumber.value.trim(),
+        receiptNote: ui.receiptNote.value.trim()
       };
     }
 
@@ -1164,11 +873,9 @@
       const cardPaymentsCents = parseMoneyToCents(ui.cardPayments.value) ?? 0;
       const skimmingCents = parseMoneyToCents(ui.skimming.value) ?? 0;
       const endCashCountedCents = parseMoneyToCents(ui.endCashCounted.value) ?? 0;
-
       const cashShareCents = dailyTotalCents - cardPaymentsCents;
       const endExpectedCents = startCashCents + cashShareCents - skimmingCents;
       const diffCents = endCashCountedCents - endExpectedCents;
-
       ui.cashShare.textContent = formatCents(cashShareCents);
       ui.endExpected.textContent = formatCents(endExpectedCents);
       ui.difference.textContent = formatCents(diffCents);
@@ -1180,9 +887,8 @@
     function renderEntries() {
       const entries = getFilteredEntries();
       ui.entriesBody.innerHTML = "";
-
       if (!entries.length) {
-        ui.entriesBody.innerHTML = '<tr><td colspan="14" class="empty">Keine Einträge vorhanden.</td></tr>';
+        ui.entriesBody.innerHTML = '<tr><td colspan="16" class="empty">Keine Einträge vorhanden.</td></tr>';
         updateSummary([]);
         updateLastClose(null);
         ui.tableSummary.textContent = "";
@@ -1191,8 +897,7 @@
 
       for (const entry of entries) {
         const diffOk = toNumber(entry.diffCents) === 0;
-        const receipts = Array.isArray(entry.receipts) ? entry.receipts : [];
-        const hasReceipts = receipts.length > 0;
+        const hasReceipt = entry.hasReceipt === true;
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${escapeHtml(formatDate(entry.date))}</td>
@@ -1205,17 +910,15 @@
           <td class="num">${formatCents(entry.endCashCountedCents)}</td>
           <td class="num">${formatCents(entry.diffCents)}</td>
           <td><span class="badge ${diffOk ? "ok" : "bad"}">${diffOk ? "OK" : "Prüfen"}</span></td>
-          <td>${hasReceipts ? `<button type="button" class="btn btn-muted" data-show-receipts="${entry.id}">${receipts.length} Beleg${receipts.length === 1 ? "" : "e"} ansehen</button>` : "—"}</td>
+          <td>${hasReceipt ? "Ja" : "Nein"}</td>
+          <td>${escapeHtml(entry.receiptNumber || "") || "—"}</td>
+          <td>${escapeHtml(entry.receiptNote || "") || "—"}</td>
           <td>${escapeHtml(entry.note || "") || "—"}</td>
           <td>${entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : "—"}<br>${escapeHtml(entry.updatedBy || "—")}</td>
           <td class="table-actions">${state.role === "admin" ? `<button type="button" class="btn btn-muted" data-edit="${entry.id}">Bearbeiten</button> <button type="button" class="btn btn-danger" data-delete="${entry.id}" data-date="${escapeHtml(formatDate(entry.date))}">Eintrag entfernen</button>` : "—"}</td>
         `;
         ui.entriesBody.appendChild(tr);
       }
-
-      ui.entriesBody.querySelectorAll("[data-show-receipts]").forEach((button) => {
-        button.addEventListener("click", () => openReceiptsModal(button.getAttribute("data-show-receipts")));
-      });
       if (state.role === "admin") {
         ui.entriesBody.querySelectorAll("[data-edit]").forEach((button) => {
           button.addEventListener("click", () => startEdit(button.getAttribute("data-edit")));
@@ -1230,45 +933,6 @@
       ui.tableSummary.textContent = `${entries.length} Tag${entries.length === 1 ? "" : "e"} angezeigt${ui.monthFilter.value ? " (" + monthLabel(ui.monthFilter.value) + ")" : ""}.`;
     }
 
-    function openReceiptsModal(entryId) {
-      const entry = state.entries.find((x) => x.id === entryId);
-      if (!entry) return;
-      const receipts = Array.isArray(entry.receipts) ? entry.receipts : [];
-      ui.modalDateLabel.textContent = `(${formatDate(entry.date)})`;
-      ui.modalReceiptsList.innerHTML = "";
-      if (!receipts.length) {
-        ui.modalReceiptsList.innerHTML = '<div class="empty">Keine Belege vorhanden.</div>';
-      } else {
-        receipts.forEach((receipt, index) => {
-          const item = document.createElement("article");
-          item.className = "receipt-card";
-          const isImage = String(receipt.type || "").startsWith("image/");
-          item.innerHTML = `
-            <div><strong>${escapeHtml(receipt.name || "Beleg")}</strong></div>
-            <div class="file-meta">${formatFileSize(receipt.size || 0)}</div>
-            ${isImage ? `<img src="${escapeHtml(receipt.url)}" alt="${escapeHtml(receipt.name || "Beleg")}" />` : '<div class="file-meta">PDF-Dokument</div>'}
-            <div class="receipt-actions">
-              <a class="btn btn-muted" href="${escapeHtml(receipt.url)}" target="_blank" rel="noreferrer">Öffnen</a>
-              ${state.role === "admin" ? `<button type="button" class="btn btn-danger" data-del-receipt="${entry.id}" data-del-index="${index}">Beleg löschen</button>` : ""}
-            </div>
-          `;
-          ui.modalReceiptsList.appendChild(item);
-        });
-        if (state.role === "admin") {
-          ui.modalReceiptsList.querySelectorAll("[data-del-receipt]").forEach((button) => {
-            button.addEventListener("click", () => handleDeleteReceipt(button.getAttribute("data-del-receipt"), Number(button.getAttribute("data-del-index"))));
-          });
-        }
-      }
-      ui.receiptsModal.classList.remove("hidden");
-    }
-
-    function closeReceiptsModal() {
-      ui.receiptsModal.classList.add("hidden");
-      ui.modalReceiptsList.innerHTML = "";
-      ui.modalDateLabel.textContent = "";
-    }
-
     function updateSummary(entries) {
       const totals = entries.reduce((acc, e) => {
         acc.dailyTotal += toNumber(e.dailyTotalCents);
@@ -1278,7 +942,6 @@
         if (toNumber(e.diffCents) !== 0) acc.diffCount += 1;
         return acc;
       }, { dailyTotal: 0, cardPayments: 0, cashShare: 0, skimming: 0, diffCount: 0 });
-
       ui.sumDailyTotal.textContent = formatCents(totals.dailyTotal);
       ui.sumCardPayments.textContent = formatCents(totals.cardPayments);
       ui.sumCashShare.textContent = formatCents(totals.cashShare);
@@ -1318,6 +981,9 @@
       ui.skimming.value = centsToInput(entry.skimmingCents);
       ui.endCashCounted.value = centsToInput(entry.endCashCountedCents);
       ui.note.value = entry.note || "";
+      ui.hasReceipt.value = entry.hasReceipt ? "true" : "false";
+      ui.receiptNumber.value = entry.receiptNumber || "";
+      ui.receiptNote.value = entry.receiptNote || "";
       ui.saveButton.textContent = "Aktualisieren";
       ui.cancelEditButton.classList.remove("hidden");
       calculateLive();
@@ -1334,9 +1000,9 @@
     function resetForm() {
       ui.cashForm.reset();
       ui.date.value = todayIso();
-      ui.receiptFiles.value = "";
-      state.selectedFiles = [];
-      renderSelectedFiles();
+      ui.hasReceipt.value = "false";
+      ui.receiptNumber.value = "";
+      ui.receiptNote.value = "";
       cancelEditMode();
       calculateLive();
       hideError(ui.formError);
@@ -1368,7 +1034,9 @@
         "Wechselgeld Ende Soll",
         "Wechselgeld Ende gezählt",
         "Differenz",
-        "Belege",
+        "Beleg vorhanden",
+        "Belegnummer",
+        "Beleg-Hinweis",
         "Bemerkung",
         "Bearbeitet von",
         "Bearbeitet am"
@@ -1383,16 +1051,16 @@
         centsToCsv(entry.endExpectedCents),
         centsToCsv(entry.endCashCountedCents),
         centsToCsv(entry.diffCents),
-        String(Array.isArray(entry.receipts) ? entry.receipts.length : 0),
+        entry.hasReceipt ? "Ja" : "Nein",
+        entry.receiptNumber || "",
+        entry.receiptNote || "",
         entry.note || "",
         entry.updatedBy || "",
         entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : ""
       ]);
-
       const csv = [header, ...csvRows]
         .map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(";"))
         .join("\n");
-
       const month = ui.monthFilter.value || "gesamt";
       const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
@@ -1440,11 +1108,6 @@
       return local.toISOString().slice(0, 10);
     }
     function currentMonthIso() { return todayIso().slice(0, 7); }
-    function formatFileSize(bytes) {
-      if (!bytes) return "0 KB";
-      if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
-      return `${(bytes / (1024 * 1024)).toFixed(2).replace(".", ",")} MB`;
-    }
     function showError(el, msg) { el.textContent = msg; el.classList.add("show"); }
     function hideError(el) { el.textContent = ""; el.classList.remove("show"); }
     function escapeHtml(v) {
