@@ -1,340 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lotto-Kasse Salon Karola</title>
-  <meta name="theme-color" content="#101014" />
+  <meta name="theme-color" content="#121217" />
   <style>
-    :root {
-      --bg: #101014;
-      --panel: #181a21;
-      --line: #2f3340;
-      --text: #f3efe6;
-      --muted: #bbb4a3;
-      --gold: #cca95b;
-      --gold-soft: #e2c98d;
-      --ok: #34c38f;
-      --danger: #df6c6c;
-      --shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
-      --radius-xl: 20px;
-      --radius-lg: 14px;
-      --radius-md: 10px;
+    :root{
+      --bg:#121217;--bg-soft:#1a1c24;--card:#1f212b;--line:#353a48;--txt:#f4efe4;--muted:#c2bba9;
+      --gold:#c7a45b;--gold-soft:#e3ca91;--ok:#35bf8c;--bad:#da6a6a;--radius:16px;--shadow:0 14px 34px rgba(0,0,0,.35);
     }
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-      background: radial-gradient(circle at top right, #1a1713, var(--bg) 50%);
-      color: var(--text);
-      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    *{box-sizing:border-box} html,body{margin:0;padding:0;min-height:100%}
+    body{
+      background:radial-gradient(circle at 10% -10%, #232018 0%, var(--bg) 45%);
+      color:var(--txt);font-family:"Segoe UI",Arial,sans-serif;line-height:1.35;
     }
-    h1, h2, h3, th {
-      margin: 0;
-      font-family: Cambria, "Times New Roman", serif;
-      letter-spacing: -0.02em;
+    h1,h2,h3,th{margin:0;font-family:Cambria,Georgia,serif}
+    .app{width:min(1240px,calc(100% - 24px));margin:12px auto 28px;display:grid;gap:12px}
+    .card{background:linear-gradient(180deg,var(--card),#1a1c24);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hidden{display:none !important}
+
+    .topbar{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:14px}
+    .brand small{display:block;color:var(--gold-soft);font-size:.74rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+    .brand h1{font-size:clamp(1.35rem,2.1vw,1.95rem)}
+    .top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .chip{min-height:36px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#1a1c24;color:var(--muted);font-size:.84rem;font-weight:600;display:inline-flex;align-items:center}
+    .chip strong{color:var(--txt);margin-left:6px}
+    .chip.alert{color:#ffe0e0;background:rgba(218,106,106,.13);border-color:rgba(218,106,106,.35)}
+
+    .btn{border:1px solid transparent;border-radius:11px;padding:10px 14px;font-weight:700;cursor:pointer}
+    .btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(199,164,91,.25)}
+    .btn-primary{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#2a220f}
+    .btn-muted{background:#252834;color:var(--txt);border-color:#3d4252}
+    .btn-danger{background:rgba(218,106,106,.12);border-color:rgba(218,106,106,.42);color:#ffdede}
+    .btn:hover{filter:brightness(1.05)}
+    .btn:disabled{opacity:.62;cursor:not-allowed}
+
+    .login{padding:18px}
+    .login-box{max-width:460px;margin:0 auto;display:grid;gap:12px}
+    .login-sub{margin:0;color:var(--muted)}
+    .grid{display:grid;gap:10px}
+    .grid-2{grid-template-columns:1fr 1fr}
+    label{display:grid;gap:6px;color:var(--muted);font-size:.85rem;font-weight:700}
+    input,textarea,select{width:100%;border:1px solid #3b4050;background:#13151c;color:var(--txt);border-radius:10px;padding:12px;font:inherit}
+    textarea{resize:vertical;min-height:86px}
+    .stay{display:inline-flex;align-items:center;gap:8px}
+    .stay input{width:16px;height:16px;accent-color:var(--gold);margin:0}
+    .error{display:none;border:1px solid rgba(218,106,106,.35);background:rgba(218,106,106,.13);color:#ffdede;border-radius:10px;padding:9px 11px;font-size:.9rem}
+    .error.show{display:block}
+
+    .splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:rgba(8,8,12,.94);backdrop-filter:blur(5px)}
+    .splash-box{width:min(480px,calc(100% - 28px));padding:20px;border-radius:14px;border:1px solid var(--line);text-align:center;background:linear-gradient(180deg,#242733,#1a1c24)}
+    .splash-box small{display:block;color:var(--gold-soft);font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+    .splash-box h2{font-size:clamp(1.4rem,2.6vw,1.95rem);margin-bottom:5px}
+    .splash-box p{margin:0;color:var(--muted)}
+
+    .workspace{padding:14px}
+    .stats{display:grid;gap:8px;grid-template-columns:repeat(5,minmax(0,1fr))}
+    .stat{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:10px;min-height:84px;display:flex;flex-direction:column;justify-content:space-between}
+    .stat small{font-size:.73rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    .stat strong{font-size:clamp(1.02rem,1.7vw,1.36rem)}
+    .last{margin-top:9px;background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:10px;color:#ddd5c4;font-size:.88rem;display:grid;gap:4px}
+
+    .layout{margin-top:11px;display:grid;gap:12px;grid-template-columns:minmax(0,1.06fr) minmax(320px,.94fr)}
+    .head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .head h2{font-size:1.24rem}
+    .metrics{display:grid;gap:8px}
+    .metric{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:11px}
+    .metric small{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+    .metric strong{font-size:clamp(1.18rem,1.9vw,1.55rem)}
+    .metric.ok strong{color:var(--ok)} .metric.bad strong{color:var(--bad)}
+    .state{margin-top:6px;color:var(--muted)}
+    .receipt-box{border:1px solid var(--line);border-radius:11px;background:#181a22;padding:10px;display:grid;gap:8px}
+
+    .table-card{padding:14px}
+    .toolbar{display:grid;gap:8px;grid-template-columns:minmax(230px,280px) repeat(4,max-content);align-items:end;margin-bottom:10px}
+    .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#191b23}
+    table{width:100%;min-width:1640px;border-collapse:collapse}
+    th,td{border-bottom:1px solid #2f3441;padding:10px 9px;text-align:left;vertical-align:top;font-size:.87rem}
+    th{position:sticky;top:0;background:#232632;color:var(--gold-soft);text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;z-index:1}
+    .num,th.num{text-align:right;white-space:nowrap}
+    .badge{display:inline-flex;justify-content:center;min-width:84px;border-radius:999px;padding:4px 8px;font-size:.73rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .badge.ok{color:#cff7e7;border:1px solid rgba(53,191,140,.4);background:rgba(53,191,140,.16)}
+    .badge.bad{color:#ffd8d8;border:1px solid rgba(218,106,106,.4);background:rgba(218,106,106,.15)}
+    .summary{margin-top:8px;color:var(--muted);font-size:.86rem}
+    .empty{text-align:center;color:var(--muted);padding:20px}
+    .print-only{display:none}
+
+    @media (max-width:1100px){
+      .topbar,.layout,.stats,.toolbar,.grid-2{grid-template-columns:1fr}
+      .top-actions{justify-content:flex-start}
+      .toolbar .btn{width:100%}
     }
-    button, input, textarea, select { font: inherit; }
-    .app { width: min(1280px, calc(100% - 22px)); margin: 12px auto 26px; display: grid; gap: 12px; }
-    .card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      background: linear-gradient(180deg, #1a1c24, #151720);
-      box-shadow: var(--shadow);
-    }
-    .topbar {
-      padding: 14px 16px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-    }
-    .brand small {
-      display: block;
-      color: var(--gold-soft);
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.11em;
-      margin-bottom: 3px;
-    }
-    .brand h1 { font-size: clamp(1.4rem, 2.2vw, 1.95rem); line-height: 1.07; }
-    .top-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: end; }
-    .chip {
-      min-height: 36px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #1b1d25;
-      color: var(--muted);
-      padding: 7px 11px;
-      display: inline-flex;
-      align-items: center;
-      font-size: 0.84rem;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .chip strong { color: var(--text); margin-left: 6px; }
-    .chip.alert {
-      border-color: rgba(223, 108, 108, 0.4);
-      background: rgba(223, 108, 108, 0.12);
-      color: #ffd8d8;
-    }
-    .workspace, .login-card { padding: 16px; }
-    .login-wrap { max-width: 470px; margin: 0 auto; display: grid; gap: 12px; }
-    .login-title { font-size: 1.5rem; }
-    .login-subtitle { color: var(--muted); font-size: 0.95rem; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
-    .full { grid-column: 1 / -1; }
-    label {
-      display: grid;
-      gap: 6px;
-      color: var(--muted);
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-    input, textarea, select {
-      width: 100%;
-      border: 1px solid #383c49;
-      border-radius: var(--radius-md);
-      background: #101117;
-      color: var(--text);
-      padding: 12px;
-      outline: none;
-      transition: border-color 0.14s ease, box-shadow 0.14s ease;
-    }
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(204, 169, 91, 0.18);
-    }
-    textarea { min-height: 86px; resize: vertical; }
-    input:disabled, textarea:disabled, button:disabled { opacity: 0.62; cursor: not-allowed; }
-    .stay {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-    .stay input { width: 16px; height: 16px; accent-color: var(--gold); margin: 0; cursor: pointer; }
-    .btn {
-      border: 1px solid transparent;
-      border-radius: 11px;
-      padding: 10px 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.13s ease, opacity 0.13s ease;
-    }
-    .btn:hover:not(:disabled) { transform: translateY(-1px); }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold-soft), var(--gold));
-      color: #241d12;
-      box-shadow: 0 8px 16px rgba(204, 169, 91, 0.22);
-    }
-    .btn-muted { background: #22242e; border-color: #393d4b; color: var(--text); }
-    .btn-danger { background: rgba(223, 108, 108, 0.13); border-color: rgba(223, 108, 108, 0.4); color: #ffd8d8; }
-    .error {
-      display: none;
-      border: 1px solid rgba(223, 108, 108, 0.4);
-      background: rgba(223, 108, 108, 0.12);
-      color: #ffe2e2;
-      border-radius: 11px;
-      padding: 9px 11px;
-      font-size: 0.9rem;
-    }
-    .error.show { display: block; }
-    .splash {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(8, 8, 10, 0.95);
-      backdrop-filter: blur(5px);
-      transition: opacity 0.24s ease;
-    }
-    .splash.hidden { opacity: 0; pointer-events: none; }
-    .splash-box {
-      width: min(500px, calc(100% - 34px));
-      border: 1px solid #363a49;
-      border-radius: 16px;
-      background: linear-gradient(180deg, #1c1f28, #151720);
-      text-align: center;
-      padding: 20px 18px;
-      box-shadow: var(--shadow);
-    }
-    .splash-box small {
-      display: block;
-      color: var(--gold-soft);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 7px;
-    }
-    .splash-box h2 { font-size: clamp(1.45rem, 3vw, 2rem); margin-bottom: 5px; }
-    .splash-box p { color: var(--muted); }
-    .stats-grid {
-      display: grid;
-      gap: 9px;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-    }
-    .stat {
-      border: 1px solid #313543;
-      border-radius: 12px;
-      background: #1a1c24;
-      padding: 10px;
-      min-height: 84px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .stat small {
-      color: var(--muted);
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .stat strong { font-size: clamp(1.02rem, 1.8vw, 1.45rem); }
-    .last-close {
-      border: 1px solid #313543;
-      border-radius: 12px;
-      background: #1a1c24;
-      padding: 10px;
-      margin-top: 9px;
-      color: #d6cfbf;
-      font-size: 0.88rem;
-      display: grid;
-      gap: 4px;
-    }
-    .workspace-grid {
-      margin-top: 11px;
-      display: grid;
-      gap: 12px;
-      grid-template-columns: minmax(0, 1.08fr) minmax(330px, 0.92fr);
-      align-items: start;
-    }
-    .section-head {
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .section-head h2 { font-size: 1.26rem; }
-    .metrics-grid { display: grid; gap: 8px; }
-    .metric {
-      border: 1px solid #313543;
-      border-radius: 12px;
-      background: #1a1c24;
-      padding: 11px;
-    }
-    .metric small {
-      color: var(--muted);
-      font-size: 0.79rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      display: block;
-      margin-bottom: 4px;
-    }
-    .metric strong { font-size: clamp(1.2rem, 2vw, 1.62rem); }
-    .metric.diff.ok strong { color: var(--ok); }
-    .metric.diff.bad strong { color: var(--danger); }
-    .metric-state { margin-top: 6px; color: var(--muted); font-size: 0.9rem; }
-    .receipt-note-box {
-      border: 1px solid #313543;
-      border-radius: 11px;
-      background: #171920;
-      padding: 10px;
-      display: grid;
-      gap: 8px;
-    }
-    .toolbar {
-      display: grid;
-      gap: 8px;
-      grid-template-columns: minmax(220px, 280px) repeat(3, max-content);
-      align-items: end;
-      margin-bottom: 10px;
-    }
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid #313543;
-      border-radius: 14px;
-      background: #171920;
-    }
-    table { width: 100%; min-width: 1580px; border-collapse: collapse; }
-    th, td {
-      border-bottom: 1px solid #2b2e3a;
-      padding: 10px 9px;
-      text-align: left;
-      vertical-align: top;
-      font-size: 0.87rem;
-    }
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      background: #1f222c;
-      color: var(--gold-soft);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-size: 0.73rem;
-    }
-    .num, th.num { text-align: right; white-space: nowrap; }
-    .badge {
-      min-width: 84px;
-      border-radius: 999px;
-      padding: 4px 8px;
-      display: inline-flex;
-      justify-content: center;
-      font-size: 0.73rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .badge.ok {
-      color: #cff8e8;
-      border: 1px solid rgba(52, 195, 143, 0.4);
-      background: rgba(52, 195, 143, 0.16);
-    }
-    .badge.bad {
-      color: #ffd9d9;
-      border: 1px solid rgba(223, 108, 108, 0.4);
-      background: rgba(223, 108, 108, 0.16);
-    }
-    .summary-line { margin-top: 9px; color: var(--muted); font-size: 0.86rem; }
-    .empty { text-align: center; color: var(--muted); padding: 20px; }
-    .hidden { display: none !important; }
-    .print-only { display: none; }
-    @media (max-width: 1100px) {
-      .topbar, .grid-2, .workspace-grid, .stats-grid, .toolbar { grid-template-columns: 1fr; }
-      .top-actions { justify-content: start; }
-      .toolbar .btn { width: 100%; }
-    }
-    @media print {
-      body { background: #fff; color: #000; }
-      .topbar, .login-card, #formSection, .toolbar, .table-actions, #viewerOnlyHint, #welcomeSplash {
-        display: none !important;
-      }
-      .card, .table-wrap, .stat, .last-close {
-        background: #fff !important;
-        border-color: #d6d6d6 !important;
-        box-shadow: none !important;
-        color: #000 !important;
-      }
-      .print-only { display: block; font-size: 1.4rem; margin-bottom: 10px; }
-      th, td { color: #000 !important; border-color: #ddd !important; }
+    @media print{
+      body{background:#fff;color:#000}
+      .topbar,#loginCard,#formSection,.toolbar,.table-actions,#printButton,#csvButton,#reloadButton,#currentMonthButton,#clearFilterButton,#splash{display:none !important}
+      .card,.table-wrap,.stat,.last,.metric{background:#fff !important;color:#000 !important;border-color:#ddd !important;box-shadow:none !important}
+      th,td{color:#000 !important;border-color:#ddd !important}
+      .print-only{display:block;font-size:1.35rem;margin-bottom:10px}
     }
   </style>
 </head>
 <body>
   <main class="app">
-    <section class="splash hidden" id="welcomeSplash" aria-live="polite">
+    <section id="splash" class="splash hidden" aria-live="polite">
       <div class="splash-box">
         <small>Lotto-Kasse Salon Karola</small>
-        <h2 id="welcomeTitle">Willkommen</h2>
-        <p id="welcomeSubtitle">Digitaler Tagesabschluss</p>
+        <h2 id="splashTitle">Willkommen</h2>
+        <p id="splashSub">Digitaler Tagesabschluss</p>
       </div>
     </section>
 
@@ -344,171 +117,122 @@
         <h1>Lotto-Kasse Salon Karola</h1>
       </div>
       <div class="top-actions">
-        <span class="chip hidden" id="connectionChip">Verbindung konnte nicht hergestellt werden.</span>
-        <span class="chip hidden" id="userChip">Angemeldet als <strong id="userEmail">-</strong></span>
-        <span class="chip hidden" id="roleChip">Rolle <strong id="roleLabel">-</strong></span>
-        <button type="button" class="btn btn-muted hidden" id="logoutButton">Ausloggen</button>
+        <span id="connectionChip" class="chip hidden">Verbindung konnte nicht hergestellt werden.</span>
+        <span id="userChip" class="chip hidden">Angemeldet als <strong id="userMail">-</strong></span>
+        <span id="roleChip" class="chip hidden">Rolle <strong id="roleText">-</strong></span>
+        <button id="logoutBtn" type="button" class="btn btn-muted hidden">Ausloggen</button>
       </div>
     </header>
 
-    <section class="card login-card" id="loginCard">
-      <div class="login-wrap">
-        <h2 class="login-title">Lotto-Kasse Salon Karola</h2>
-        <p class="login-subtitle">Digitaler Tagesabschluss</p>
-        <form id="loginForm" class="grid-2" novalidate>
-          <label>
-            E-Mail
-            <input type="email" id="email" autocomplete="email" required placeholder="name@beispiel.de" />
-          </label>
-          <label>
-            Passwort
-            <input type="password" id="password" autocomplete="current-password" required placeholder="Passwort" />
-          </label>
-          <label class="full stay">
-            <input type="checkbox" id="rememberMe" checked />
-            <span>Angemeldet bleiben</span>
-          </label>
-          <div class="full">
-            <button type="submit" class="btn btn-primary">Einloggen</button>
-          </div>
+    <section id="loginCard" class="card login">
+      <div class="login-box">
+        <h2>Lotto-Kasse Salon Karola</h2>
+        <p class="login-sub">Digitaler Tagesabschluss</p>
+        <form id="loginForm" class="grid grid-2" novalidate>
+          <label>E-Mail<input id="email" type="email" autocomplete="email" required /></label>
+          <label>Passwort<input id="password" type="password" autocomplete="current-password" required /></label>
+          <label class="stay" style="grid-column:1 / -1;"><input id="rememberMe" type="checkbox" checked /><span>Angemeldet bleiben</span></label>
+          <div style="grid-column:1 / -1;"><button class="btn btn-primary" type="submit">Einloggen</button></div>
         </form>
-        <div class="error" id="loginError"></div>
+        <div id="loginError" class="error"></div>
       </div>
     </section>
 
-    <section class="card workspace hidden" id="workspaceCard">
+    <section id="dashboardCard" class="card workspace hidden">
       <h2 class="print-only">Lotto-Kasse Salon Karola</h2>
-      <div class="stats-grid">
-        <article class="stat"><small>Tagesabschluss gesamt</small><strong id="sumDailyTotal">0,00 €</strong></article>
-        <article class="stat"><small>EC-Zahlungen</small><strong id="sumCardPayments">0,00 €</strong></article>
-        <article class="stat"><small>Bar-Anteil</small><strong id="sumCashShare">0,00 €</strong></article>
-        <article class="stat"><small>Abschöpfung</small><strong id="sumSkimming">0,00 €</strong></article>
-        <article class="stat"><small>Tage mit Differenz</small><strong id="sumDiffCount">0</strong></article>
+      <div class="stats">
+        <article class="stat"><small>Tagesabschluss gesamt</small><strong id="sumDaily">0,00 €</strong></article>
+        <article class="stat"><small>EC-Zahlungen</small><strong id="sumCard">0,00 €</strong></article>
+        <article class="stat"><small>Bar-Anteil</small><strong id="sumCash">0,00 €</strong></article>
+        <article class="stat"><small>Abschöpfung</small><strong id="sumSkim">0,00 €</strong></article>
+        <article class="stat"><small>Tage mit Differenz</small><strong id="sumDiffDays">0</strong></article>
       </div>
-      <div class="last-close">
-        <div>Letzter Abschluss: <strong id="lastCloseDate">-</strong></div>
-        <div>Letzte Differenz: <strong id="lastCloseDiff">0,00 €</strong></div>
-        <div>Zuletzt bearbeitet von: <strong id="lastCloseBy">-</strong></div>
+      <div class="last">
+        <div>Letzter Abschluss: <strong id="lastDate">-</strong></div>
+        <div>Letzte Differenz: <strong id="lastDiff">0,00 €</strong></div>
+        <div>Zuletzt bearbeitet von: <strong id="lastBy">-</strong></div>
       </div>
 
-      <div class="workspace-grid">
+      <div class="layout">
         <section id="formSection">
-          <div class="section-head"><h2>Tagesabschluss</h2></div>
-          <form id="cashForm" class="grid-2" novalidate>
-            <label>Datum<input type="date" id="date" required /></label>
-            <label>Wechselgeld Anfang<input type="text" id="startCash" inputmode="decimal" required /></label>
-            <label>Tagesabschluss gesamt<input type="text" id="dailyTotal" inputmode="decimal" required /></label>
-            <label>EC-Zahlungen<input type="text" id="cardPayments" inputmode="decimal" required /></label>
-            <label>Abschöpfung<input type="text" id="skimming" inputmode="decimal" required /></label>
-            <label>Wechselgeld Ende gezählt<input type="text" id="endCashCounted" inputmode="decimal" required /></label>
-            <label class="full">Bemerkung<textarea id="note" placeholder="Optional"></textarea></label>
-            <label class="full">
-              Beleg vorhanden
-              <div class="receipt-note-box">
-                <select id="hasReceipt">
-                  <option value="false" selected>Nein</option>
-                  <option value="true">Ja</option>
-                </select>
-                <label>
-                  Belegnummer
-                  <input type="text" id="receiptNumber" placeholder="z. B. B-2026-001" />
+          <div class="head"><h2>Tagesabschluss</h2></div>
+          <form id="entryForm" class="grid grid-2" novalidate>
+            <label>Datum<input id="date" type="date" required /></label>
+            <label>Wechselgeld Anfang<input id="startCash" type="text" inputmode="decimal" required /></label>
+            <label>Tagesabschluss gesamt<input id="dailyTotal" type="text" inputmode="decimal" required /></label>
+            <label>EC-Zahlungen<input id="cardPayments" type="text" inputmode="decimal" required /></label>
+            <label>Abschöpfung<input id="skimming" type="text" inputmode="decimal" required /></label>
+            <label>Wechselgeld Ende gezählt<input id="endCashCounted" type="text" inputmode="decimal" required /></label>
+            <label style="grid-column:1 / -1;">Bemerkung<textarea id="note" placeholder="Optional"></textarea></label>
+            <label style="grid-column:1 / -1;">
+              Beleg-Hinweis
+              <div class="receipt-box">
+                <label>Beleg vorhanden
+                  <select id="hasReceipt"><option value="false" selected>Nein</option><option value="true">Ja</option></select>
                 </label>
-                <label>
-                  Beleg-Hinweis
-                  <textarea id="receiptNote" placeholder="z. B. Beleg liegt im Ordner Mai 2026"></textarea>
-                </label>
+                <label>Belegnummer<input id="receiptNumber" type="text" placeholder="z. B. B-2026-001" /></label>
+                <label>Beleg-Hinweis<textarea id="receiptNote" placeholder="z. B. Beleg liegt im Ordner Mai 2026"></textarea></label>
               </div>
             </label>
-            <div class="full" style="display:flex; gap:7px; flex-wrap:wrap;">
-              <button type="submit" class="btn btn-primary" id="saveButton">Speichern</button>
-              <button type="button" class="btn btn-muted" id="resetButton">Zurücksetzen</button>
-              <button type="button" class="btn btn-muted hidden" id="cancelEditButton">Bearbeiten abbrechen</button>
+            <div style="grid-column:1 / -1;display:flex;gap:8px;flex-wrap:wrap;">
+              <button id="saveBtn" class="btn btn-primary" type="submit">Speichern</button>
+              <button id="resetBtn" class="btn btn-muted" type="button">Zurücksetzen</button>
+              <button id="cancelEditBtn" class="btn btn-muted hidden" type="button">Bearbeiten abbrechen</button>
             </div>
           </form>
-          <div class="error" id="formError"></div>
+          <div id="formError" class="error"></div>
         </section>
 
         <section>
-          <div class="section-head"><h2>Live-Kontrolle</h2></div>
-          <div class="metrics-grid">
-            <article class="metric"><small>Bar-Anteil</small><strong id="cashShare">0,00 €</strong></article>
-            <article class="metric"><small>Wechselgeld Ende Soll</small><strong id="endExpected">0,00 €</strong></article>
-            <article class="metric diff ok" id="diffMetric">
-              <small>Differenz</small>
-              <strong id="difference">0,00 €</strong>
-              <div class="metric-state" id="differenceState">OK</div>
-            </article>
+          <div class="head"><h2>Live-Kontrolle</h2></div>
+          <div class="metrics">
+            <article class="metric"><small>Bar-Anteil</small><strong id="liveCashShare">0,00 €</strong></article>
+            <article class="metric"><small>Wechselgeld Ende Soll</small><strong id="liveEndExpected">0,00 €</strong></article>
+            <article id="liveDiffMetric" class="metric ok"><small>Differenz</small><strong id="liveDiff">0,00 €</strong><div id="liveState" class="state">OK</div></article>
           </div>
-          <p class="summary-line hidden" id="viewerOnlyHint">Steuerberater-Zugang: Nur Ansicht</p>
         </section>
       </div>
     </section>
 
-    <section class="card workspace hidden" id="tableCard">
-      <div class="section-head">
+    <section id="tableCard" class="card table-card hidden">
+      <div class="head">
         <h2>Monatsübersicht</h2>
-        <div style="display:flex; gap:7px; flex-wrap:wrap;">
-          <button type="button" class="btn btn-muted" id="printButton">Drucken / PDF</button>
-          <button type="button" class="btn btn-muted" id="csvButton">CSV exportieren</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="printButton" class="btn btn-muted" type="button">Drucken / PDF</button>
+          <button id="csvButton" class="btn btn-muted" type="button">CSV exportieren</button>
         </div>
       </div>
       <div class="toolbar">
-        <label>Monat<input type="month" id="monthFilter" /></label>
-        <button type="button" class="btn btn-muted" id="currentMonthButton">Aktueller Monat</button>
-        <button type="button" class="btn btn-muted" id="clearFilterButton">Alle anzeigen</button>
-        <button type="button" class="btn btn-muted" id="reloadButton">Aktualisieren</button>
+        <label>Monat<input id="monthFilter" type="month" /></label>
+        <button id="currentMonthButton" class="btn btn-muted" type="button">Aktueller Monat</button>
+        <button id="clearFilterButton" class="btn btn-muted" type="button">Alle anzeigen</button>
+        <button id="reloadButton" class="btn btn-muted" type="button">Aktualisieren</button>
       </div>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Datum</th>
-              <th class="num">Wechselgeld Anfang</th>
-              <th class="num">Tagesabschluss gesamt</th>
-              <th class="num">EC-Zahlungen</th>
-              <th class="num">Bar-Anteil</th>
-              <th class="num">Abschöpfung</th>
-              <th class="num">Ende Soll</th>
-              <th class="num">Ende gezählt</th>
-              <th class="num">Differenz</th>
-              <th>Status</th>
-              <th>Beleg</th>
-              <th>Belegnummer</th>
-              <th>Beleg-Hinweis</th>
-              <th>Bemerkung</th>
-              <th>Bearbeitet</th>
-              <th class="table-actions">Aktion</th>
+              <th>Datum</th><th class="num">Wechselgeld Anfang</th><th class="num">Tagesabschluss gesamt</th><th class="num">EC-Zahlungen</th>
+              <th class="num">Bar-Anteil</th><th class="num">Abschöpfung</th><th class="num">Wechselgeld Ende Soll</th><th class="num">Wechselgeld Ende gezählt</th>
+              <th class="num">Differenz</th><th>Status</th><th>Bemerkung</th><th>Beleg vorhanden</th><th>Belegnummer</th><th>Beleg-Hinweis</th>
+              <th>Bearbeitet von</th><th>Bearbeitet am</th><th class="table-actions">Aktion</th>
             </tr>
           </thead>
           <tbody id="entriesBody"></tbody>
         </table>
       </div>
-      <div class="summary-line" id="tableSummary"></div>
+      <div id="tableSummary" class="summary"></div>
     </section>
   </main>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import {
-      browserLocalPersistence,
-      browserSessionPersistence,
-      getAuth,
-      onAuthStateChanged,
-      setPersistence,
-      signInWithEmailAndPassword,
-      signOut
+      getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
+      setPersistence, browserLocalPersistence, browserSessionPersistence
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import {
-      collection,
-      deleteDoc,
-      doc,
-      getDoc,
-      getFirestore,
-      onSnapshot,
-      orderBy,
-      query,
-      serverTimestamp,
-      setDoc
+      getFirestore, doc, getDoc, setDoc, deleteDoc, collection, query, orderBy, onSnapshot, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -520,140 +244,56 @@
       appId: "1:861345289461:web:22ec03e33b5fd5e13761bc"
     };
 
-    const EURO = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
-    const DATE_LABEL = new Intl.DateTimeFormat("de-DE", { dateStyle: "medium" });
-    const DATE_TIME_LABEL = new Intl.DateTimeFormat("de-DE", { dateStyle: "short", timeStyle: "short" });
+    const euro = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
+    const dateDE = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
+    const dateTimeDE = new Intl.DateTimeFormat("de-DE", { dateStyle: "short", timeStyle: "short" });
 
     const ui = {
-      loginCard: document.getElementById("loginCard"),
-      workspaceCard: document.getElementById("workspaceCard"),
-      tableCard: document.getElementById("tableCard"),
-      loginForm: document.getElementById("loginForm"),
-      email: document.getElementById("email"),
-      password: document.getElementById("password"),
-      rememberMe: document.getElementById("rememberMe"),
-      loginError: document.getElementById("loginError"),
-      formError: document.getElementById("formError"),
-      connectionChip: document.getElementById("connectionChip"),
-      userChip: document.getElementById("userChip"),
-      roleChip: document.getElementById("roleChip"),
-      userEmail: document.getElementById("userEmail"),
-      roleLabel: document.getElementById("roleLabel"),
-      logoutButton: document.getElementById("logoutButton"),
-      viewerOnlyHint: document.getElementById("viewerOnlyHint"),
-      welcomeSplash: document.getElementById("welcomeSplash"),
-      welcomeTitle: document.getElementById("welcomeTitle"),
-      welcomeSubtitle: document.getElementById("welcomeSubtitle"),
-      cashForm: document.getElementById("cashForm"),
-      formSection: document.getElementById("formSection"),
-      date: document.getElementById("date"),
-      startCash: document.getElementById("startCash"),
-      dailyTotal: document.getElementById("dailyTotal"),
-      cardPayments: document.getElementById("cardPayments"),
-      skimming: document.getElementById("skimming"),
-      endCashCounted: document.getElementById("endCashCounted"),
-      note: document.getElementById("note"),
-      hasReceipt: document.getElementById("hasReceipt"),
-      receiptNumber: document.getElementById("receiptNumber"),
-      receiptNote: document.getElementById("receiptNote"),
-      saveButton: document.getElementById("saveButton"),
-      resetButton: document.getElementById("resetButton"),
-      cancelEditButton: document.getElementById("cancelEditButton"),
-      cashShare: document.getElementById("cashShare"),
-      endExpected: document.getElementById("endExpected"),
-      difference: document.getElementById("difference"),
-      differenceState: document.getElementById("differenceState"),
-      diffMetric: document.getElementById("diffMetric"),
-      monthFilter: document.getElementById("monthFilter"),
-      currentMonthButton: document.getElementById("currentMonthButton"),
-      clearFilterButton: document.getElementById("clearFilterButton"),
-      reloadButton: document.getElementById("reloadButton"),
-      csvButton: document.getElementById("csvButton"),
-      printButton: document.getElementById("printButton"),
-      entriesBody: document.getElementById("entriesBody"),
-      tableSummary: document.getElementById("tableSummary"),
-      sumDailyTotal: document.getElementById("sumDailyTotal"),
-      sumCardPayments: document.getElementById("sumCardPayments"),
-      sumCashShare: document.getElementById("sumCashShare"),
-      sumSkimming: document.getElementById("sumSkimming"),
-      sumDiffCount: document.getElementById("sumDiffCount"),
-      lastCloseDate: document.getElementById("lastCloseDate"),
-      lastCloseDiff: document.getElementById("lastCloseDiff"),
-      lastCloseBy: document.getElementById("lastCloseBy")
+      splash: byId("splash"), splashTitle: byId("splashTitle"), splashSub: byId("splashSub"),
+      loginCard: byId("loginCard"), loginForm: byId("loginForm"), email: byId("email"), password: byId("password"), rememberMe: byId("rememberMe"), loginError: byId("loginError"),
+      dashboardCard: byId("dashboardCard"), tableCard: byId("tableCard"), formSection: byId("formSection"), entryForm: byId("entryForm"), formError: byId("formError"),
+      userChip: byId("userChip"), roleChip: byId("roleChip"), userMail: byId("userMail"), roleText: byId("roleText"), logoutBtn: byId("logoutBtn"), connectionChip: byId("connectionChip"),
+      date: byId("date"), startCash: byId("startCash"), dailyTotal: byId("dailyTotal"), cardPayments: byId("cardPayments"), skimming: byId("skimming"), endCashCounted: byId("endCashCounted"),
+      note: byId("note"), hasReceipt: byId("hasReceipt"), receiptNumber: byId("receiptNumber"), receiptNote: byId("receiptNote"),
+      saveBtn: byId("saveBtn"), resetBtn: byId("resetBtn"), cancelEditBtn: byId("cancelEditBtn"),
+      liveCashShare: byId("liveCashShare"), liveEndExpected: byId("liveEndExpected"), liveDiff: byId("liveDiff"), liveDiffMetric: byId("liveDiffMetric"), liveState: byId("liveState"),
+      monthFilter: byId("monthFilter"), currentMonthButton: byId("currentMonthButton"), clearFilterButton: byId("clearFilterButton"), reloadButton: byId("reloadButton"),
+      printButton: byId("printButton"), csvButton: byId("csvButton"), entriesBody: byId("entriesBody"), tableSummary: byId("tableSummary"),
+      sumDaily: byId("sumDaily"), sumCard: byId("sumCard"), sumCash: byId("sumCash"), sumSkim: byId("sumSkim"), sumDiffDays: byId("sumDiffDays"),
+      lastDate: byId("lastDate"), lastDiff: byId("lastDiff"), lastBy: byId("lastBy")
     };
 
-    const state = {
-      app: null,
-      auth: null,
-      db: null,
-      user: null,
-      role: null,
-      entries: [],
-      editingId: null,
-      unsubscribeEntries: null,
-      isLoggingOut: false
-    };
+    const state = { auth: null, db: null, user: null, role: null, entries: [], editingId: null, unsub: null, loggingOut: false };
 
     init();
 
     function init() {
-      ui.date.value = todayIso();
+      const app = initializeApp(firebaseConfig);
+      state.auth = getAuth(app);
+      state.db = getFirestore(app);
       ui.monthFilter.value = currentMonthIso();
-      calculateLive();
+      ui.date.value = todayIso();
       bindEvents();
-
-      try {
-        state.app = initializeApp(firebaseConfig);
-        state.auth = getAuth(state.app);
-        state.db = getFirestore(state.app);
-      } catch {
-        showError(ui.loginError, "Verbindung konnte nicht hergestellt werden.");
-        return;
-      }
-
       watchConnectivity();
-      onAuthStateChanged(state.auth, async (user) => {
-        state.user = user;
-        hideError(ui.loginError);
-
-        if (!user) {
-          resetLoggedOutState();
-          return;
-        }
-
-        state.role = await loadRole(user.uid);
-        if (!state.isLoggingOut) await showWelcomeSplash(state.role);
-
-        ui.userEmail.textContent = user.email || "-";
-        ui.roleLabel.textContent = state.role === "admin" ? "Admin" : "Steuerberater";
-        ui.loginCard.classList.add("hidden");
-        ui.workspaceCard.classList.remove("hidden");
-        ui.tableCard.classList.remove("hidden");
-        ui.userChip.classList.remove("hidden");
-        ui.roleChip.classList.remove("hidden");
-        ui.logoutButton.classList.remove("hidden");
-        ui.viewerOnlyHint.classList.toggle("hidden", state.role === "admin");
-        ui.formSection.classList.toggle("hidden", state.role !== "admin");
-        if (state.role !== "admin") cancelEditMode();
-        subscribeEntries();
-      });
+      watchAuth();
+      calcLive();
     }
 
     function bindEvents() {
-      ui.loginForm.addEventListener("submit", handleLogin);
-      ui.logoutButton.addEventListener("click", handleLogout);
-      ui.cashForm.addEventListener("submit", handleSave);
-      ui.resetButton.addEventListener("click", resetForm);
-      ui.cancelEditButton.addEventListener("click", cancelEditMode);
-      ui.currentMonthButton.addEventListener("click", () => { ui.monthFilter.value = currentMonthIso(); renderEntries(); });
-      ui.clearFilterButton.addEventListener("click", () => { ui.monthFilter.value = ""; renderEntries(); });
-      ui.monthFilter.addEventListener("change", renderEntries);
-      ui.reloadButton.addEventListener("click", renderEntries);
-      ui.csvButton.addEventListener("click", exportCsv);
+      ui.loginForm.addEventListener("submit", onLogin);
+      ui.logoutBtn.addEventListener("click", onLogout);
+      ui.entryForm.addEventListener("submit", onSave);
+      ui.resetBtn.addEventListener("click", resetForm);
+      ui.cancelEditBtn.addEventListener("click", cancelEdit);
+      ui.currentMonthButton.addEventListener("click", () => { ui.monthFilter.value = currentMonthIso(); render(); });
+      ui.clearFilterButton.addEventListener("click", () => { ui.monthFilter.value = ""; render(); });
+      ui.monthFilter.addEventListener("change", render);
+      ui.reloadButton.addEventListener("click", render);
       ui.printButton.addEventListener("click", () => window.print());
-      [ui.startCash, ui.dailyTotal, ui.cardPayments, ui.skimming, ui.endCashCounted].forEach((input) => {
-        input.addEventListener("input", calculateLive);
-        input.addEventListener("blur", normalizeMoneyInput);
+      ui.csvButton.addEventListener("click", exportCsv);
+      [ui.startCash, ui.dailyTotal, ui.cardPayments, ui.skimming, ui.endCashCounted].forEach((el) => {
+        el.addEventListener("input", calcLive);
+        el.addEventListener("blur", normalizeMoneyInput);
       });
     }
 
@@ -668,7 +308,26 @@
       sync();
     }
 
-    async function handleLogin(event) {
+    function watchAuth() {
+      onAuthStateChanged(state.auth, async (user) => {
+        if (!user) return showLoggedOut();
+        state.user = user;
+        state.role = await loadRole(user.uid);
+        ui.userMail.textContent = user.email || "-";
+        ui.roleText.textContent = state.role === "admin" ? "Admin" : "Steuerberater";
+        ui.userChip.classList.remove("hidden");
+        ui.roleChip.classList.remove("hidden");
+        ui.logoutBtn.classList.remove("hidden");
+        ui.loginCard.classList.add("hidden");
+        ui.dashboardCard.classList.remove("hidden");
+        ui.tableCard.classList.remove("hidden");
+        ui.formSection.classList.toggle("hidden", state.role !== "admin");
+        if (!state.loggingOut) await showSplash(state.role);
+        subscribeEntries();
+      });
+    }
+
+    async function onLogin(event) {
       event.preventDefault();
       hideError(ui.loginError);
       try {
@@ -680,48 +339,41 @@
       }
     }
 
-    async function handleLogout() {
+    async function onLogout() {
       try {
-        state.isLoggingOut = true;
+        state.loggingOut = true;
         await signOut(state.auth);
       } catch {
         showError(ui.loginError, "Abmeldung fehlgeschlagen.");
       }
     }
 
-    function resetLoggedOutState() {
+    function showLoggedOut() {
+      state.user = null;
       state.role = null;
       state.entries = [];
       state.editingId = null;
       ui.loginCard.classList.remove("hidden");
-      ui.workspaceCard.classList.add("hidden");
+      ui.dashboardCard.classList.add("hidden");
       ui.tableCard.classList.add("hidden");
       ui.userChip.classList.add("hidden");
       ui.roleChip.classList.add("hidden");
-      ui.logoutButton.classList.add("hidden");
-      ui.viewerOnlyHint.classList.add("hidden");
+      ui.logoutBtn.classList.add("hidden");
       clearTable();
       resetSummary();
-      if (state.unsubscribeEntries) {
-        state.unsubscribeEntries();
-        state.unsubscribeEntries = null;
-      }
-      state.isLoggingOut = false;
+      if (state.unsub) { state.unsub(); state.unsub = null; }
+      state.loggingOut = false;
     }
 
-    function showWelcomeSplash(role) {
+    async function showSplash(role) {
       const h = new Date().getHours();
       const greeting = h >= 5 && h <= 10 ? "Guten Morgen" : h >= 11 && h <= 17 ? "Guten Tag" : "Guten Abend";
       const name = role === "admin" ? "Sven" : "Sarah";
-      ui.welcomeTitle.textContent = `${greeting}, ${name}`;
-      ui.welcomeSubtitle.textContent = role === "admin" ? "Lotto-Kasse Salon Karola" : "Steuerberater-Zugang";
-      ui.welcomeSplash.classList.remove("hidden");
-      return new Promise((resolve) => {
-        window.setTimeout(() => {
-          ui.welcomeSplash.classList.add("hidden");
-          resolve();
-        }, 1700);
-      });
+      ui.splashTitle.textContent = `${greeting}, ${name}`;
+      ui.splashSub.textContent = role === "admin" ? "Lotto-Kasse Salon Karola" : "Steuerberater-Zugang";
+      ui.splash.classList.remove("hidden");
+      await wait(1700);
+      ui.splash.classList.add("hidden");
     }
 
     async function loadRole(uid) {
@@ -734,79 +386,67 @@
     }
 
     function subscribeEntries() {
-      if (state.unsubscribeEntries) state.unsubscribeEntries();
+      if (state.unsub) state.unsub();
       const q = query(collection(state.db, "lottoKasse"), orderBy("date", "desc"));
-      state.unsubscribeEntries = onSnapshot(q, (snapshot) => {
-        state.entries = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
-        renderEntries();
-      }, () => {
-        showError(ui.formError, "Verbindung konnte nicht hergestellt werden.");
-      });
+      state.unsub = onSnapshot(q, (snap) => {
+        state.entries = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        render();
+      }, () => showError(ui.formError, "Verbindung konnte nicht hergestellt werden."));
     }
 
-    async function handleSave(event) {
+    async function onSave(event) {
       event.preventDefault();
       hideError(ui.formError);
-      if (state.role !== "admin") {
-        showError(ui.formError, "Nur Admin darf speichern.");
-        return;
-      }
-      const entry = buildEntryFromForm();
+      if (state.role !== "admin") return showError(ui.formError, "Nur Admin darf speichern.");
+      const entry = buildEntry();
       if (!entry) return;
 
       try {
-        ui.saveButton.disabled = true;
-        ui.saveButton.textContent = "Wird gespeichert…";
-        const existingSnap = await getDoc(doc(state.db, "lottoKasse", entry.date));
-        const exists = existingSnap.exists();
-        const changedDateWhileEdit = state.editingId && state.editingId !== entry.date;
-        if ((exists && !state.editingId) || (exists && changedDateWhileEdit)) {
+        ui.saveBtn.disabled = true;
+        ui.saveBtn.textContent = "Wird gespeichert…";
+        const ref = doc(state.db, "lottoKasse", entry.date);
+        const existing = await getDoc(ref);
+        const exists = existing.exists();
+        const conflict = (exists && !state.editingId) || (exists && state.editingId && state.editingId !== entry.date);
+        if (conflict) {
           const ok = window.confirm("Für dieses Datum gibt es bereits einen Tagesabschluss. Möchtest du aktualisieren?");
-          if (!ok) {
-            ui.saveButton.disabled = false;
-            ui.saveButton.textContent = "Speichern";
-            return;
-          }
+          if (!ok) { ui.saveBtn.disabled = false; ui.saveBtn.textContent = "Speichern"; return; }
         }
-        const existingData = exists ? existingSnap.data() : null;
-
-        await setDoc(doc(state.db, "lottoKasse", entry.date), {
+        const old = exists ? existing.data() : null;
+        await setDoc(ref, {
           date: entry.date,
-          startCashCents: entry.startCashCents,
-          dailyTotalCents: entry.dailyTotalCents,
-          cardPaymentsCents: entry.cardPaymentsCents,
-          cashShareCents: entry.cashShareCents,
-          skimmingCents: entry.skimmingCents,
-          endExpectedCents: entry.endExpectedCents,
-          endCashCountedCents: entry.endCashCountedCents,
-          diffCents: entry.diffCents,
+          startCash: entry.startCash,
+          dailyTotal: entry.dailyTotal,
+          cardPayments: entry.cardPayments,
+          cashShare: entry.cashShare,
+          skimming: entry.skimming,
+          endExpected: entry.endExpected,
+          endCashCounted: entry.endCashCounted,
+          diff: entry.diff,
           note: entry.note,
           hasReceipt: entry.hasReceipt,
           receiptNumber: entry.receiptNumber,
           receiptNote: entry.receiptNote,
           updatedAt: serverTimestamp(),
-          updatedBy: state.user.email,
-          createdAt: existingData?.createdAt ?? serverTimestamp(),
-          createdBy: existingData?.createdBy ?? state.user.email
+          updatedBy: state.user.email || "",
+          createdAt: old?.createdAt ?? serverTimestamp(),
+          createdBy: old?.createdBy ?? (state.user.email || "")
         });
-
-        ui.saveButton.textContent = "Gespeichert";
-        window.setTimeout(() => {
-          ui.saveButton.textContent = "Speichern";
-          ui.saveButton.disabled = false;
-        }, 900);
+        ui.saveBtn.textContent = "Gespeichert";
+        await wait(700);
+        ui.saveBtn.textContent = "Speichern";
+        ui.saveBtn.disabled = false;
         resetForm();
       } catch {
-        ui.saveButton.disabled = false;
-        ui.saveButton.textContent = "Speichern";
+        ui.saveBtn.disabled = false;
+        ui.saveBtn.textContent = "Speichern";
         showError(ui.formError, "Speichern fehlgeschlagen.");
       }
     }
 
-    async function handleDeleteEntry(id, dateLabel) {
+    async function deleteEntry(id, dateLabel) {
       if (state.role !== "admin") return;
-      const ok = window.confirm(`Eintrag vom ${dateLabel} wirklich entfernen?`);
-      if (!ok) return;
+      if (!window.confirm(`Eintrag vom ${dateLabel} wirklich entfernen?`)) return;
       try {
         await deleteDoc(doc(state.db, "lottoKasse", id));
         if (state.editingId === id) resetForm();
@@ -815,51 +455,28 @@
       }
     }
 
-    function buildEntryFromForm() {
+    function buildEntry() {
       const date = ui.date.value;
-      if (!date) {
-        showError(ui.formError, "Datum ist Pflicht.");
-        return null;
-      }
-      const startCashCents = parseMoneyToCents(ui.startCash.value);
-      const dailyTotalCents = parseMoneyToCents(ui.dailyTotal.value);
-      const cardPaymentsCents = parseMoneyToCents(ui.cardPayments.value);
-      const skimmingCents = parseMoneyToCents(ui.skimming.value);
-      const endCashCountedCents = parseMoneyToCents(ui.endCashCounted.value);
-      const values = [
-        ["Wechselgeld Anfang", startCashCents],
-        ["Tagesabschluss gesamt", dailyTotalCents],
-        ["EC-Zahlungen", cardPaymentsCents],
-        ["Abschöpfung", skimmingCents],
-        ["Wechselgeld Ende gezählt", endCashCountedCents]
+      if (!date) return showFormError("Datum ist Pflicht.");
+      const startCash = parseMoney(ui.startCash.value);
+      const dailyTotal = parseMoney(ui.dailyTotal.value);
+      const cardPayments = parseMoney(ui.cardPayments.value);
+      const skimming = parseMoney(ui.skimming.value);
+      const endCashCounted = parseMoney(ui.endCashCounted.value);
+      const checks = [
+        ["Wechselgeld Anfang", startCash], ["Tagesabschluss gesamt", dailyTotal], ["EC-Zahlungen", cardPayments],
+        ["Abschöpfung", skimming], ["Wechselgeld Ende gezählt", endCashCounted]
       ];
-      for (const [label, amount] of values) {
-        if (amount === null) {
-          showError(ui.formError, `${label}: ungültiger Betrag.`);
-          return null;
-        }
-        if (amount < 0) {
-          showError(ui.formError, `${label}: keine negativen Werte erlaubt.`);
-          return null;
-        }
+      for (const [label, value] of checks) {
+        if (value === null) return showFormError(`${label}: ungültiger Betrag.`);
+        if (value < 0) return showFormError(`${label}: keine negativen Werte erlaubt.`);
       }
-      if (cardPaymentsCents > dailyTotalCents) {
-        showError(ui.formError, "EC-Zahlungen dürfen nicht höher als der Tagesabschluss gesamt sein.");
-        return null;
-      }
-      const cashShareCents = dailyTotalCents - cardPaymentsCents;
-      const endExpectedCents = startCashCents + cashShareCents - skimmingCents;
-      const diffCents = endCashCountedCents - endExpectedCents;
+      if (cardPayments > dailyTotal) return showFormError("EC-Zahlungen dürfen nicht höher als der Tagesabschluss gesamt sein.");
+      const cashShare = round2(dailyTotal - cardPayments);
+      const endExpected = round2(startCash + cashShare - skimming);
+      const diff = round2(endCashCounted - endExpected);
       return {
-        date,
-        startCashCents,
-        dailyTotalCents,
-        cardPaymentsCents,
-        cashShareCents,
-        skimmingCents,
-        endExpectedCents,
-        endCashCountedCents,
-        diffCents,
+        date, startCash, dailyTotal, cardPayments, cashShare, skimming, endExpected, endCashCounted, diff,
         note: ui.note.value.trim(),
         hasReceipt: ui.hasReceipt.value === "true",
         receiptNumber: ui.receiptNumber.value.trim(),
@@ -867,200 +484,141 @@
       };
     }
 
-    function calculateLive() {
-      const startCashCents = parseMoneyToCents(ui.startCash.value) ?? 0;
-      const dailyTotalCents = parseMoneyToCents(ui.dailyTotal.value) ?? 0;
-      const cardPaymentsCents = parseMoneyToCents(ui.cardPayments.value) ?? 0;
-      const skimmingCents = parseMoneyToCents(ui.skimming.value) ?? 0;
-      const endCashCountedCents = parseMoneyToCents(ui.endCashCounted.value) ?? 0;
-      const cashShareCents = dailyTotalCents - cardPaymentsCents;
-      const endExpectedCents = startCashCents + cashShareCents - skimmingCents;
-      const diffCents = endCashCountedCents - endExpectedCents;
-      ui.cashShare.textContent = formatCents(cashShareCents);
-      ui.endExpected.textContent = formatCents(endExpectedCents);
-      ui.difference.textContent = formatCents(diffCents);
-      ui.diffMetric.classList.toggle("ok", diffCents === 0);
-      ui.diffMetric.classList.toggle("bad", diffCents !== 0);
-      ui.differenceState.textContent = diffCents === 0 ? "OK" : "Prüfen";
+    function calcLive() {
+      const startCash = parseMoney(ui.startCash.value) ?? 0;
+      const dailyTotal = parseMoney(ui.dailyTotal.value) ?? 0;
+      const cardPayments = parseMoney(ui.cardPayments.value) ?? 0;
+      const skimming = parseMoney(ui.skimming.value) ?? 0;
+      const endCashCounted = parseMoney(ui.endCashCounted.value) ?? 0;
+      const cashShare = round2(dailyTotal - cardPayments);
+      const endExpected = round2(startCash + cashShare - skimming);
+      const diff = round2(endCashCounted - endExpected);
+      ui.liveCashShare.textContent = money(cashShare);
+      ui.liveEndExpected.textContent = money(endExpected);
+      ui.liveDiff.textContent = money(diff);
+      ui.liveDiffMetric.classList.toggle("ok", diff === 0);
+      ui.liveDiffMetric.classList.toggle("bad", diff !== 0);
+      ui.liveState.textContent = diff === 0 ? "OK" : "Prüfen";
     }
 
-    function renderEntries() {
-      const entries = getFilteredEntries();
+    function render() {
+      const entries = filteredEntries();
       ui.entriesBody.innerHTML = "";
       if (!entries.length) {
-        ui.entriesBody.innerHTML = '<tr><td colspan="16" class="empty">Keine Einträge vorhanden.</td></tr>';
-        updateSummary([]);
-        updateLastClose(null);
-        ui.tableSummary.textContent = "";
+        ui.entriesBody.innerHTML = '<tr><td colspan="17" class="empty">Keine Einträge vorhanden.</td></tr>';
+        resetSummary();
         return;
       }
-
       for (const entry of entries) {
-        const diffOk = toNumber(entry.diffCents) === 0;
-        const hasReceipt = entry.hasReceipt === true;
+        const diffOk = round2(num(entry.diff)) === 0;
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${escapeHtml(formatDate(entry.date))}</td>
-          <td class="num">${formatCents(entry.startCashCents)}</td>
-          <td class="num">${formatCents(entry.dailyTotalCents)}</td>
-          <td class="num">${formatCents(entry.cardPaymentsCents)}</td>
-          <td class="num">${formatCents(entry.cashShareCents)}</td>
-          <td class="num">${formatCents(entry.skimmingCents)}</td>
-          <td class="num">${formatCents(entry.endExpectedCents)}</td>
-          <td class="num">${formatCents(entry.endCashCountedCents)}</td>
-          <td class="num">${formatCents(entry.diffCents)}</td>
+          <td>${esc(formatDate(entry.date))}</td>
+          <td class="num">${money(entry.startCash)}</td>
+          <td class="num">${money(entry.dailyTotal)}</td>
+          <td class="num">${money(entry.cardPayments)}</td>
+          <td class="num">${money(entry.cashShare)}</td>
+          <td class="num">${money(entry.skimming)}</td>
+          <td class="num">${money(entry.endExpected)}</td>
+          <td class="num">${money(entry.endCashCounted)}</td>
+          <td class="num">${money(entry.diff)}</td>
           <td><span class="badge ${diffOk ? "ok" : "bad"}">${diffOk ? "OK" : "Prüfen"}</span></td>
-          <td>${hasReceipt ? "Ja" : "Nein"}</td>
-          <td>${escapeHtml(entry.receiptNumber || "") || "—"}</td>
-          <td>${escapeHtml(entry.receiptNote || "") || "—"}</td>
-          <td>${escapeHtml(entry.note || "") || "—"}</td>
-          <td>${entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : "—"}<br>${escapeHtml(entry.updatedBy || "—")}</td>
-          <td class="table-actions">${state.role === "admin" ? `<button type="button" class="btn btn-muted" data-edit="${entry.id}">Bearbeiten</button> <button type="button" class="btn btn-danger" data-delete="${entry.id}" data-date="${escapeHtml(formatDate(entry.date))}">Eintrag entfernen</button>` : "—"}</td>
+          <td>${esc(entry.note || "") || "—"}</td>
+          <td>${entry.hasReceipt ? "Ja" : "Nein"}</td>
+          <td>${esc(entry.receiptNumber || "") || "—"}</td>
+          <td>${esc(entry.receiptNote || "") || "—"}</td>
+          <td>${esc(entry.updatedBy || "—")}</td>
+          <td>${entry.updatedAt?.toDate ? dateTimeDE.format(entry.updatedAt.toDate()) : "—"}</td>
+          <td class="table-actions">${state.role === "admin" ? `<button class="btn btn-muted" type="button" data-edit="${entry.id}">Bearbeiten</button> <button class="btn btn-danger" type="button" data-del="${entry.id}" data-label="${esc(formatDate(entry.date))}">Eintrag entfernen</button>` : "—"}</td>
         `;
         ui.entriesBody.appendChild(tr);
       }
       if (state.role === "admin") {
-        ui.entriesBody.querySelectorAll("[data-edit]").forEach((button) => {
-          button.addEventListener("click", () => startEdit(button.getAttribute("data-edit")));
-        });
-        ui.entriesBody.querySelectorAll("[data-delete]").forEach((button) => {
-          button.addEventListener("click", () => handleDeleteEntry(button.getAttribute("data-delete"), button.getAttribute("data-date")));
-        });
+        ui.entriesBody.querySelectorAll("[data-edit]").forEach((b) => b.addEventListener("click", () => editEntry(b.getAttribute("data-edit"))));
+        ui.entriesBody.querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", () => deleteEntry(b.getAttribute("data-del"), b.getAttribute("data-label"))));
       }
-
-      updateSummary(entries);
-      updateLastClose([...state.entries].sort((a, b) => String(b.date).localeCompare(String(a.date)))[0] || null);
-      ui.tableSummary.textContent = `${entries.length} Tag${entries.length === 1 ? "" : "e"} angezeigt${ui.monthFilter.value ? " (" + monthLabel(ui.monthFilter.value) + ")" : ""}.`;
+      renderSummary(entries);
+      const last = [...state.entries].sort((a,b) => String(b.date).localeCompare(String(a.date)))[0];
+      ui.lastDate.textContent = last ? formatDate(last.date) : "-";
+      ui.lastDiff.textContent = last ? money(last.diff) : "0,00 €";
+      ui.lastBy.textContent = last?.updatedBy || last?.createdBy || "-";
+      ui.tableSummary.textContent = `${entries.length} Tag${entries.length === 1 ? "" : "e"} angezeigt${ui.monthFilter.value ? ` (${monthLabel(ui.monthFilter.value)})` : ""}.`;
     }
 
-    function updateSummary(entries) {
-      const totals = entries.reduce((acc, e) => {
-        acc.dailyTotal += toNumber(e.dailyTotalCents);
-        acc.cardPayments += toNumber(e.cardPaymentsCents);
-        acc.cashShare += toNumber(e.cashShareCents);
-        acc.skimming += toNumber(e.skimmingCents);
-        if (toNumber(e.diffCents) !== 0) acc.diffCount += 1;
-        return acc;
-      }, { dailyTotal: 0, cardPayments: 0, cashShare: 0, skimming: 0, diffCount: 0 });
-      ui.sumDailyTotal.textContent = formatCents(totals.dailyTotal);
-      ui.sumCardPayments.textContent = formatCents(totals.cardPayments);
-      ui.sumCashShare.textContent = formatCents(totals.cashShare);
-      ui.sumSkimming.textContent = formatCents(totals.skimming);
-      ui.sumDiffCount.textContent = String(totals.diffCount);
+    function renderSummary(entries) {
+      const sums = entries.reduce((acc, e) => {
+        acc.daily += num(e.dailyTotal); acc.card += num(e.cardPayments); acc.cash += num(e.cashShare); acc.skim += num(e.skimming);
+        if (round2(num(e.diff)) !== 0) acc.diffDays += 1; return acc;
+      }, { daily:0, card:0, cash:0, skim:0, diffDays:0 });
+      ui.sumDaily.textContent = money(sums.daily);
+      ui.sumCard.textContent = money(sums.card);
+      ui.sumCash.textContent = money(sums.cash);
+      ui.sumSkim.textContent = money(sums.skim);
+      ui.sumDiffDays.textContent = String(sums.diffDays);
     }
 
-    function updateLastClose(entry) {
-      if (!entry) {
-        ui.lastCloseDate.textContent = "-";
-        ui.lastCloseDiff.textContent = "0,00 €";
-        ui.lastCloseBy.textContent = "-";
-        return;
-      }
-      ui.lastCloseDate.textContent = formatDate(entry.date);
-      ui.lastCloseDiff.textContent = formatCents(entry.diffCents);
-      ui.lastCloseBy.textContent = entry.updatedBy || entry.createdBy || "-";
-    }
-
-    function resetSummary() {
-      ui.sumDailyTotal.textContent = "0,00 €";
-      ui.sumCardPayments.textContent = "0,00 €";
-      ui.sumCashShare.textContent = "0,00 €";
-      ui.sumSkimming.textContent = "0,00 €";
-      ui.sumDiffCount.textContent = "0";
-      updateLastClose(null);
-    }
-
-    function startEdit(id) {
-      const entry = state.entries.find((x) => x.id === id);
-      if (!entry || state.role !== "admin") return;
-      state.editingId = entry.id;
-      ui.date.value = entry.date || todayIso();
-      ui.startCash.value = centsToInput(entry.startCashCents);
-      ui.dailyTotal.value = centsToInput(entry.dailyTotalCents);
-      ui.cardPayments.value = centsToInput(entry.cardPaymentsCents);
-      ui.skimming.value = centsToInput(entry.skimmingCents);
-      ui.endCashCounted.value = centsToInput(entry.endCashCountedCents);
-      ui.note.value = entry.note || "";
-      ui.hasReceipt.value = entry.hasReceipt ? "true" : "false";
-      ui.receiptNumber.value = entry.receiptNumber || "";
-      ui.receiptNote.value = entry.receiptNote || "";
-      ui.saveButton.textContent = "Aktualisieren";
-      ui.cancelEditButton.classList.remove("hidden");
-      calculateLive();
+    function editEntry(id) {
+      const e = state.entries.find((x) => x.id === id);
+      if (!e || state.role !== "admin") return;
+      state.editingId = id;
+      ui.date.value = e.date || todayIso();
+      ui.startCash.value = toInput(e.startCash);
+      ui.dailyTotal.value = toInput(e.dailyTotal);
+      ui.cardPayments.value = toInput(e.cardPayments);
+      ui.skimming.value = toInput(e.skimming);
+      ui.endCashCounted.value = toInput(e.endCashCounted);
+      ui.note.value = e.note || "";
+      ui.hasReceipt.value = e.hasReceipt ? "true" : "false";
+      ui.receiptNumber.value = e.receiptNumber || "";
+      ui.receiptNote.value = e.receiptNote || "";
+      ui.saveBtn.textContent = "Aktualisieren";
+      ui.cancelEditBtn.classList.remove("hidden");
+      calcLive();
       hideError(ui.formError);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function cancelEditMode() {
+    function cancelEdit() {
       state.editingId = null;
-      ui.saveButton.textContent = "Speichern";
-      ui.cancelEditButton.classList.add("hidden");
+      ui.saveBtn.textContent = "Speichern";
+      ui.cancelEditBtn.classList.add("hidden");
     }
 
     function resetForm() {
-      ui.cashForm.reset();
+      ui.entryForm.reset();
       ui.date.value = todayIso();
       ui.hasReceipt.value = "false";
       ui.receiptNumber.value = "";
       ui.receiptNote.value = "";
-      cancelEditMode();
-      calculateLive();
+      cancelEdit();
+      calcLive();
       hideError(ui.formError);
-      ui.saveButton.disabled = false;
-      ui.saveButton.textContent = "Speichern";
     }
 
-    function clearTable() {
-      ui.entriesBody.innerHTML = "";
-      ui.tableSummary.textContent = "";
-    }
-
-    function getFilteredEntries() {
+    function filteredEntries() {
       const month = ui.monthFilter.value;
-      const sorted = [...state.entries].sort((a, b) => String(b.date).localeCompare(String(a.date)));
-      if (!month) return sorted;
-      return sorted.filter((e) => String(e.date).startsWith(month));
+      const rows = [...state.entries].sort((a,b) => String(b.date).localeCompare(String(a.date)));
+      if (!month) return rows;
+      return rows.filter((e) => String(e.date).startsWith(month));
     }
 
     function exportCsv() {
-      const rows = getFilteredEntries().sort((a, b) => String(a.date).localeCompare(String(b.date)));
+      const rows = filteredEntries().sort((a,b) => String(a.date).localeCompare(String(b.date)));
       const header = [
-        "Datum",
-        "Wechselgeld Anfang",
-        "Tagesabschluss gesamt",
-        "EC-Zahlungen",
-        "Bar-Anteil",
-        "Abschöpfung",
-        "Wechselgeld Ende Soll",
-        "Wechselgeld Ende gezählt",
-        "Differenz",
-        "Beleg vorhanden",
-        "Belegnummer",
-        "Beleg-Hinweis",
-        "Bemerkung",
-        "Bearbeitet von",
-        "Bearbeitet am"
+        "Datum","Wechselgeld Anfang","Tagesabschluss gesamt","EC-Zahlungen","Bar-Anteil","Abschöpfung",
+        "Wechselgeld Ende Soll","Wechselgeld Ende gezählt","Differenz","Status","Bemerkung",
+        "Beleg vorhanden","Belegnummer","Beleg-Hinweis","Bearbeitet von","Bearbeitet am"
       ];
-      const csvRows = rows.map((entry) => [
-        entry.date || "",
-        centsToCsv(entry.startCashCents),
-        centsToCsv(entry.dailyTotalCents),
-        centsToCsv(entry.cardPaymentsCents),
-        centsToCsv(entry.cashShareCents),
-        centsToCsv(entry.skimmingCents),
-        centsToCsv(entry.endExpectedCents),
-        centsToCsv(entry.endCashCountedCents),
-        centsToCsv(entry.diffCents),
-        entry.hasReceipt ? "Ja" : "Nein",
-        entry.receiptNumber || "",
-        entry.receiptNote || "",
-        entry.note || "",
-        entry.updatedBy || "",
-        entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : ""
-      ]);
-      const csv = [header, ...csvRows]
-        .map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(";"))
-        .join("\n");
+      const data = rows.map((e) => {
+        const diffOk = round2(num(e.diff)) === 0;
+        return [
+          e.date || "", toCsv(e.startCash), toCsv(e.dailyTotal), toCsv(e.cardPayments), toCsv(e.cashShare), toCsv(e.skimming),
+          toCsv(e.endExpected), toCsv(e.endCashCounted), toCsv(e.diff), diffOk ? "OK" : "Prüfen", e.note || "",
+          e.hasReceipt ? "Ja" : "Nein", e.receiptNumber || "", e.receiptNote || "", e.updatedBy || "",
+          e.updatedAt?.toDate ? dateTimeDE.format(e.updatedAt.toDate()) : ""
+        ];
+      });
+      const csv = [header, ...data].map((r) => r.map((c) => `"${String(c).replaceAll('"', '""')}"`).join(";")).join("\n");
       const month = ui.monthFilter.value || "gesamt";
       const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
@@ -1073,51 +631,37 @@
       URL.revokeObjectURL(url);
     }
 
-    function normalizeMoneyInput(event) {
-      const cents = parseMoneyToCents(event.target.value);
-      if (cents === null) return;
-      event.target.value = centsToInput(cents);
-      calculateLive();
+    function clearTable() { ui.entriesBody.innerHTML = ""; ui.tableSummary.textContent = ""; }
+    function resetSummary() {
+      ui.sumDaily.textContent = "0,00 €"; ui.sumCard.textContent = "0,00 €"; ui.sumCash.textContent = "0,00 €";
+      ui.sumSkim.textContent = "0,00 €"; ui.sumDiffDays.textContent = "0"; ui.lastDate.textContent = "-"; ui.lastDiff.textContent = "0,00 €"; ui.lastBy.textContent = "-";
     }
-
-    function parseMoneyToCents(value) {
-      const text = String(value ?? "").trim();
-      if (!text) return 0;
-      const sanitized = text.replace(/€/g, "").replace(/\s/g, "");
-      let normalized = sanitized;
-      if (sanitized.includes(",")) normalized = sanitized.replace(/\./g, "").replace(",", ".");
-      if (!/^[-+]?\d+(\.\d{0,2})?$/.test(normalized)) return null;
-      const amount = Number(normalized);
-      if (!Number.isFinite(amount)) return null;
-      return Math.round(amount * 100);
+    function normalizeMoneyInput(e) { const n = parseMoney(e.target.value); if (n !== null) e.target.value = toInput(n); calcLive(); }
+    function parseMoney(v) {
+      const t = String(v ?? "").trim();
+      if (!t) return 0;
+      const s = t.replace(/€/g, "").replace(/\s/g, "");
+      const n = s.includes(",") ? s.replace(/\./g, "").replace(",", ".") : s;
+      if (!/^-?\d+(\.\d{1,2})?$/.test(n) && !/^-?\d+$/.test(n)) return null;
+      const value = Number(n);
+      if (!Number.isFinite(value)) return null;
+      return round2(value);
     }
-
-    function formatCents(cents) { return EURO.format(toNumber(cents) / 100); }
-    function centsToInput(cents) { return (toNumber(cents) / 100).toFixed(2).replace(".", ","); }
-    function centsToCsv(cents) { return (toNumber(cents) / 100).toFixed(2).replace(".", ","); }
-    function toNumber(v) { const n = Number(v || 0); return Number.isFinite(n) ? n : 0; }
-    function formatDate(iso) { return iso ? DATE_LABEL.format(new Date(iso + "T12:00:00")) : ""; }
-    function monthLabel(value) {
-      if (!value) return "Alle Monate";
-      const [y, m] = value.split("-");
-      return new Intl.DateTimeFormat("de-DE", { month: "long", year: "numeric" }).format(new Date(Number(y), Number(m) - 1, 1));
-    }
-    function todayIso() {
-      const d = new Date();
-      const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
-      return local.toISOString().slice(0, 10);
-    }
-    function currentMonthIso() { return todayIso().slice(0, 7); }
-    function showError(el, msg) { el.textContent = msg; el.classList.add("show"); }
-    function hideError(el) { el.textContent = ""; el.classList.remove("show"); }
-    function escapeHtml(v) {
-      return String(v)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
+    function round2(n) { return Math.round((Number(n) + Number.EPSILON) * 100) / 100; }
+    function num(v) { const n = Number(v); return Number.isFinite(n) ? n : 0; }
+    function money(v) { return euro.format(num(v)); }
+    function toInput(v) { return round2(num(v)).toFixed(2).replace(".", ","); }
+    function toCsv(v) { return round2(num(v)).toFixed(2).replace(".", ","); }
+    function formatDate(iso) { return iso ? dateDE.format(new Date(`${iso}T12:00:00`)) : ""; }
+    function monthLabel(m) { const [y,mm] = m.split("-"); return new Intl.DateTimeFormat("de-DE",{month:"long",year:"numeric"}).format(new Date(Number(y), Number(mm)-1, 1)); }
+    function todayIso() { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10); }
+    function currentMonthIso() { return todayIso().slice(0,7); }
+    function showError(el,msg){el.textContent=msg;el.classList.add("show")}
+    function hideError(el){el.textContent="";el.classList.remove("show")}
+    function showFormError(msg){showError(ui.formError,msg);return null}
+    function byId(id){return document.getElementById(id)}
+    function wait(ms){return new Promise((r)=>setTimeout(r,ms))}
+    function esc(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
   </script>
 </body>
 </html>
