@@ -625,23 +625,23 @@
 <body>
   <main class="app-shell stack">
     <section class="panel hero">
-      <p class="eyebrow">Salon Karola Â· Lotto-Kasse</p>
+      <p class="eyebrow">Salon Karola · Lotto-Kasse</p>
       <h1>Lotto-Kasse Salon Karola</h1>
       <p>
-        Digitale TagesabschlÃ¼sse mit Online-Speicherung Ã¼ber Firebase. Der Salon kann erfassen und bearbeiten,
+        Digitale Tagesabschlüsse mit Online-Speicherung über Firebase. Der Salon kann erfassen und bearbeiten,
         der Steuerberater sieht dieselben Daten mit eigenem Login auf dem Laptop und kann exportieren oder drucken.
       </p>
       <div class="status-row">
-        <div class="pill" id="firebaseStatus">Firebase wird geprÃ¼ft</div>
+        <div class="pill" id="firebaseStatus">System wird geprüft</div>
         <div class="pill" id="authStatus">Nicht angemeldet</div>
-        <div class="pill" id="roleStatus">Rolle: â€”</div>
-        <div class="pill" id="monthStatus">Monat: â€”</div>
+        <div class="pill" id="roleStatus">Rolle: —</div>
+        <div class="pill" id="monthStatus">Monat: —</div>
       </div>
     </section>
 
     <section class="panel login-panel" id="loginPanel">
       <h2 class="panel-title">Login</h2>
-      <p class="panel-subtitle">Anmeldung fÃ¼r Salon oder Steuerberater mit E-Mail und Passwort.</p>
+      <p class="panel-subtitle">Digitaler Tagesabschluss für Salon und Steuerberater-Zugang.</p>
       <form id="loginForm" class="login-grid">
         <label>
           E-Mail
@@ -665,7 +665,7 @@
           <div class="form-card">
             <h2 class="panel-title">Tagesabschluss erfassen</h2>
             <p class="panel-subtitle">
-              Ein Datum darf nur einmal vorhanden sein. Bestehende Tage kÃ¶nnen vom Admin gezielt bearbeitet oder bewusst Ã¼berschrieben werden.
+              Ein Datum darf nur einmal vorhanden sein. Bestehende Tage können vom Admin gezielt bearbeitet oder bewusst überschrieben werden.
             </p>
             <form id="cashForm" class="form-grid" novalidate>
               <label>
@@ -685,16 +685,16 @@
                 <input id="cardPayments" type="text" inputmode="decimal" placeholder="245,80" required />
               </label>
               <label>
-                AbschÃ¶pfung
+                Abschöpfung
                 <input id="skimming" type="text" inputmode="decimal" placeholder="1000,00" required />
               </label>
               <label>
-                Wechselgeld Ende gezÃ¤hlt
+                Wechselgeld Ende gezählt
                 <input id="endCashCounted" type="text" inputmode="decimal" placeholder="300,00" required />
               </label>
               <label class="full">
                 Bemerkung
-                <textarea id="note" placeholder="Optional, z. B. Besonderheit, Korrekturhinweis oder kurze ErklÃ¤rung"></textarea>
+                <textarea id="note" placeholder="Optional, z. B. Besonderheit, Korrekturhinweis oder kurze Erklärung"></textarea>
               </label>
               <div class="full actions-row">
                 <button class="btn-primary" type="submit" id="saveButton">Tagesabschluss speichern</button>
@@ -704,7 +704,7 @@
             </form>
             <div class="error-box" id="formError"></div>
             <div class="small-note">
-              Berechnung: Bar-Anteil = Tagesabschluss gesamt âˆ’ EC-Zahlungen. Wechselgeld Ende Soll = Wechselgeld Anfang + Bar-Anteil âˆ’ AbschÃ¶pfung.
+              Berechnung: Bar-Anteil = Tagesabschluss gesamt - EC-Zahlungen. Wechselgeld Ende Soll = Wechselgeld Anfang + Bar-Anteil - Abschöpfung.
             </div>
           </div>
         </div>
@@ -716,21 +716,21 @@
               <article class="metric">
                 <small>Bar-Anteil</small>
                 <div class="metric-row">
-                  <strong id="cashShare">0,00 â‚¬</strong>
+                  <strong id="cashShare">0,00 €</strong>
                 </div>
               </article>
 
               <article class="metric">
                 <small>Wechselgeld Ende Soll</small>
                 <div class="metric-row">
-                  <strong id="endExpected">0,00 â‚¬</strong>
+                  <strong id="endExpected">0,00 €</strong>
                 </div>
               </article>
 
               <article class="metric diff ok" id="diffMetric">
                 <small>Differenz</small>
                 <div class="metric-row">
-                  <strong id="difference">0,00 â‚¬</strong>
+                  <strong id="difference">0,00 €</strong>
                 </div>
                 <div class="metric-state" id="differenceState">OK</div>
               </article>
@@ -746,28 +746,28 @@
           <div class="summary-grid" id="summaryGrid">
             <article class="summary-card">
               <small>Tagesabschluss gesamt</small>
-              <strong id="sumDailyTotal">0,00 â‚¬</strong>
+              <strong id="sumDailyTotal">0,00 €</strong>
               <span>Summe aller angezeigten Tage</span>
             </article>
             <article class="summary-card">
               <small>EC-Zahlungen</small>
-              <strong id="sumCardPayments">0,00 â‚¬</strong>
+              <strong id="sumCardPayments">0,00 €</strong>
               <span>Monats- oder Gesamtansicht</span>
             </article>
             <article class="summary-card">
               <small>Bar-Anteil</small>
-              <strong id="sumCashShare">0,00 â‚¬</strong>
-              <span>Automatisch aus den AbschlÃ¼ssen</span>
+              <strong id="sumCashShare">0,00 €</strong>
+              <span>Automatisch aus den Abschlüssen</span>
             </article>
             <article class="summary-card">
-              <small>AbschÃ¶pfung</small>
-              <strong id="sumSkimming">0,00 â‚¬</strong>
-              <span>Ãœber alle angezeigten Tage</span>
+              <small>Abschöpfung</small>
+              <strong id="sumSkimming">0,00 €</strong>
+              <span>Über alle angezeigten Tage</span>
             </article>
             <article class="summary-card">
               <small>Tage mit Differenz</small>
               <strong id="sumDiffCount">0</strong>
-              <span>Alle Tage mit Abweichung ungleich 0,00 â‚¬</span>
+              <span>Alle Tage mit Abweichung ungleich 0,00 €</span>
             </article>
           </div>
         </div>
@@ -775,14 +775,14 @@
     </section>
 
     <section class="panel viewer-panel hidden" id="viewerPanel">
-      <h2 class="panel-title">Ansicht fÃ¼r Steuerberater</h2>
+      <h2 class="panel-title">Ansicht für Steuerberater</h2>
       <p class="panel-subtitle">
-        Dieser Zugang darf Daten lesen, nach Monat filtern, CSV exportieren und die Druckansicht nutzen. Speichern oder Bearbeiten ist nicht mÃ¶glich.
+        Dieser Zugang ist auf Nur Ansicht beschränkt: lesen, nach Monat filtern, CSV exportieren und Druckansicht nutzen.
       </p>
     </section>
 
     <section class="panel table-panel hidden" id="tablePanel">
-      <h2 class="panel-title">MonatsÃ¼bersicht</h2>
+      <h2 class="panel-title">Monatsübersicht</h2>
       <p class="panel-subtitle">Alle gespeicherten Lotto-Kassentage der Collection <strong>lottoKasse</strong>.</p>
       <h3 class="print-title">Lotto-Kasse Salon Karola</h3>
 
@@ -805,9 +805,9 @@
               <th class="num">Tagesabschluss gesamt</th>
               <th class="num">EC-Zahlungen</th>
               <th class="num">Bar-Anteil</th>
-              <th class="num">AbschÃ¶pfung</th>
+              <th class="num">Abschöpfung</th>
               <th class="num">Ende Soll</th>
-              <th class="num">Ende gezÃ¤hlt</th>
+              <th class="num">Ende gezählt</th>
               <th class="num">Differenz</th>
               <th>Status</th>
               <th>Bemerkung</th>
@@ -991,7 +991,7 @@
           state.entries = [];
           state.editingId = null;
           setPill(ui.authStatus, "Nicht angemeldet");
-          setPill(ui.roleStatus, "Rolle: â€”");
+          setPill(ui.roleStatus, "Rolle: —");
           ui.loginPanel.classList.remove("hidden");
           ui.workspacePanel.classList.add("hidden");
           ui.viewerPanel.classList.add("hidden");
@@ -1102,7 +1102,7 @@
 
         if ((exists && !state.editingId) || (exists && isNewDateDuringEdit)) {
           const confirmed = window.confirm(
-            "FÃ¼r dieses Datum existiert bereits ein Tagesabschluss. MÃ¶chtest du den vorhandenen Eintrag wirklich aktualisieren?"
+            "Für dieses Datum existiert bereits ein Tagesabschluss. Möchtest du den vorhandenen Eintrag wirklich aktualisieren?"
           );
           if (!confirmed) {
             return;
@@ -1131,7 +1131,7 @@
         await setDoc(doc(state.db, "lottoKasse", entry.date), payload);
 
         if (state.editingId && state.editingId !== entry.date) {
-          showInfo(ui.formError, "Der Eintrag wurde unter dem neuen Datum gespeichert. Falls das alte Datum nicht mehr benÃ¶tigt wird, kann es spÃ¤ter manuell bereinigt werden.");
+          showInfo(ui.formError, "Der Eintrag wurde unter dem neuen Datum gespeichert. Falls das alte Datum nicht mehr benötigt wird, kann es später manuell bereinigt werden.");
         } else {
           hideBox(ui.formError);
         }
@@ -1159,13 +1159,13 @@
         ["Wechselgeld Anfang", startCashCents],
         ["Tagesabschluss gesamt", dailyTotalCents],
         ["EC-Zahlungen", cardPaymentsCents],
-        ["AbschÃ¶pfung", skimmingCents],
-        ["Wechselgeld Ende gezÃ¤hlt", endCashCountedCents]
+        ["Abschöpfung", skimmingCents],
+        ["Wechselgeld Ende gezählt", endCashCountedCents]
       ];
 
       for (const [label, value] of rawValues) {
         if (value === null) {
-          showError(ui.formError, label + " ist kein gÃ¼ltiger Euro-Betrag.");
+          showError(ui.formError, label + " ist kein gültiger Euro-Betrag.");
           return null;
         }
         if (value < 0) {
@@ -1175,7 +1175,7 @@
       }
 
       if (cardPaymentsCents > dailyTotalCents) {
-        showError(ui.formError, "EC-Zahlungen dÃ¼rfen nicht hÃ¶her sein als der Tagesabschluss gesamt.");
+        showError(ui.formError, "EC-Zahlungen dürfen nicht höher sein als der Tagesabschluss gesamt.");
         return null;
       }
 
@@ -1215,7 +1215,7 @@
       const isOk = diffCents === 0;
       ui.diffMetric.classList.toggle("ok", isOk);
       ui.diffMetric.classList.toggle("bad", !isOk);
-      ui.differenceState.textContent = isOk ? "OK" : "PrÃ¼fen";
+      ui.differenceState.textContent = isOk ? "OK" : "Prüfen";
 
       return { cashShareCents, endExpectedCents, diffCents };
     }
@@ -1225,7 +1225,7 @@
       ui.entriesBody.innerHTML = "";
 
       if (entries.length === 0) {
-        ui.entriesBody.innerHTML = '<tr><td colspan="13" class="empty-state">Keine EintrÃ¤ge fÃ¼r den gewÃ¤hlten Zeitraum vorhanden.</td></tr>';
+        ui.entriesBody.innerHTML = '<tr><td colspan="13" class="empty-state">Keine Einträge für den gewählten Zeitraum vorhanden.</td></tr>';
         updateSummary([]);
         ui.tableSummary.textContent = "";
         return;
@@ -1244,10 +1244,10 @@
           <td class="num">${formatCents(entry.endExpectedCents)}</td>
           <td class="num">${formatCents(entry.endCashCountedCents)}</td>
           <td class="num">${formatCents(entry.diffCents)}</td>
-          <td><span class="badge ${diffOk ? "ok" : "bad"}">${diffOk ? "OK" : "PrÃ¼fen"}</span></td>
-          <td class="note-cell">${escapeHtml(entry.note || "") || "â€”"}</td>
+          <td><span class="badge ${diffOk ? "ok" : "bad"}">${diffOk ? "OK" : "Prüfen"}</span></td>
+          <td class="note-cell">${escapeHtml(entry.note || "") || "—"}</td>
           <td class="meta">${renderMeta(entry)}</td>
-          <td class="table-actions">${state.role === "admin" ? `<button class="btn-ghost btn-inline" type="button" data-edit-id="${entry.id}">Bearbeiten</button>` : "â€”"}</td>
+          <td class="table-actions">${state.role === "admin" ? `<button class="btn-ghost btn-inline" type="button" data-edit-id="${entry.id}">Bearbeiten</button>` : "—"}</td>
         `;
         ui.entriesBody.appendChild(row);
       }
@@ -1261,10 +1261,10 @@
     }
 
     function renderMeta(entry) {
-      const created = entry.createdAt?.toDate ? DATE_TIME_LABEL.format(entry.createdAt.toDate()) : "â€”";
-      const updated = entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : "â€”";
-      const createdBy = entry.createdBy ? escapeHtml(entry.createdBy) : "â€”";
-      const updatedBy = entry.updatedBy ? escapeHtml(entry.updatedBy) : "â€”";
+      const created = entry.createdAt?.toDate ? DATE_TIME_LABEL.format(entry.createdAt.toDate()) : "—";
+      const updated = entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : "—";
+      const createdBy = entry.createdBy ? escapeHtml(entry.createdBy) : "—";
+      const updatedBy = entry.updatedBy ? escapeHtml(entry.updatedBy) : "—";
 
       return `
         Erstellt: ${created}<br />
@@ -1348,9 +1348,9 @@
         "Tagesabschluss gesamt",
         "EC-Zahlungen",
         "Bar-Anteil",
-        "AbschÃ¶pfung",
+        "Abschöpfung",
         "Wechselgeld Ende Soll",
-        "Wechselgeld Ende gezÃ¤hlt",
+        "Wechselgeld Ende gezählt",
         "Differenz",
         "Bemerkung",
         "Erstellt am",
@@ -1406,7 +1406,7 @@
         return 0;
       }
 
-      const sanitized = text.replace(/â‚¬/g, "").replace(/\s/g, "");
+      const sanitized = text.replace(/€/g, "").replace(/\s/g, "");
       let normalized = sanitized;
 
       if (sanitized.includes(",")) {
