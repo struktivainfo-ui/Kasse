@@ -6,101 +6,392 @@
   <title>Lotto-Kasse Salon Karola</title>
   <meta name="theme-color" content="#121217" />
   <style>
-    :root{
-      --bg:#121217;--bg-soft:#1a1c24;--card:#1f212b;--line:#353a48;--txt:#f4efe4;--muted:#c2bba9;
-      --gold:#c7a45b;--gold-soft:#e3ca91;--ok:#35bf8c;--bad:#da6a6a;--radius:16px;--shadow:0 14px 34px rgba(0,0,0,.35);
+    :root {
+      --bg: #121217;
+      --bg-soft: #181a21;
+      --card: #1e2029;
+      --line: #333847;
+      --txt: #f4efe4;
+      --muted: #beb7a6;
+      --gold: #c7a45b;
+      --gold-soft: #dfc68f;
+      --ok: #33bc89;
+      --bad: #d56a6a;
+      --r: 14px;
+      --shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
     }
-    *{box-sizing:border-box} html,body{margin:0;padding:0;min-height:100%}
-    body{
-      background:radial-gradient(circle at 10% -10%, #232018 0%, var(--bg) 45%);
-      color:var(--txt);font-family:"Segoe UI",Arial,sans-serif;line-height:1.35;
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; min-height: 100%; }
+    body {
+      background: radial-gradient(circle at 12% -15%, #262116 0%, var(--bg) 46%);
+      color: var(--txt);
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.32;
     }
-    h1,h2,h3,th{margin:0;font-family:Cambria,Georgia,serif}
-    .app{width:min(1240px,calc(100% - 24px));margin:12px auto 28px;display:grid;gap:12px}
-    .card{background:linear-gradient(180deg,var(--card),#1a1c24);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .hidden{display:none !important}
-
-    .topbar{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:14px}
-    .brand small{display:block;color:var(--gold-soft);font-size:.74rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
-    .brand h1{font-size:clamp(1.35rem,2.1vw,1.95rem)}
-    .top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-    .chip{min-height:36px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#1a1c24;color:var(--muted);font-size:.84rem;font-weight:600;display:inline-flex;align-items:center}
-    .chip strong{color:var(--txt);margin-left:6px}
-    .chip.alert{color:#ffe0e0;background:rgba(218,106,106,.13);border-color:rgba(218,106,106,.35)}
-
-    .btn{border:1px solid transparent;border-radius:11px;padding:10px 14px;font-weight:700;cursor:pointer}
-    .btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(199,164,91,.25)}
-    .btn-primary{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#2a220f}
-    .btn-muted{background:#252834;color:var(--txt);border-color:#3d4252}
-    .btn-danger{background:rgba(218,106,106,.12);border-color:rgba(218,106,106,.42);color:#ffdede}
-    .btn:hover{filter:brightness(1.05)}
-    .btn:disabled{opacity:.62;cursor:not-allowed}
-    .btn-picker{background:#20232d;border-color:#444a5c;color:var(--gold-soft);white-space:nowrap}
-
-    .login{padding:18px}
-    .login-box{max-width:460px;margin:0 auto;display:grid;gap:12px}
-    .login-sub{margin:0;color:var(--muted)}
-    .grid{display:grid;gap:10px}
-    .grid-2{grid-template-columns:1fr 1fr}
-    label{display:grid;gap:6px;color:var(--muted);font-size:.85rem;font-weight:700}
-    input,textarea,select{width:100%;border:1px solid #3b4050;background:#13151c;color:var(--txt);border-radius:10px;padding:12px;font:inherit}
-    textarea{resize:vertical;min-height:86px}
-    .stay{display:inline-flex;align-items:center;gap:8px}
-    .stay input{width:16px;height:16px;accent-color:var(--gold);margin:0}
-    .picker-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
-    .error{display:none;border:1px solid rgba(218,106,106,.35);background:rgba(218,106,106,.13);color:#ffdede;border-radius:10px;padding:9px 11px;font-size:.9rem}
-    .error.show{display:block}
-
-    .splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:rgba(8,8,12,.94);backdrop-filter:blur(5px)}
-    .splash-box{width:min(480px,calc(100% - 28px));padding:20px;border-radius:14px;border:1px solid var(--line);text-align:center;background:linear-gradient(180deg,#242733,#1a1c24)}
-    .splash-box small{display:block;color:var(--gold-soft);font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-    .splash-box h2{font-size:clamp(1.4rem,2.6vw,1.95rem);margin-bottom:5px}
-    .splash-box p{margin:0;color:var(--muted)}
-
-    .workspace{padding:14px}
-    .stats{display:grid;gap:8px;grid-template-columns:repeat(5,minmax(0,1fr))}
-    .stat{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:10px;min-height:84px;display:flex;flex-direction:column;justify-content:space-between}
-    .stat small{font-size:.73rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-    .stat strong{font-size:clamp(1.02rem,1.7vw,1.36rem)}
-    .last{margin-top:9px;background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:10px;color:#ddd5c4;font-size:.88rem;display:grid;gap:4px}
-
-    .layout{margin-top:11px;display:grid;gap:12px;grid-template-columns:minmax(0,1.06fr) minmax(320px,.94fr)}
-    .head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-    .head h2{font-size:1.24rem}
-    .metrics{display:grid;gap:8px}
-    .metric{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:11px}
-    .metric small{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
-    .metric strong{font-size:clamp(1.18rem,1.9vw,1.55rem)}
-    .metric.ok strong{color:var(--ok)} .metric.bad strong{color:var(--bad)}
-    .state{margin-top:6px;color:var(--muted)}
-    .receipt-box{border:1px solid var(--line);border-radius:11px;background:#181a22;padding:10px;display:grid;gap:8px}
-
-    .table-card{padding:14px}
-    .toolbar{display:grid;gap:8px;grid-template-columns:minmax(230px,280px) max-content repeat(4,max-content);align-items:end;margin-bottom:10px}
-    .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#191b23}
-    table{width:100%;min-width:1640px;border-collapse:collapse}
-    th,td{border-bottom:1px solid #2f3441;padding:10px 9px;text-align:left;vertical-align:top;font-size:.87rem}
-    th{position:sticky;top:0;background:#232632;color:var(--gold-soft);text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;z-index:1}
-    .num,th.num{text-align:right;white-space:nowrap}
-    .badge{display:inline-flex;justify-content:center;min-width:84px;border-radius:999px;padding:4px 8px;font-size:.73rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
-    .badge.ok{color:#cff7e7;border:1px solid rgba(53,191,140,.4);background:rgba(53,191,140,.16)}
-    .badge.bad{color:#ffd8d8;border:1px solid rgba(218,106,106,.4);background:rgba(218,106,106,.15)}
-    .summary{margin-top:8px;color:var(--muted);font-size:.86rem}
-    .empty{text-align:center;color:var(--muted);padding:20px}
-    .print-only{display:none}
-
-    @media (max-width:1100px){
-      .topbar,.layout,.stats,.toolbar,.grid-2{grid-template-columns:1fr}
-      .top-actions{justify-content:flex-start}
-      .toolbar .btn{width:100%}
-      .picker-row{grid-template-columns:1fr}
+    h1, h2, h3, th {
+      margin: 0;
+      font-family: Cambria, Georgia, serif;
+      letter-spacing: -0.01em;
     }
-    @media print{
-      body{background:#fff;color:#000}
-      .topbar,#loginCard,#formSection,.toolbar,.table-actions,#printButton,#csvButton,#reloadButton,#currentMonthButton,#clearFilterButton,#openMonthPicker,#splash{display:none !important}
-      .card,.table-wrap,.stat,.last,.metric{background:#fff !important;color:#000 !important;border-color:#ddd !important;box-shadow:none !important}
-      th,td{color:#000 !important;border-color:#ddd !important}
-      .print-only{display:block;font-size:1.35rem;margin-bottom:10px}
+    .app {
+      width: min(1320px, calc(100% - 20px));
+      margin: 10px auto 20px;
+      display: grid;
+      gap: 10px;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--card), #181a21);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+    }
+    .hidden { display: none !important; }
+
+    .topbar {
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand small {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 2px;
+    }
+    .brand h1 { font-size: clamp(1.1rem, 1.8vw, 1.45rem); }
+    .top-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .chip {
+      min-height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #1a1c24;
+      color: var(--muted);
+      padding: 5px 10px;
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.77rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .chip strong { color: var(--txt); margin-left: 4px; }
+    .chip.alert {
+      color: #ffe0e0;
+      background: rgba(213, 106, 106, 0.12);
+      border-color: rgba(213, 106, 106, 0.35);
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 8px 11px;
+      font-weight: 700;
+      font-size: 0.84rem;
+      cursor: pointer;
+      line-height: 1.2;
+    }
+    .btn:disabled { opacity: 0.62; cursor: not-allowed; }
+    .btn:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(199, 164, 91, 0.25);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+      color: #2a220f;
+    }
+    .btn-muted {
+      background: #232632;
+      border-color: #3a4050;
+      color: var(--txt);
+    }
+    .btn-picker {
+      background: #1f222c;
+      border-color: #42495d;
+      color: var(--gold-soft);
+      white-space: nowrap;
+    }
+    .btn-danger {
+      background: rgba(213, 106, 106, 0.12);
+      border-color: rgba(213, 106, 106, 0.42);
+      color: #ffdede;
+    }
+
+    .login { padding: 14px; }
+    .login-box {
+      max-width: 430px;
+      margin: 0 auto;
+      display: grid;
+      gap: 10px;
+    }
+    .login-sub { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    .grid { display: grid; gap: 8px; }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+
+    label {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #3a4050;
+      background: #12141b;
+      color: var(--txt);
+      border-radius: 9px;
+      padding: 9px 10px;
+      font: inherit;
+      font-size: 0.9rem;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 66px;
+      line-height: 1.35;
+    }
+    .stay {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.82rem;
+    }
+    .stay input {
+      width: 15px;
+      height: 15px;
+      accent-color: var(--gold);
+      margin: 0;
+    }
+    .picker-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 6px;
+      align-items: center;
+    }
+    .error {
+      display: none;
+      border: 1px solid rgba(213, 106, 106, 0.35);
+      background: rgba(213, 106, 106, 0.12);
+      color: #ffdede;
+      border-radius: 9px;
+      padding: 8px 10px;
+      font-size: 0.84rem;
+    }
+    .error.show { display: block; }
+
+    .splash {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8, 8, 12, 0.94);
+      backdrop-filter: blur(5px);
+    }
+    .splash-box {
+      width: min(430px, calc(100% - 24px));
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      text-align: center;
+      background: linear-gradient(180deg, #242733, #191b24);
+    }
+    .splash-box small {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 0.72rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .splash-box h2 { font-size: clamp(1.25rem, 2vw, 1.7rem); margin-bottom: 4px; }
+    .splash-box p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    .workspace { padding: 10px; }
+    .stats {
+      display: grid;
+      gap: 7px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .stat {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 9px;
+      min-height: 68px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .stat small {
+      color: var(--muted);
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .stat strong { font-size: clamp(0.96rem, 1.4vw, 1.18rem); }
+
+    .layout {
+      margin-top: 8px;
+      display: grid;
+      gap: 9px;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      align-items: start;
+    }
+    .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 7px;
+    }
+    .head h2 { font-size: 1.08rem; }
+
+    .receipt-box {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #171920;
+      padding: 8px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .metrics { display: grid; gap: 7px; }
+    .metric {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px;
+    }
+    .metric small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 3px;
+    }
+    .metric strong { font-size: clamp(1rem, 1.5vw, 1.25rem); }
+    .metric.ok strong { color: var(--ok); }
+    .metric.bad strong { color: var(--bad); }
+    .state { margin-top: 4px; color: var(--muted); font-size: 0.82rem; }
+
+    .last {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--bg-soft);
+      padding: 9px;
+      display: grid;
+      gap: 3px;
+      color: #ddd5c4;
+      font-size: 0.82rem;
+      margin-top: 7px;
+    }
+
+    .table-card { padding: 10px; }
+    .toolbar {
+      display: grid;
+      gap: 6px;
+      grid-template-columns: minmax(180px, 240px) max-content repeat(4, max-content);
+      align-items: end;
+      margin-bottom: 8px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #191b23;
+    }
+    table { width: 100%; min-width: 1540px; border-collapse: collapse; }
+    th, td {
+      border-bottom: 1px solid #2f3441;
+      padding: 7px 7px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.78rem;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #232632;
+      color: var(--gold-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-size: 0.64rem;
+      z-index: 1;
+    }
+    .num, th.num { text-align: right; white-space: nowrap; }
+    .badge {
+      display: inline-flex;
+      justify-content: center;
+      min-width: 72px;
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .badge.ok {
+      color: #cff7e7;
+      border: 1px solid rgba(51, 188, 137, 0.4);
+      background: rgba(51, 188, 137, 0.16);
+    }
+    .badge.bad {
+      color: #ffd8d8;
+      border: 1px solid rgba(213, 106, 106, 0.4);
+      background: rgba(213, 106, 106, 0.15);
+    }
+    .truncate {
+      max-width: 190px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .summary { margin-top: 6px; color: var(--muted); font-size: 0.8rem; }
+    .empty { text-align: center; color: var(--muted); padding: 16px; }
+    .print-only { display: none; }
+
+    @media (max-width: 1100px) {
+      .topbar, .layout, .toolbar, .grid-2 { grid-template-columns: 1fr; }
+      .top-actions { justify-content: flex-start; }
+      .toolbar .btn { width: 100%; }
+      .picker-row { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .app { width: calc(100% - 14px); margin: 7px auto 14px; gap: 8px; }
+      .topbar { padding: 8px 9px; }
+      .workspace, .table-card, .login { padding: 9px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat { min-height: 60px; padding: 7px; }
+      .btn { padding: 9px 10px; font-size: 0.82rem; }
+      input, textarea, select { padding: 10px; font-size: 0.89rem; }
+      table { min-width: 1160px; }
+    }
+    @media print {
+      body { background: #fff; color: #000; }
+      .topbar, #loginCard, #formSection, .toolbar, .table-actions, #printButton, #csvButton, #reloadButton, #currentMonthButton, #clearFilterButton, #openMonthPicker, #splash {
+        display: none !important;
+      }
+      .card, .table-wrap, .stat, .last, .metric {
+        background: #fff !important;
+        color: #000 !important;
+        border-color: #ddd !important;
+        box-shadow: none !important;
+      }
+      th, td { color: #000 !important; border-color: #ddd !important; }
+      .print-only { display: block; font-size: 1.2rem; margin-bottom: 8px; }
     }
   </style>
 </head>
@@ -143,17 +434,13 @@
 
     <section id="dashboardCard" class="card workspace hidden">
       <h2 class="print-only">Lotto-Kasse Salon Karola</h2>
+
       <div class="stats">
         <article class="stat"><small>Tagesabschluss gesamt</small><strong id="sumDaily">0,00 €</strong></article>
         <article class="stat"><small>EC-Zahlungen</small><strong id="sumCard">0,00 €</strong></article>
         <article class="stat"><small>Bar-Anteil</small><strong id="sumCash">0,00 €</strong></article>
         <article class="stat"><small>Abschöpfung</small><strong id="sumSkim">0,00 €</strong></article>
         <article class="stat"><small>Tage mit Differenz</small><strong id="sumDiffDays">0</strong></article>
-      </div>
-      <div class="last">
-        <div>Letzter Abschluss: <strong id="lastDate">-</strong></div>
-        <div>Letzte Differenz: <strong id="lastDiff">0,00 €</strong></div>
-        <div>Zuletzt bearbeitet von: <strong id="lastBy">-</strong></div>
       </div>
 
       <div class="layout">
@@ -183,7 +470,7 @@
                 <label>Beleg-Hinweis<textarea id="receiptNote" placeholder="z. B. Beleg liegt im Ordner Mai 2026"></textarea></label>
               </div>
             </label>
-            <div style="grid-column:1 / -1;display:flex;gap:8px;flex-wrap:wrap;">
+            <div style="grid-column:1 / -1;display:flex;gap:7px;flex-wrap:wrap;">
               <button id="saveBtn" class="btn btn-primary" type="submit">Speichern</button>
               <button id="resetBtn" class="btn btn-muted" type="button">Zurücksetzen</button>
               <button id="cancelEditBtn" class="btn btn-muted hidden" type="button">Bearbeiten abbrechen</button>
@@ -199,6 +486,11 @@
             <article class="metric"><small>Wechselgeld Ende Soll</small><strong id="liveEndExpected">0,00 €</strong></article>
             <article id="liveDiffMetric" class="metric ok"><small>Differenz</small><strong id="liveDiff">0,00 €</strong><div id="liveState" class="state">OK</div></article>
           </div>
+          <div class="last">
+            <div>Letzter Abschluss: <strong id="lastDate">-</strong></div>
+            <div>Letzte Differenz: <strong id="lastDiff">0,00 €</strong></div>
+            <div>Zuletzt bearbeitet von: <strong id="lastBy">-</strong></div>
+          </div>
         </section>
       </div>
     </section>
@@ -206,7 +498,7 @@
     <section id="tableCard" class="card table-card hidden">
       <div class="head">
         <h2>Monatsübersicht</h2>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
           <button id="printButton" class="btn btn-muted" type="button">Drucken / PDF</button>
           <button id="csvButton" class="btn btn-muted" type="button">CSV exportieren</button>
         </div>
@@ -311,12 +603,8 @@
 
     function openNativePicker(input) {
       if (!input) return;
-      if (typeof input.showPicker === "function") {
-        input.showPicker();
-      } else {
-        input.focus();
-        input.click();
-      }
+      if (typeof input.showPicker === "function") input.showPicker();
+      else { input.focus(); input.click(); }
     }
 
     function watchConnectivity() {
@@ -422,7 +710,6 @@
       if (state.role !== "admin") return showError(ui.formError, "Nur Admin darf speichern.");
       const entry = buildEntry();
       if (!entry) return;
-
       try {
         ui.saveBtn.disabled = true;
         ui.saveBtn.textContent = "Wird gespeichert…";
@@ -545,10 +832,10 @@
           <td class="num">${money(entry.endCashCounted)}</td>
           <td class="num">${money(entry.diff)}</td>
           <td><span class="badge ${diffOk ? "ok" : "bad"}">${diffOk ? "OK" : "Prüfen"}</span></td>
-          <td>${esc(entry.note || "") || "—"}</td>
+          <td title="${esc(entry.note || "")}"><div class="truncate">${esc(entry.note || "") || "—"}</div></td>
           <td>${entry.hasReceipt ? "Ja" : "Nein"}</td>
-          <td>${esc(entry.receiptNumber || "") || "—"}</td>
-          <td>${esc(entry.receiptNote || "") || "—"}</td>
+          <td title="${esc(entry.receiptNumber || "")}"><div class="truncate">${esc(entry.receiptNumber || "") || "—"}</div></td>
+          <td title="${esc(entry.receiptNote || "")}"><div class="truncate">${esc(entry.receiptNote || "") || "—"}</div></td>
           <td>${esc(entry.updatedBy || "—")}</td>
           <td>${entry.updatedAt?.toDate ? dateTimeDE.format(entry.updatedAt.toDate()) : "—"}</td>
           <td class="table-actions">${state.role === "admin" ? `<button class="btn btn-muted" type="button" data-edit="${entry.id}">Bearbeiten</button> <button class="btn btn-danger" type="button" data-del="${entry.id}" data-label="${esc(formatDate(entry.date))}">Eintrag entfernen</button>` : "—"}</td>
@@ -560,7 +847,7 @@
         ui.entriesBody.querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", () => deleteEntry(b.getAttribute("data-del"), b.getAttribute("data-label"))));
       }
       renderSummary(entries);
-      const last = [...state.entries].sort((a,b) => String(b.date).localeCompare(String(a.date)))[0];
+      const last = [...state.entries].sort((a, b) => String(b.date).localeCompare(String(a.date)))[0];
       ui.lastDate.textContent = last ? formatDate(last.date) : "-";
       ui.lastDiff.textContent = last ? money(last.diff) : "0,00 €";
       ui.lastBy.textContent = last?.updatedBy || last?.createdBy || "-";
@@ -569,9 +856,13 @@
 
     function renderSummary(entries) {
       const sums = entries.reduce((acc, e) => {
-        acc.daily += num(e.dailyTotal); acc.card += num(e.cardPayments); acc.cash += num(e.cashShare); acc.skim += num(e.skimming);
-        if (round2(num(e.diff)) !== 0) acc.diffDays += 1; return acc;
-      }, { daily:0, card:0, cash:0, skim:0, diffDays:0 });
+        acc.daily += num(e.dailyTotal);
+        acc.card += num(e.cardPayments);
+        acc.cash += num(e.cashShare);
+        acc.skim += num(e.skimming);
+        if (round2(num(e.diff)) !== 0) acc.diffDays += 1;
+        return acc;
+      }, { daily: 0, card: 0, cash: 0, skim: 0, diffDays: 0 });
       ui.sumDaily.textContent = money(sums.daily);
       ui.sumCard.textContent = money(sums.card);
       ui.sumCash.textContent = money(sums.cash);
@@ -615,21 +906,23 @@
       cancelEdit();
       calcLive();
       hideError(ui.formError);
+      ui.saveBtn.disabled = false;
+      ui.saveBtn.textContent = "Speichern";
     }
 
     function filteredEntries() {
       const month = ui.monthFilter.value;
-      const rows = [...state.entries].sort((a,b) => String(b.date).localeCompare(String(a.date)));
+      const rows = [...state.entries].sort((a, b) => String(b.date).localeCompare(String(a.date)));
       if (!month) return rows;
       return rows.filter((e) => String(e.date).startsWith(month));
     }
 
     function exportCsv() {
-      const rows = filteredEntries().sort((a,b) => String(a.date).localeCompare(String(b.date)));
+      const rows = filteredEntries().sort((a, b) => String(a.date).localeCompare(String(b.date)));
       const header = [
-        "Datum","Wechselgeld Anfang","Tagesabschluss gesamt","EC-Zahlungen","Bar-Anteil","Abschöpfung",
-        "Wechselgeld Ende Soll","Wechselgeld Ende gezählt","Differenz","Status","Bemerkung",
-        "Beleg vorhanden","Belegnummer","Beleg-Hinweis","Bearbeitet von","Bearbeitet am"
+        "Datum", "Wechselgeld Anfang", "Tagesabschluss gesamt", "EC-Zahlungen", "Bar-Anteil", "Abschöpfung",
+        "Wechselgeld Ende Soll", "Wechselgeld Ende gezählt", "Differenz", "Status", "Bemerkung",
+        "Beleg vorhanden", "Belegnummer", "Beleg-Hinweis", "Bearbeitet von", "Bearbeitet am"
       ];
       const data = rows.map((e) => {
         const diffOk = round2(num(e.diff)) === 0;
@@ -655,10 +948,22 @@
 
     function clearTable() { ui.entriesBody.innerHTML = ""; ui.tableSummary.textContent = ""; }
     function resetSummary() {
-      ui.sumDaily.textContent = "0,00 €"; ui.sumCard.textContent = "0,00 €"; ui.sumCash.textContent = "0,00 €";
-      ui.sumSkim.textContent = "0,00 €"; ui.sumDiffDays.textContent = "0"; ui.lastDate.textContent = "-"; ui.lastDiff.textContent = "0,00 €"; ui.lastBy.textContent = "-";
+      ui.sumDaily.textContent = "0,00 €";
+      ui.sumCard.textContent = "0,00 €";
+      ui.sumCash.textContent = "0,00 €";
+      ui.sumSkim.textContent = "0,00 €";
+      ui.sumDiffDays.textContent = "0";
+      ui.lastDate.textContent = "-";
+      ui.lastDiff.textContent = "0,00 €";
+      ui.lastBy.textContent = "-";
     }
-    function normalizeMoneyInput(e) { const n = parseMoney(e.target.value); if (n !== null) e.target.value = toInput(n); calcLive(); }
+
+    function normalizeMoneyInput(e) {
+      const n = parseMoney(e.target.value);
+      if (n !== null) e.target.value = toInput(n);
+      calcLive();
+    }
+
     function parseMoney(v) {
       const t = String(v ?? "").trim();
       if (!t) return 0;
@@ -669,21 +974,35 @@
       if (!Number.isFinite(value)) return null;
       return round2(value);
     }
+
     function round2(n) { return Math.round((Number(n) + Number.EPSILON) * 100) / 100; }
     function num(v) { const n = Number(v); return Number.isFinite(n) ? n : 0; }
     function money(v) { return euro.format(num(v)); }
     function toInput(v) { return round2(num(v)).toFixed(2).replace(".", ","); }
     function toCsv(v) { return round2(num(v)).toFixed(2).replace(".", ","); }
     function formatDate(iso) { return iso ? dateDE.format(new Date(`${iso}T12:00:00`)) : ""; }
-    function monthLabel(m) { const [y,mm] = m.split("-"); return new Intl.DateTimeFormat("de-DE",{month:"long",year:"numeric"}).format(new Date(Number(y), Number(mm)-1, 1)); }
-    function todayIso() { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10); }
-    function currentMonthIso() { return todayIso().slice(0,7); }
-    function showError(el,msg){el.textContent=msg;el.classList.add("show")}
-    function hideError(el){el.textContent="";el.classList.remove("show")}
-    function showFormError(msg){showError(ui.formError,msg);return null}
-    function byId(id){return document.getElementById(id)}
-    function wait(ms){return new Promise((r)=>setTimeout(r,ms))}
-    function esc(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+    function monthLabel(m) {
+      const [y, mm] = m.split("-");
+      return new Intl.DateTimeFormat("de-DE", { month: "long", year: "numeric" }).format(new Date(Number(y), Number(mm) - 1, 1));
+    }
+    function todayIso() {
+      const d = new Date();
+      return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    }
+    function currentMonthIso() { return todayIso().slice(0, 7); }
+    function showError(el, msg) { el.textContent = msg; el.classList.add("show"); }
+    function hideError(el) { el.textContent = ""; el.classList.remove("show"); }
+    function showFormError(msg) { showError(ui.formError, msg); return null; }
+    function byId(id) { return document.getElementById(id); }
+    function wait(ms) { return new Promise((r) => setTimeout(r, ms)); }
+    function esc(v) {
+      return String(v)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
   </script>
 </body>
 </html>
