@@ -1,799 +1,650 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lotto-Kasse Salon Karola</title>
-  <meta name="theme-color" content="#0b0810" />
+  <meta name="theme-color" content="#111111" />
   <style>
     :root {
-      --bg: #0b0810;
-      --bg-soft: #15101b;
-      --panel: rgba(20, 15, 24, 0.92);
-      --panel-strong: rgba(31, 23, 36, 0.98);
-      --panel-muted: rgba(255, 255, 255, 0.04);
-      --text: #f8f4ea;
-      --muted: #b8ad95;
-      --line: rgba(214, 180, 93, 0.18);
-      --line-strong: rgba(214, 180, 93, 0.34);
-      --gold: #d6b45d;
-      --gold-soft: #f3df9d;
-      --ok: #34d399;
-      --warn: #f59e0b;
-      --danger: #f87171;
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.36);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
+      --bg: #0d0d0f;
+      --panel: #17171b;
+      --panel-soft: #1e1f24;
+      --line: #2a2c32;
+      --text: #f5f2e9;
+      --muted: #b9b2a0;
+      --gold: #ccac5d;
+      --gold-soft: #ddc487;
+      --ok: #34c38f;
+      --danger: #e06b6b;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html {
-      color-scheme: dark;
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: radial-gradient(circle at top right, #1a1813, #0d0d0f 48%);
+      color: var(--text);
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(214, 180, 93, 0.18), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(214, 180, 93, 0.08), transparent 24%),
-        linear-gradient(160deg, #060409, #110d15 42%, #0b0810 100%);
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.015)),
-        radial-gradient(circle at 20% 20%, rgba(243, 223, 157, 0.08), transparent 18%),
-        radial-gradient(circle at 80% 30%, rgba(243, 223, 157, 0.05), transparent 16%);
-      mix-blend-mode: screen;
+      line-height: 1.45;
     }
 
     h1,
     h2,
     h3,
     th {
+      margin: 0;
       font-family: Cambria, "Times New Roman", serif;
       letter-spacing: -0.02em;
     }
 
+    p {
+      margin: 0;
+    }
+
     button,
     input,
-    textarea,
-    select {
+    textarea {
       font: inherit;
     }
 
-    .app-shell {
-      width: min(1320px, calc(100% - 28px));
-      margin: 0 auto;
-      padding: 28px 0 56px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .stack {
-      display: grid;
-      gap: 18px;
-    }
-
-    .panel {
-      background: linear-gradient(180deg, rgba(23, 17, 28, 0.96), rgba(13, 10, 17, 0.94));
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-    }
-
-    .hero {
-      padding: clamp(24px, 4vw, 40px);
-      overflow: hidden;
-      position: relative;
-      isolation: isolate;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto -10% -45% auto;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(214, 180, 93, 0.24), transparent 70%);
-      z-index: -1;
-    }
-
-    .eyebrow {
-      margin: 0 0 14px;
-      color: var(--gold-soft);
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 4.2rem);
-      line-height: 0.98;
-    }
-
-    .hero p {
-      margin: 16px 0 0;
-      max-width: 800px;
-      color: #d8ccb4;
-      font-size: clamp(1rem, 1.6vw, 1.1rem);
-      line-height: 1.6;
-    }
-
-    .status-row,
-    .actions-row,
-    .toolbar,
-    .summary-grid,
-    .workspace-grid,
-    .live-grid,
-    .form-grid,
-    .login-grid {
+    .app {
+      width: min(1280px, calc(100% - 24px));
+      margin: 14px auto 34px;
       display: grid;
       gap: 14px;
     }
 
-    .status-row {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      margin-top: 26px;
+    .card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #1a1b20, #14151a);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
     }
 
-    .pill {
-      display: inline-flex;
+    .topbar {
+      padding: 16px 18px;
+      display: grid;
+      grid-template-columns: 1fr auto;
       align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 12px 14px;
+      gap: 12px;
+    }
+
+    .brand small {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 4px;
+    }
+
+    .brand h1 {
+      font-size: clamp(1.45rem, 2.4vw, 2rem);
+      line-height: 1.08;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: end;
+    }
+
+    .chip {
+      min-height: 38px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.05);
-      color: #d7cfbf;
-      font-size: 13px;
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .pill.ok {
-      color: #c8f7e2;
-      border-color: rgba(52, 211, 153, 0.3);
-      background: rgba(52, 211, 153, 0.12);
-    }
-
-    .pill.warn {
-      color: #fde3ac;
-      border-color: rgba(245, 158, 11, 0.28);
-      background: rgba(245, 158, 11, 0.12);
-    }
-
-    .pill.danger {
-      color: #fecaca;
-      border-color: rgba(248, 113, 113, 0.26);
-      background: rgba(248, 113, 113, 0.12);
-    }
-
-    .login-panel,
-    .workspace-panel,
-    .table-panel,
-    .viewer-panel {
-      padding: 24px;
-    }
-
-    .panel-title {
-      margin: 0 0 8px;
-      font-size: clamp(1.5rem, 2vw, 2rem);
-    }
-
-    .panel-subtitle {
-      margin: 0 0 20px;
       color: var(--muted);
-      line-height: 1.6;
-      font-size: 0.97rem;
+      background: #1b1d22;
+      padding: 8px 12px;
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
     }
 
-    .login-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-items: end;
-    }
-
-    .workspace-grid {
-      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
-      align-items: start;
-    }
-
-    .form-card,
-    .metrics-card,
-    .summary-card {
-      background: var(--panel-muted);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 22px;
-      padding: 20px;
-    }
-
-    .summary-grid {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-    }
-
-    .summary-card small,
-    .metric small {
-      display: block;
-      color: var(--muted);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
-    }
-
-    .summary-card strong,
-    .metric strong {
-      display: block;
-      font-size: clamp(1.35rem, 2vw, 1.9rem);
+    .chip strong {
       color: var(--text);
+      margin-left: 6px;
       font-weight: 700;
     }
 
-    .summary-card span {
-      display: block;
-      color: #d6c8ad;
-      font-size: 0.92rem;
-      margin-top: 8px;
-      line-height: 1.5;
+    .chip.alert {
+      color: #ffe0e0;
+      border-color: rgba(224, 107, 107, 0.45);
+      background: rgba(224, 107, 107, 0.12);
     }
 
-    .form-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .login-card,
+    .workspace {
+      padding: 18px;
+    }
+
+    .login-wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .login-title {
+      font-size: 1.5rem;
+    }
+
+    .login-subtitle {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     label {
       display: grid;
-      gap: 8px;
-      color: #d7cfbf;
-      font-size: 0.92rem;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 0.86rem;
       font-weight: 700;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid #343741;
+      border-radius: var(--radius-md);
+      background: #111217;
+      color: var(--text);
+      padding: 12px 13px;
+      outline: none;
+      transition: border-color 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(204, 172, 93, 0.18);
+    }
+
+    input:disabled,
+    textarea:disabled,
+    button:disabled {
+      opacity: 0.62;
+      cursor: not-allowed;
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
     }
 
     .full {
       grid-column: 1 / -1;
     }
 
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      background: rgba(8, 7, 12, 0.95);
-      color: var(--text);
-      padding: 14px 15px;
-      outline: none;
-      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: rgba(214, 180, 93, 0.9);
-      box-shadow: 0 0 0 4px rgba(214, 180, 93, 0.13);
-      transform: translateY(-1px);
-    }
-
-    textarea {
-      min-height: 104px;
-      resize: vertical;
-    }
-
-    input:disabled,
-    textarea:disabled,
-    button:disabled {
-      opacity: 0.58;
-      cursor: not-allowed;
-    }
-
-    .live-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .metric {
-      background: linear-gradient(135deg, rgba(34, 27, 39, 0.94), rgba(17, 14, 22, 0.92));
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 18px;
-    }
-
-    .metric-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .metric-state {
-      margin-top: 10px;
-      font-size: 0.95rem;
-      color: #d8ccb4;
-    }
-
-    .metric.diff.ok strong,
-    .metric.diff.ok .metric-state {
-      color: var(--ok);
-    }
-
-    .metric.diff.bad strong,
-    .metric.diff.bad .metric-state {
-      color: var(--danger);
-    }
-
-    .actions-row {
-      grid-template-columns: repeat(4, max-content);
-      align-items: center;
-      justify-content: start;
-      margin-top: 20px;
-      gap: 10px;
-    }
-
-    button {
-      border: 0;
-      border-radius: 16px;
-      padding: 13px 18px;
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 10px 14px;
       cursor: pointer;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.01em;
-      transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+      transition: transform 0.13s ease, opacity 0.13s ease, box-shadow 0.13s ease;
     }
 
-    button:hover:not(:disabled) {
+    .btn:hover:not(:disabled) {
       transform: translateY(-1px);
     }
 
     .btn-primary {
-      color: #19120a;
       background: linear-gradient(135deg, var(--gold-soft), var(--gold));
-      box-shadow: 0 14px 28px rgba(214, 180, 93, 0.22);
+      color: #211a10;
+      box-shadow: 0 10px 18px rgba(204, 172, 93, 0.22);
     }
 
-    .btn-secondary {
+    .btn-muted {
+      background: #20222a;
+      border-color: #343741;
       color: var(--text);
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .btn-ghost {
-      color: #f0e6cf;
-      background: rgba(214, 180, 93, 0.08);
-      border: 1px solid rgba(214, 180, 93, 0.22);
+    .btn-danger {
+      background: rgba(224, 107, 107, 0.12);
+      border-color: rgba(224, 107, 107, 0.45);
+      color: #ffd5d5;
     }
 
-    .btn-inline {
-      padding: 9px 12px;
+    .error {
+      display: none;
+      margin-top: 10px;
       border-radius: 12px;
+      padding: 10px 12px;
+      border: 1px solid rgba(224, 107, 107, 0.45);
+      background: rgba(224, 107, 107, 0.12);
+      color: #ffe3e3;
       font-size: 0.9rem;
     }
 
-    .toolbar {
-      grid-template-columns: minmax(220px, 260px) repeat(3, max-content);
-      align-items: end;
-      margin-bottom: 18px;
-    }
-
-    .error-box,
-    .info-box {
-      display: none;
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      line-height: 1.55;
-      font-size: 0.95rem;
-    }
-
-    .error-box.show,
-    .info-box.show {
+    .error.show {
       display: block;
     }
 
-    .error-box {
-      color: #fde2e2;
-      background: rgba(248, 113, 113, 0.12);
-      border: 1px solid rgba(248, 113, 113, 0.24);
+    .workspace-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: minmax(0, 1.07fr) minmax(340px, 0.93fr);
+      align-items: start;
     }
 
-    .info-box {
-      color: #f3e6c0;
-      background: rgba(214, 180, 93, 0.09);
-      border: 1px solid rgba(214, 180, 93, 0.22);
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat {
+      border: 1px solid #30323b;
+      border-radius: 14px;
+      background: #1a1c23;
+      padding: 11px;
+    }
+
+    .stat small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .stat strong {
+      font-size: clamp(1.08rem, 1.8vw, 1.5rem);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .last-close {
+      border: 1px solid #30323b;
+      border-radius: 14px;
+      background: #1a1c23;
+      padding: 11px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #d7d0c2;
+      display: grid;
+      gap: 4px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      font-size: 1.3rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      gap: 9px;
+    }
+
+    .metric {
+      border: 1px solid #30323b;
+      border-radius: 14px;
+      background: #1a1c23;
+      padding: 12px;
+    }
+
+    .metric small {
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .metric strong {
+      font-size: clamp(1.25rem, 2vw, 1.7rem);
+      font-weight: 700;
+    }
+
+    .metric.diff.ok strong {
+      color: var(--ok);
+    }
+
+    .metric.diff.bad strong {
+      color: var(--danger);
+    }
+
+    .metric-state {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) repeat(3, max-content);
+      gap: 8px;
+      align-items: end;
+      margin-bottom: 12px;
     }
 
     .table-wrap {
       overflow-x: auto;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 22px;
-      background: rgba(7, 6, 10, 0.5);
+      border: 1px solid #30323b;
+      border-radius: 16px;
+      background: #17191f;
     }
 
     table {
       width: 100%;
-      min-width: 1380px;
+      min-width: 1420px;
       border-collapse: collapse;
     }
 
     th,
     td {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 13px 12px;
+      border-bottom: 1px solid #2b2d35;
+      padding: 11px 10px;
       text-align: left;
       vertical-align: top;
-      font-size: 0.94rem;
+      font-size: 0.88rem;
     }
 
     th {
       position: sticky;
       top: 0;
       z-index: 1;
-      background: rgba(22, 18, 27, 0.98);
+      background: #1e2028;
       color: var(--gold-soft);
-      font-size: 0.8rem;
+      font-size: 0.74rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
     }
 
-    td.num,
+    .num,
     th.num {
       text-align: right;
       white-space: nowrap;
-    }
-
-    td.meta {
-      min-width: 200px;
-      color: #d8ccb4;
-      font-size: 0.86rem;
-      line-height: 1.55;
-    }
-
-    td.note-cell {
-      min-width: 220px;
-      line-height: 1.55;
-      color: #e7dcc4;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 88px;
-      padding: 6px 10px;
+      min-width: 84px;
       border-radius: 999px;
-      font-size: 0.78rem;
+      padding: 4px 9px;
+      font-size: 0.74rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.08em;
     }
 
     .badge.ok {
-      color: #d2f9e9;
-      border: 1px solid rgba(52, 211, 153, 0.28);
-      background: rgba(52, 211, 153, 0.12);
+      color: #c8f6e4;
+      background: rgba(52, 195, 143, 0.16);
+      border: 1px solid rgba(52, 195, 143, 0.42);
     }
 
     .badge.bad {
-      color: #ffd3d3;
-      border: 1px solid rgba(248, 113, 113, 0.28);
-      background: rgba(248, 113, 113, 0.12);
+      color: #ffd7d7;
+      background: rgba(224, 107, 107, 0.15);
+      border: 1px solid rgba(224, 107, 107, 0.42);
     }
 
-    .muted {
+    .summary-line {
+      margin-top: 10px;
+      font-size: 0.86rem;
       color: var(--muted);
     }
 
-    .small-note {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-
-    .empty-state {
-      padding: 28px 20px;
+    .empty {
       text-align: center;
       color: var(--muted);
+      padding: 22px;
     }
 
     .hidden {
       display: none !important;
     }
 
-    .print-title {
+    .print-only {
       display: none;
     }
 
-    @media (max-width: 1120px) {
-      .status-row,
-      .summary-grid,
+    @media (max-width: 1100px) {
       .workspace-grid,
+      .stats-grid,
       .toolbar,
-      .login-grid,
-      .actions-row,
-      .form-grid {
+      .grid-2 {
         grid-template-columns: 1fr;
       }
 
-      .actions-row {
-        justify-content: stretch;
+      .topbar {
+        grid-template-columns: 1fr;
       }
 
-      .actions-row button,
-      .toolbar button {
+      .top-actions {
+        justify-content: start;
+      }
+
+      .toolbar .btn {
         width: 100%;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .app-shell {
-        width: min(100%, calc(100% - 18px));
-        padding: 12px 0 28px;
-      }
-
-      .hero,
-      .login-panel,
-      .workspace-panel,
-      .table-panel,
-      .viewer-panel {
-        padding: 18px;
-      }
-
-      .form-card,
-      .metrics-card,
-      .summary-card {
-        padding: 16px;
-      }
-
-      .metric-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
       }
     }
 
     @media print {
       body {
-        background: #ffffff;
-        color: #000000;
+        background: #fff;
+        color: #000;
       }
 
-      body::before,
-      .hero,
-      .login-panel,
-      .form-section,
-      .actions-row,
+      .topbar,
+      .login-card,
+      .workspace,
       .toolbar,
-      .viewer-panel,
-      #firebaseHint,
-      .table-actions {
+      .table-actions,
+      #viewerOnlyHint {
         display: none !important;
       }
 
-      .app-shell {
-        width: 100%;
-        padding: 0;
-      }
-
-      .panel,
-      .summary-card,
-      .form-card,
-      .metrics-card,
-      .table-wrap {
-        background: #ffffff !important;
-        color: #000000 !important;
-        box-shadow: none !important;
+      .card,
+      .table-wrap,
+      .stat {
+        background: #fff !important;
         border-color: #d6d6d6 !important;
+        box-shadow: none !important;
+        color: #000 !important;
       }
 
-      .print-title {
+      .print-only {
         display: block;
-        margin: 0 0 18px;
-        font-size: 1.6rem;
-      }
-
-      table {
-        min-width: 0;
+        margin: 0 0 12px;
+        font-size: 1.5rem;
       }
 
       th,
-      td,
-      .note-cell,
-      .meta,
-      .summary-card span,
-      .summary-card small,
-      .muted {
-        color: #000000 !important;
-        border-color: #d6d6d6 !important;
+      td {
+        color: #000 !important;
+        border-color: #ddd !important;
       }
     }
   </style>
 </head>
 <body>
-  <main class="app-shell stack">
-    <section class="panel hero">
-      <p class="eyebrow">Salon Karola · Lotto-Kasse</p>
-      <h1>Lotto-Kasse Salon Karola</h1>
-      <p>
-        Digitale Tagesabschlüsse mit Online-Speicherung über Firebase. Der Salon kann erfassen und bearbeiten,
-        der Steuerberater sieht dieselben Daten mit eigenem Login auf dem Laptop und kann exportieren oder drucken.
-      </p>
-      <div class="status-row">
-        <div class="pill" id="firebaseStatus">System wird geprüft</div>
-        <div class="pill" id="authStatus">Nicht angemeldet</div>
-        <div class="pill" id="roleStatus">Rolle: —</div>
-        <div class="pill" id="monthStatus">Monat: —</div>
+  <main class="app">
+    <header class="card topbar">
+      <div class="brand">
+        <small>Salon Karola · Lotto-Kasse</small>
+        <h1>Lotto-Kasse Salon Karola</h1>
+      </div>
+      <div class="top-actions" id="topActions">
+        <span class="chip hidden" id="connectionChip">Verbindung konnte nicht hergestellt werden.</span>
+        <span class="chip hidden" id="userChip">Angemeldet als <strong id="userEmail">-</strong></span>
+        <span class="chip hidden" id="roleChip">Rolle <strong id="roleLabel">-</strong></span>
+        <button type="button" class="btn btn-muted hidden" id="logoutButton">Ausloggen</button>
+      </div>
+    </header>
+
+    <section class="card login-card" id="loginCard">
+      <div class="login-wrap">
+        <h2 class="login-title">Login</h2>
+        <p class="login-subtitle">Digitaler Tagesabschluss</p>
+        <form id="loginForm" class="grid-2" novalidate>
+          <label>
+            E-Mail
+            <input type="email" id="email" autocomplete="email" required placeholder="name@beispiel.de" />
+          </label>
+          <label>
+            Passwort
+            <input type="password" id="password" autocomplete="current-password" required placeholder="Passwort" />
+          </label>
+          <div class="full">
+            <button type="submit" class="btn btn-primary">Einloggen</button>
+          </div>
+        </form>
+        <div class="error" id="loginError"></div>
       </div>
     </section>
 
-    <section class="panel login-panel" id="loginPanel">
-      <h2 class="panel-title">Login</h2>
-      <p class="panel-subtitle">Digitaler Tagesabschluss für Salon und Steuerberater-Zugang.</p>
-      <form id="loginForm" class="login-grid">
-        <label>
-          E-Mail
-          <input id="email" type="email" autocomplete="email" required placeholder="name@beispiel.de" />
-        </label>
-        <label>
-          Passwort
-          <input id="password" type="password" autocomplete="current-password" required placeholder="Passwort" />
-        </label>
-        <div>
-          <button class="btn-primary" type="submit">Einloggen</button>
-        </div>
-      </form>
-      <div class="error-box" id="loginError"></div>
-      <div class="info-box" id="firebaseHint"></div>
-    </section>
-
-    <section class="panel workspace-panel hidden" id="workspacePanel">
-      <div class="workspace-grid">
-        <div class="stack form-section" id="formSection">
-          <div class="form-card">
-            <h2 class="panel-title">Tagesabschluss erfassen</h2>
-            <p class="panel-subtitle">
-              Ein Datum darf nur einmal vorhanden sein. Bestehende Tage können vom Admin gezielt bearbeitet oder bewusst überschrieben werden.
-            </p>
-            <form id="cashForm" class="form-grid" novalidate>
-              <label>
-                Datum
-                <input id="date" type="date" required />
-              </label>
-              <label>
-                Wechselgeld Anfang
-                <input id="startCash" type="text" inputmode="decimal" placeholder="300,00" required />
-              </label>
-              <label>
-                Tagesabschluss gesamt
-                <input id="dailyTotal" type="text" inputmode="decimal" placeholder="1245,80" required />
-              </label>
-              <label>
-                EC-Zahlungen
-                <input id="cardPayments" type="text" inputmode="decimal" placeholder="245,80" required />
-              </label>
-              <label>
-                Abschöpfung
-                <input id="skimming" type="text" inputmode="decimal" placeholder="1000,00" required />
-              </label>
-              <label>
-                Wechselgeld Ende gezählt
-                <input id="endCashCounted" type="text" inputmode="decimal" placeholder="300,00" required />
-              </label>
-              <label class="full">
-                Bemerkung
-                <textarea id="note" placeholder="Optional, z. B. Besonderheit, Korrekturhinweis oder kurze Erklärung"></textarea>
-              </label>
-              <div class="full actions-row">
-                <button class="btn-primary" type="submit" id="saveButton">Tagesabschluss speichern</button>
-                <button class="btn-secondary" type="button" id="resetButton">Formular leeren</button>
-                <button class="btn-ghost hidden" type="button" id="cancelEditButton">Bearbeiten abbrechen</button>
-              </div>
-            </form>
-            <div class="error-box" id="formError"></div>
-            <div class="small-note">
-              Berechnung: Bar-Anteil = Tagesabschluss gesamt - EC-Zahlungen. Wechselgeld Ende Soll = Wechselgeld Anfang + Bar-Anteil - Abschöpfung.
-            </div>
+    <section class="card workspace hidden" id="workspaceCard">
+      <h2 class="print-only">Lotto-Kasse Salon Karola</h2>
+      <div class="stats-grid" id="kpiGrid">
+        <article class="stat">
+          <small>Tagesabschluss gesamt</small>
+          <strong id="sumDailyTotal">0,00 €</strong>
+        </article>
+        <article class="stat">
+          <small>EC-Zahlungen</small>
+          <strong id="sumCardPayments">0,00 €</strong>
+        </article>
+        <article class="stat">
+          <small>Bar-Anteil</small>
+          <strong id="sumCashShare">0,00 €</strong>
+        </article>
+        <article class="stat">
+          <small>Abschöpfung</small>
+          <strong id="sumSkimming">0,00 €</strong>
+        </article>
+        <article class="stat">
+          <small>Tage mit Differenz</small>
+          <strong id="sumDiffCount">0</strong>
+        </article>
+      </div>
+      <div class="last-close" id="lastCloseBox">
+        <div>Letzter Abschluss: <strong id="lastCloseDate">-</strong></div>
+        <div>Letzte Differenz: <strong id="lastCloseDiff">0,00 €</strong></div>
+        <div>Zuletzt bearbeitet von: <strong id="lastCloseBy">-</strong></div>
+      </div>
+      <div class="workspace-grid" style="margin-top: 12px;">
+        <section id="formSection">
+          <div class="section-head">
+            <h2>Tagesabschluss</h2>
           </div>
-        </div>
-
-        <div class="stack">
-          <div class="metrics-card">
-            <h2 class="panel-title">Live-Kontrolle</h2>
-            <div class="live-grid">
-              <article class="metric">
-                <small>Bar-Anteil</small>
-                <div class="metric-row">
-                  <strong id="cashShare">0,00 €</strong>
-                </div>
-              </article>
-
-              <article class="metric">
-                <small>Wechselgeld Ende Soll</small>
-                <div class="metric-row">
-                  <strong id="endExpected">0,00 €</strong>
-                </div>
-              </article>
-
-              <article class="metric diff ok" id="diffMetric">
-                <small>Differenz</small>
-                <div class="metric-row">
-                  <strong id="difference">0,00 €</strong>
-                </div>
-                <div class="metric-state" id="differenceState">OK</div>
-              </article>
+          <form id="cashForm" class="grid-2" novalidate>
+            <label>
+              Datum
+              <input type="date" id="date" required />
+            </label>
+            <label>
+              Wechselgeld Anfang
+              <input type="text" id="startCash" inputmode="decimal" placeholder="300,00" required />
+            </label>
+            <label>
+              Tagesabschluss gesamt
+              <input type="text" id="dailyTotal" inputmode="decimal" placeholder="1245,80" required />
+            </label>
+            <label>
+              EC-Zahlungen
+              <input type="text" id="cardPayments" inputmode="decimal" placeholder="245,80" required />
+            </label>
+            <label>
+              Abschöpfung
+              <input type="text" id="skimming" inputmode="decimal" placeholder="1000,00" required />
+            </label>
+            <label>
+              Wechselgeld Ende gezählt
+              <input type="text" id="endCashCounted" inputmode="decimal" placeholder="300,00" required />
+            </label>
+            <label class="full">
+              Bemerkung
+              <textarea id="note" placeholder="Optional"></textarea>
+            </label>
+            <div class="full" style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="submit" class="btn btn-primary" id="saveButton">Speichern</button>
+              <button type="button" class="btn btn-muted" id="resetButton">Zurücksetzen</button>
+              <button type="button" class="btn btn-muted hidden" id="cancelEditButton">Bearbeiten abbrechen</button>
             </div>
+          </form>
+          <div class="error" id="formError"></div>
+        </section>
 
-            <div class="actions-row">
-              <button class="btn-secondary" type="button" id="printButton">Druckansicht / PDF</button>
-              <button class="btn-secondary" type="button" id="csvButton">CSV exportieren</button>
-              <button class="btn-secondary" type="button" id="logoutButton">Ausloggen</button>
-            </div>
+        <section>
+          <div class="section-head">
+            <h2>Live-Kontrolle</h2>
           </div>
-
-          <div class="summary-grid" id="summaryGrid">
-            <article class="summary-card">
-              <small>Tagesabschluss gesamt</small>
-              <strong id="sumDailyTotal">0,00 €</strong>
-              <span>Summe aller angezeigten Tage</span>
-            </article>
-            <article class="summary-card">
-              <small>EC-Zahlungen</small>
-              <strong id="sumCardPayments">0,00 €</strong>
-              <span>Monats- oder Gesamtansicht</span>
-            </article>
-            <article class="summary-card">
+          <div class="metrics-grid">
+            <article class="metric">
               <small>Bar-Anteil</small>
-              <strong id="sumCashShare">0,00 €</strong>
-              <span>Automatisch aus den Abschlüssen</span>
+              <strong id="cashShare">0,00 €</strong>
             </article>
-            <article class="summary-card">
-              <small>Abschöpfung</small>
-              <strong id="sumSkimming">0,00 €</strong>
-              <span>Über alle angezeigten Tage</span>
+            <article class="metric">
+              <small>Wechselgeld Ende Soll</small>
+              <strong id="endExpected">0,00 €</strong>
             </article>
-            <article class="summary-card">
-              <small>Tage mit Differenz</small>
-              <strong id="sumDiffCount">0</strong>
-              <span>Alle Tage mit Abweichung ungleich 0,00 €</span>
+            <article class="metric diff ok" id="diffMetric">
+              <small>Differenz</small>
+              <strong id="difference">0,00 €</strong>
+              <div class="metric-state" id="differenceState">OK</div>
             </article>
           </div>
-        </div>
+          <p class="summary-line hidden" id="viewerOnlyHint">Steuerberater-Zugang: Nur Ansicht</p>
+        </section>
       </div>
     </section>
 
-    <section class="panel viewer-panel hidden" id="viewerPanel">
-      <h2 class="panel-title">Ansicht für Steuerberater</h2>
-      <p class="panel-subtitle">
-        Dieser Zugang ist auf Nur Ansicht beschränkt: lesen, nach Monat filtern, CSV exportieren und Druckansicht nutzen.
-      </p>
-    </section>
-
-    <section class="panel table-panel hidden" id="tablePanel">
-      <h2 class="panel-title">Monatsübersicht</h2>
-      <p class="panel-subtitle">Alle gespeicherten Lotto-Kassentage der Collection <strong>lottoKasse</strong>.</p>
-      <h3 class="print-title">Lotto-Kasse Salon Karola</h3>
-
+    <section class="card workspace hidden" id="tableCard">
+      <div class="section-head">
+        <h2>Monatsübersicht</h2>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="btn btn-muted" id="printButton">Drucken / PDF</button>
+          <button type="button" class="btn btn-muted" id="csvButton">CSV exportieren</button>
+        </div>
+      </div>
       <div class="toolbar">
         <label>
           Monat
-          <input id="monthFilter" type="month" />
+          <input type="month" id="monthFilter" />
         </label>
-        <button class="btn-secondary" type="button" id="clearFilterButton">Alle anzeigen</button>
-        <button class="btn-secondary" type="button" id="currentMonthButton">Aktuellen Monat</button>
-        <button class="btn-secondary" type="button" id="reloadButton">Neu laden</button>
+        <button type="button" class="btn btn-muted" id="currentMonthButton">Aktueller Monat</button>
+        <button type="button" class="btn btn-muted" id="clearFilterButton">Alle Monate</button>
+        <button type="button" class="btn btn-muted" id="reloadButton">Aktualisieren</button>
       </div>
 
       <div class="table-wrap">
@@ -811,15 +662,14 @@
               <th class="num">Differenz</th>
               <th>Status</th>
               <th>Bemerkung</th>
-              <th>Erstellt / bearbeitet</th>
+              <th>Bearbeitet</th>
               <th class="table-actions">Aktion</th>
             </tr>
           </thead>
           <tbody id="entriesBody"></tbody>
         </table>
       </div>
-
-      <div class="small-note" id="tableSummary"></div>
+      <div class="summary-line" id="tableSummary"></div>
     </section>
   </main>
 
@@ -833,6 +683,7 @@
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import {
       collection,
+      deleteDoc,
       doc,
       getDoc,
       getFirestore,
@@ -858,34 +709,23 @@
     const DATE_TIME_LABEL = new Intl.DateTimeFormat("de-DE", { dateStyle: "short", timeStyle: "short" });
 
     const ui = {
-      firebaseStatus: document.getElementById("firebaseStatus"),
-      authStatus: document.getElementById("authStatus"),
-      roleStatus: document.getElementById("roleStatus"),
-      monthStatus: document.getElementById("monthStatus"),
-      loginPanel: document.getElementById("loginPanel"),
+      loginCard: document.getElementById("loginCard"),
+      workspaceCard: document.getElementById("workspaceCard"),
+      tableCard: document.getElementById("tableCard"),
       loginForm: document.getElementById("loginForm"),
       email: document.getElementById("email"),
       password: document.getElementById("password"),
       loginError: document.getElementById("loginError"),
-      firebaseHint: document.getElementById("firebaseHint"),
-      workspacePanel: document.getElementById("workspacePanel"),
-      viewerPanel: document.getElementById("viewerPanel"),
-      tablePanel: document.getElementById("tablePanel"),
+      formError: document.getElementById("formError"),
+      userChip: document.getElementById("userChip"),
+      roleChip: document.getElementById("roleChip"),
+      userEmail: document.getElementById("userEmail"),
+      roleLabel: document.getElementById("roleLabel"),
+      connectionChip: document.getElementById("connectionChip"),
+      logoutButton: document.getElementById("logoutButton"),
+      viewerOnlyHint: document.getElementById("viewerOnlyHint"),
       formSection: document.getElementById("formSection"),
       cashForm: document.getElementById("cashForm"),
-      formError: document.getElementById("formError"),
-      saveButton: document.getElementById("saveButton"),
-      resetButton: document.getElementById("resetButton"),
-      cancelEditButton: document.getElementById("cancelEditButton"),
-      logoutButton: document.getElementById("logoutButton"),
-      printButton: document.getElementById("printButton"),
-      csvButton: document.getElementById("csvButton"),
-      reloadButton: document.getElementById("reloadButton"),
-      monthFilter: document.getElementById("monthFilter"),
-      clearFilterButton: document.getElementById("clearFilterButton"),
-      currentMonthButton: document.getElementById("currentMonthButton"),
-      entriesBody: document.getElementById("entriesBody"),
-      tableSummary: document.getElementById("tableSummary"),
       date: document.getElementById("date"),
       startCash: document.getElementById("startCash"),
       dailyTotal: document.getElementById("dailyTotal"),
@@ -893,16 +733,30 @@
       skimming: document.getElementById("skimming"),
       endCashCounted: document.getElementById("endCashCounted"),
       note: document.getElementById("note"),
+      saveButton: document.getElementById("saveButton"),
+      resetButton: document.getElementById("resetButton"),
+      cancelEditButton: document.getElementById("cancelEditButton"),
       cashShare: document.getElementById("cashShare"),
       endExpected: document.getElementById("endExpected"),
       difference: document.getElementById("difference"),
       differenceState: document.getElementById("differenceState"),
       diffMetric: document.getElementById("diffMetric"),
+      entriesBody: document.getElementById("entriesBody"),
+      tableSummary: document.getElementById("tableSummary"),
+      monthFilter: document.getElementById("monthFilter"),
+      currentMonthButton: document.getElementById("currentMonthButton"),
+      clearFilterButton: document.getElementById("clearFilterButton"),
+      reloadButton: document.getElementById("reloadButton"),
+      csvButton: document.getElementById("csvButton"),
+      printButton: document.getElementById("printButton"),
       sumDailyTotal: document.getElementById("sumDailyTotal"),
       sumCardPayments: document.getElementById("sumCardPayments"),
       sumCashShare: document.getElementById("sumCashShare"),
       sumSkimming: document.getElementById("sumSkimming"),
-      sumDiffCount: document.getElementById("sumDiffCount")
+      sumDiffCount: document.getElementById("sumDiffCount"),
+      lastCloseDate: document.getElementById("lastCloseDate"),
+      lastCloseDiff: document.getElementById("lastCloseDiff"),
+      lastCloseBy: document.getElementById("lastCloseBy")
     };
 
     const state = {
@@ -923,16 +777,11 @@
       state.configReady = isFirebaseConfigured();
       ui.date.value = todayIso();
       ui.monthFilter.value = currentMonthIso();
-      updateMonthStatus();
       calculateLive();
       bindEvents();
 
       if (!state.configReady) {
-        setPill(ui.firebaseStatus, "Firebase-Konfiguration fehlt", "warn");
-        showInfo(
-          ui.firebaseHint,
-          "Bitte zuerst die echte Firebase-Konfiguration in der Datei eintragen. Solange die Platzhalter stehen, bleibt die App im Login-Bereich."
-        );
+        showError(ui.loginError, "Verbindung konnte nicht hergestellt werden.");
         return;
       }
 
@@ -940,12 +789,13 @@
         state.app = initializeApp(firebaseConfig);
         state.auth = getAuth(state.app);
         state.db = getFirestore(state.app);
-        setPill(ui.firebaseStatus, "Firebase verbunden", "ok");
-        startAuthObserver();
-      } catch (error) {
-        setPill(ui.firebaseStatus, "Firebase-Fehler", "danger");
-        showInfo(ui.firebaseHint, "Firebase konnte nicht initialisiert werden: " + cleanFirebaseError(error));
+      } catch {
+        showError(ui.loginError, "Verbindung konnte nicht hergestellt werden.");
+        return;
       }
+
+      watchConnectivity();
+      startAuthObserver();
     }
 
     function bindEvents() {
@@ -954,28 +804,35 @@
       ui.cashForm.addEventListener("submit", handleSave);
       ui.resetButton.addEventListener("click", resetForm);
       ui.cancelEditButton.addEventListener("click", cancelEditMode);
-      ui.printButton.addEventListener("click", () => window.print());
-      ui.csvButton.addEventListener("click", exportCsv);
-      ui.reloadButton.addEventListener("click", renderEntries);
-      ui.monthFilter.addEventListener("change", () => {
-        updateMonthStatus();
+      ui.monthFilter.addEventListener("change", renderEntries);
+      ui.currentMonthButton.addEventListener("click", () => {
+        ui.monthFilter.value = currentMonthIso();
         renderEntries();
       });
       ui.clearFilterButton.addEventListener("click", () => {
         ui.monthFilter.value = "";
-        updateMonthStatus();
         renderEntries();
       });
-      ui.currentMonthButton.addEventListener("click", () => {
-        ui.monthFilter.value = currentMonthIso();
-        updateMonthStatus();
-        renderEntries();
-      });
+      ui.reloadButton.addEventListener("click", renderEntries);
+      ui.csvButton.addEventListener("click", exportCsv);
+      ui.printButton.addEventListener("click", () => window.print());
 
       [ui.startCash, ui.dailyTotal, ui.cardPayments, ui.skimming, ui.endCashCounted].forEach((input) => {
         input.addEventListener("input", calculateLive);
         input.addEventListener("blur", normalizeMoneyInput);
       });
+    }
+
+    function watchConnectivity() {
+      const sync = () => {
+        const offline = !navigator.onLine;
+        ui.connectionChip.classList.toggle("hidden", !offline);
+        ui.connectionChip.classList.toggle("alert", offline);
+        ui.connectionChip.textContent = "Verbindung konnte nicht hergestellt werden.";
+      };
+      window.addEventListener("online", sync);
+      window.addEventListener("offline", sync);
+      sync();
     }
 
     function isFirebaseConfigured() {
@@ -985,36 +842,39 @@
     function startAuthObserver() {
       onAuthStateChanged(state.auth, async (user) => {
         state.user = user;
+        hideError(ui.loginError);
 
         if (!user) {
           state.role = null;
           state.entries = [];
           state.editingId = null;
-          setPill(ui.authStatus, "Nicht angemeldet");
-          setPill(ui.roleStatus, "Rolle: —");
-          ui.loginPanel.classList.remove("hidden");
-          ui.workspacePanel.classList.add("hidden");
-          ui.viewerPanel.classList.add("hidden");
-          ui.tablePanel.classList.add("hidden");
-          ui.entriesBody.innerHTML = "";
-          ui.tableSummary.textContent = "";
+          ui.loginCard.classList.remove("hidden");
+          ui.workspaceCard.classList.add("hidden");
+          ui.tableCard.classList.add("hidden");
+          ui.userChip.classList.add("hidden");
+          ui.roleChip.classList.add("hidden");
+          ui.logoutButton.classList.add("hidden");
+          ui.viewerOnlyHint.classList.add("hidden");
           if (state.unsubscribeEntries) {
             state.unsubscribeEntries();
             state.unsubscribeEntries = null;
           }
+          clearTable();
+          resetSummary();
           return;
         }
 
-        hideBox(ui.loginError);
-        setPill(ui.authStatus, "Angemeldet als " + user.email, "ok");
+        ui.userEmail.textContent = user.email || "-";
+        ui.userChip.classList.remove("hidden");
+        ui.roleChip.classList.remove("hidden");
+        ui.logoutButton.classList.remove("hidden");
+        ui.loginCard.classList.add("hidden");
+        ui.workspaceCard.classList.remove("hidden");
+        ui.tableCard.classList.remove("hidden");
 
         state.role = await loadRole(user.uid);
-        setPill(ui.roleStatus, "Rolle: " + roleLabel(state.role), state.role === "admin" ? "ok" : "warn");
-
-        ui.loginPanel.classList.add("hidden");
-        ui.workspacePanel.classList.remove("hidden");
-        ui.tablePanel.classList.remove("hidden");
-        ui.viewerPanel.classList.toggle("hidden", state.role === "admin");
+        ui.roleLabel.textContent = state.role === "admin" ? "Admin" : "Steuerberater";
+        ui.viewerOnlyHint.classList.toggle("hidden", state.role === "admin");
         ui.formSection.classList.toggle("hidden", state.role !== "admin");
 
         if (state.role !== "admin") {
@@ -1027,37 +887,27 @@
 
     async function handleLogin(event) {
       event.preventDefault();
-      hideBox(ui.loginError);
-
-      if (!state.configReady) {
-        showError(ui.loginError, "Firebase ist noch nicht konfiguriert.");
-        return;
-      }
-
+      hideError(ui.loginError);
       try {
         await signInWithEmailAndPassword(state.auth, ui.email.value.trim(), ui.password.value);
         ui.password.value = "";
-      } catch (error) {
-        showError(ui.loginError, "Login fehlgeschlagen: " + cleanFirebaseError(error));
+      } catch {
+        showError(ui.loginError, "Anmeldung fehlgeschlagen.");
       }
     }
 
     async function handleLogout() {
       try {
         await signOut(state.auth);
-        ui.cashForm.reset();
-        ui.date.value = todayIso();
-        calculateLive();
-      } catch (error) {
-        showError(ui.loginError, "Ausloggen fehlgeschlagen: " + cleanFirebaseError(error));
+      } catch {
+        showError(ui.loginError, "Abmeldung fehlgeschlagen.");
       }
     }
 
     async function loadRole(uid) {
       try {
         const snap = await getDoc(doc(state.db, "users", uid));
-        const role = snap.exists() ? snap.data().role : null;
-        return role === "admin" ? "admin" : "viewer";
+        return snap.exists() && snap.data().role === "admin" ? "admin" : "viewer";
       } catch {
         return "viewer";
       }
@@ -1067,26 +917,21 @@
       if (state.unsubscribeEntries) {
         state.unsubscribeEntries();
       }
-
       const q = query(collection(state.db, "lottoKasse"), orderBy("date", "desc"));
-      state.unsubscribeEntries = onSnapshot(
-        q,
-        (snapshot) => {
-          state.entries = snapshot.docs.map((entryDoc) => ({ id: entryDoc.id, ...entryDoc.data() }));
-          renderEntries();
-        },
-        (error) => {
-          showError(ui.formError, "Daten konnten nicht geladen werden: " + cleanFirebaseError(error));
-        }
-      );
+      state.unsubscribeEntries = onSnapshot(q, (snapshot) => {
+        state.entries = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+        renderEntries();
+      }, () => {
+        showError(ui.formError, "Verbindung konnte nicht hergestellt werden.");
+      });
     }
 
     async function handleSave(event) {
       event.preventDefault();
-      hideBox(ui.formError);
+      hideError(ui.formError);
 
       if (state.role !== "admin") {
-        showError(ui.formError, "Dieser Zugang darf keine Daten speichern oder bearbeiten.");
+        showError(ui.formError, "Nur Admin darf speichern.");
         return;
       }
 
@@ -1098,19 +943,16 @@
       try {
         const existingSnap = await getDoc(doc(state.db, "lottoKasse", entry.date));
         const exists = existingSnap.exists();
-        const isNewDateDuringEdit = state.editingId && state.editingId !== entry.date;
+        const changedDateWhileEdit = state.editingId && state.editingId !== entry.date;
 
-        if ((exists && !state.editingId) || (exists && isNewDateDuringEdit)) {
-          const confirmed = window.confirm(
-            "Für dieses Datum existiert bereits ein Tagesabschluss. Möchtest du den vorhandenen Eintrag wirklich aktualisieren?"
-          );
-          if (!confirmed) {
+        if ((exists && !state.editingId) || (exists && changedDateWhileEdit)) {
+          const ok = window.confirm("Für dieses Datum gibt es bereits einen Tagesabschluss. Möchtest du aktualisieren?");
+          if (!ok) {
             return;
           }
         }
 
         const existingData = exists ? existingSnap.data() : null;
-
         const payload = {
           date: entry.date,
           startCashCents: entry.startCashCents,
@@ -1127,18 +969,28 @@
           createdAt: existingData?.createdAt ?? serverTimestamp(),
           createdBy: existingData?.createdBy ?? state.user.email
         };
-
         await setDoc(doc(state.db, "lottoKasse", entry.date), payload);
-
-        if (state.editingId && state.editingId !== entry.date) {
-          showInfo(ui.formError, "Der Eintrag wurde unter dem neuen Datum gespeichert. Falls das alte Datum nicht mehr benötigt wird, kann es später manuell bereinigt werden.");
-        } else {
-          hideBox(ui.formError);
-        }
-
         resetForm();
-      } catch (error) {
-        showError(ui.formError, "Speichern fehlgeschlagen: " + cleanFirebaseError(error));
+      } catch {
+        showError(ui.formError, "Speichern fehlgeschlagen.");
+      }
+    }
+
+    async function handleDelete(id, dateLabel) {
+      if (state.role !== "admin") {
+        return;
+      }
+      const ok = window.confirm(`Eintrag vom ${dateLabel} wirklich entfernen?`);
+      if (!ok) {
+        return;
+      }
+      try {
+        await deleteDoc(doc(state.db, "lottoKasse", id));
+        if (state.editingId === id) {
+          resetForm();
+        }
+      } catch {
+        showError(ui.formError, "Eintrag konnte nicht entfernt werden.");
       }
     }
 
@@ -1155,7 +1007,7 @@
       const skimmingCents = parseMoneyToCents(ui.skimming.value);
       const endCashCountedCents = parseMoneyToCents(ui.endCashCounted.value);
 
-      const rawValues = [
+      const values = [
         ["Wechselgeld Anfang", startCashCents],
         ["Tagesabschluss gesamt", dailyTotalCents],
         ["EC-Zahlungen", cardPaymentsCents],
@@ -1163,19 +1015,19 @@
         ["Wechselgeld Ende gezählt", endCashCountedCents]
       ];
 
-      for (const [label, value] of rawValues) {
-        if (value === null) {
-          showError(ui.formError, label + " ist kein gültiger Euro-Betrag.");
+      for (const [label, amount] of values) {
+        if (amount === null) {
+          showError(ui.formError, `${label}: ungültiger Betrag.`);
           return null;
         }
-        if (value < 0) {
-          showError(ui.formError, label + " darf nicht negativ sein.");
+        if (amount < 0) {
+          showError(ui.formError, `${label}: keine negativen Werte erlaubt.`);
           return null;
         }
       }
 
       if (cardPaymentsCents > dailyTotalCents) {
-        showError(ui.formError, "EC-Zahlungen dürfen nicht höher sein als der Tagesabschluss gesamt.");
+        showError(ui.formError, "EC-Zahlungen dürfen nicht höher als der Tagesabschluss gesamt sein.");
         return null;
       }
 
@@ -1211,11 +1063,9 @@
       ui.cashShare.textContent = formatCents(cashShareCents);
       ui.endExpected.textContent = formatCents(endExpectedCents);
       ui.difference.textContent = formatCents(diffCents);
-
-      const isOk = diffCents === 0;
-      ui.diffMetric.classList.toggle("ok", isOk);
-      ui.diffMetric.classList.toggle("bad", !isOk);
-      ui.differenceState.textContent = isOk ? "OK" : "Prüfen";
+      ui.diffMetric.classList.toggle("ok", diffCents === 0);
+      ui.diffMetric.classList.toggle("bad", diffCents !== 0);
+      ui.differenceState.textContent = diffCents === 0 ? "OK" : "Prüfen";
 
       return { cashShareCents, endExpectedCents, diffCents };
     }
@@ -1225,16 +1075,17 @@
       ui.entriesBody.innerHTML = "";
 
       if (entries.length === 0) {
-        ui.entriesBody.innerHTML = '<tr><td colspan="13" class="empty-state">Keine Einträge für den gewählten Zeitraum vorhanden.</td></tr>';
+        ui.entriesBody.innerHTML = '<tr><td colspan="13" class="empty">Keine Einträge vorhanden.</td></tr>';
         updateSummary([]);
+        updateLastClose(null);
         ui.tableSummary.textContent = "";
         return;
       }
 
       for (const entry of entries) {
-        const row = document.createElement("tr");
         const diffOk = toNumber(entry.diffCents) === 0;
-        row.innerHTML = `
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
           <td>${escapeHtml(formatDate(entry.date))}</td>
           <td class="num">${formatCents(entry.startCashCents)}</td>
           <td class="num">${formatCents(entry.dailyTotalCents)}</td>
@@ -1245,55 +1096,65 @@
           <td class="num">${formatCents(entry.endCashCountedCents)}</td>
           <td class="num">${formatCents(entry.diffCents)}</td>
           <td><span class="badge ${diffOk ? "ok" : "bad"}">${diffOk ? "OK" : "Prüfen"}</span></td>
-          <td class="note-cell">${escapeHtml(entry.note || "") || "—"}</td>
-          <td class="meta">${renderMeta(entry)}</td>
-          <td class="table-actions">${state.role === "admin" ? `<button class="btn-ghost btn-inline" type="button" data-edit-id="${entry.id}">Bearbeiten</button>` : "—"}</td>
+          <td>${escapeHtml(entry.note || "") || "—"}</td>
+          <td>${entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : "—"}<br>${escapeHtml(entry.updatedBy || "—")}</td>
+          <td class="table-actions">${state.role === "admin" ? `<button class="btn btn-muted" type="button" data-edit="${entry.id}">Bearbeiten</button> <button class="btn btn-danger" type="button" data-delete="${entry.id}" data-date="${escapeHtml(formatDate(entry.date))}">Eintrag entfernen</button>` : "—"}</td>
         `;
-        ui.entriesBody.appendChild(row);
+        ui.entriesBody.appendChild(tr);
       }
 
-      ui.entriesBody.querySelectorAll("[data-edit-id]").forEach((button) => {
-        button.addEventListener("click", () => startEdit(button.dataset.editId));
-      });
+      if (state.role === "admin") {
+        ui.entriesBody.querySelectorAll("[data-edit]").forEach((button) => {
+          button.addEventListener("click", () => startEdit(button.getAttribute("data-edit")));
+        });
+        ui.entriesBody.querySelectorAll("[data-delete]").forEach((button) => {
+          button.addEventListener("click", () => handleDelete(button.getAttribute("data-delete"), button.getAttribute("data-date")));
+        });
+      }
 
       updateSummary(entries);
-      ui.tableSummary.textContent = `Angezeigt: ${entries.length} Tag${entries.length === 1 ? "" : "e"}${ui.monthFilter.value ? " im Monat " + monthLabel(ui.monthFilter.value) : " gesamt"}.`;
-    }
-
-    function renderMeta(entry) {
-      const created = entry.createdAt?.toDate ? DATE_TIME_LABEL.format(entry.createdAt.toDate()) : "—";
-      const updated = entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : "—";
-      const createdBy = entry.createdBy ? escapeHtml(entry.createdBy) : "—";
-      const updatedBy = entry.updatedBy ? escapeHtml(entry.updatedBy) : "—";
-
-      return `
-        Erstellt: ${created}<br />
-        Von: ${createdBy}<br />
-        Bearbeitet: ${updated}<br />
-        Von: ${updatedBy}
-      `;
+      updateLastClose([...state.entries].sort((a, b) => String(b.date).localeCompare(String(a.date)))[0] || null);
+      ui.tableSummary.textContent = `${entries.length} Tag${entries.length === 1 ? "" : "e"} angezeigt${ui.monthFilter.value ? " (" + monthLabel(ui.monthFilter.value) + ")" : ""}.`;
     }
 
     function updateSummary(entries) {
-      const totals = entries.reduce(
-        (acc, entry) => {
-          acc.dailyTotal += toNumber(entry.dailyTotalCents);
-          acc.cardPayments += toNumber(entry.cardPaymentsCents);
-          acc.cashShare += toNumber(entry.cashShareCents);
-          acc.skimming += toNumber(entry.skimmingCents);
-          if (toNumber(entry.diffCents) !== 0) {
-            acc.diffCount += 1;
-          }
-          return acc;
-        },
-        { dailyTotal: 0, cardPayments: 0, cashShare: 0, skimming: 0, diffCount: 0 }
-      );
+      const totals = entries.reduce((acc, e) => {
+        acc.dailyTotal += toNumber(e.dailyTotalCents);
+        acc.cardPayments += toNumber(e.cardPaymentsCents);
+        acc.cashShare += toNumber(e.cashShareCents);
+        acc.skimming += toNumber(e.skimmingCents);
+        if (toNumber(e.diffCents) !== 0) {
+          acc.diffCount += 1;
+        }
+        return acc;
+      }, { dailyTotal: 0, cardPayments: 0, cashShare: 0, skimming: 0, diffCount: 0 });
 
       ui.sumDailyTotal.textContent = formatCents(totals.dailyTotal);
       ui.sumCardPayments.textContent = formatCents(totals.cardPayments);
       ui.sumCashShare.textContent = formatCents(totals.cashShare);
       ui.sumSkimming.textContent = formatCents(totals.skimming);
       ui.sumDiffCount.textContent = String(totals.diffCount);
+    }
+
+    function resetSummary() {
+      ui.sumDailyTotal.textContent = "0,00 €";
+      ui.sumCardPayments.textContent = "0,00 €";
+      ui.sumCashShare.textContent = "0,00 €";
+      ui.sumSkimming.textContent = "0,00 €";
+      ui.sumDiffCount.textContent = "0";
+      updateLastClose(null);
+    }
+
+    function updateLastClose(entry) {
+      if (!entry) {
+        ui.lastCloseDate.textContent = "-";
+        ui.lastCloseDiff.textContent = "0,00 €";
+        ui.lastCloseBy.textContent = "-";
+        return;
+      }
+      ui.lastCloseDate.textContent = formatDate(entry.date);
+      ui.lastCloseDiff.textContent = formatCents(entry.diffCents);
+      ui.lastCloseBy.textContent = entry.updatedBy || entry.createdBy || "-";
     }
 
     function getFilteredEntries() {
@@ -1306,11 +1167,10 @@
     }
 
     function startEdit(id) {
-      const entry = state.entries.find((item) => item.id === id);
+      const entry = state.entries.find((x) => x.id === id);
       if (!entry || state.role !== "admin") {
         return;
       }
-
       state.editingId = entry.id;
       ui.date.value = entry.date || todayIso();
       ui.startCash.value = centsToInput(entry.startCashCents);
@@ -1319,16 +1179,16 @@
       ui.skimming.value = centsToInput(entry.skimmingCents);
       ui.endCashCounted.value = centsToInput(entry.endCashCountedCents);
       ui.note.value = entry.note || "";
-      ui.saveButton.textContent = "Tagesabschluss aktualisieren";
+      ui.saveButton.textContent = "Aktualisieren";
       ui.cancelEditButton.classList.remove("hidden");
       calculateLive();
-      hideBox(ui.formError);
+      hideError(ui.formError);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function cancelEditMode() {
       state.editingId = null;
-      ui.saveButton.textContent = "Tagesabschluss speichern";
+      ui.saveButton.textContent = "Speichern";
       ui.cancelEditButton.classList.add("hidden");
     }
 
@@ -1336,8 +1196,13 @@
       ui.cashForm.reset();
       ui.date.value = todayIso();
       cancelEditMode();
-      hideBox(ui.formError);
       calculateLive();
+      hideError(ui.formError);
+    }
+
+    function clearTable() {
+      ui.entriesBody.innerHTML = "";
+      ui.tableSummary.textContent = "";
     }
 
     function exportCsv() {
@@ -1353,10 +1218,8 @@
         "Wechselgeld Ende gezählt",
         "Differenz",
         "Bemerkung",
-        "Erstellt am",
-        "Erstellt von",
-        "Bearbeitet am",
-        "Bearbeitet von"
+        "Bearbeitet von",
+        "Bearbeitet am"
       ];
 
       const csvRows = rows.map((entry) => [
@@ -1370,24 +1233,24 @@
         centsToCsv(entry.endCashCountedCents),
         centsToCsv(entry.diffCents),
         entry.note || "",
-        entry.createdAt?.toDate ? DATE_TIME_LABEL.format(entry.createdAt.toDate()) : "",
-        entry.createdBy || "",
-        entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : "",
-        entry.updatedBy || ""
+        entry.updatedBy || "",
+        entry.updatedAt?.toDate ? DATE_TIME_LABEL.format(entry.updatedAt.toDate()) : ""
       ]);
 
       const csv = [header, ...csvRows]
         .map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(";"))
         .join("\n");
 
+      const month = ui.monthFilter.value || "gesamt";
+      const filename = `lotto-kasse-salon-karola-${month}.csv`;
       const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `lotto-kasse-${ui.monthFilter.value || "gesamt"}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
       URL.revokeObjectURL(url);
     }
 
@@ -1408,7 +1271,6 @@
 
       const sanitized = text.replace(/€/g, "").replace(/\s/g, "");
       let normalized = sanitized;
-
       if (sanitized.includes(",")) {
         normalized = sanitized.replace(/\./g, "").replace(",", ".");
       }
@@ -1421,7 +1283,6 @@
       if (!Number.isFinite(amount)) {
         return null;
       }
-
       return Math.round(amount * 100);
     }
 
@@ -1438,8 +1299,8 @@
     }
 
     function toNumber(value) {
-      const number = Number(value || 0);
-      return Number.isFinite(number) ? number : 0;
+      const n = Number(value || 0);
+      return Number.isFinite(n) ? n : 0;
     }
 
     function todayIso() {
@@ -1456,8 +1317,7 @@
       if (!isoDate) {
         return "";
       }
-      const date = new Date(isoDate + "T12:00:00");
-      return DATE_LABEL.format(date);
+      return DATE_LABEL.format(new Date(isoDate + "T12:00:00"));
     }
 
     function monthLabel(value) {
@@ -1468,40 +1328,14 @@
       return new Intl.DateTimeFormat("de-DE", { month: "long", year: "numeric" }).format(new Date(Number(year), Number(month) - 1, 1));
     }
 
-    function updateMonthStatus() {
-      setPill(ui.monthStatus, "Monat: " + monthLabel(ui.monthFilter.value));
-    }
-
-    function roleLabel(role) {
-      return role === "admin" ? "Admin" : "Steuerberater";
-    }
-
-    function setPill(element, text, tone = "") {
-      element.textContent = text;
-      element.className = "pill" + (tone ? " " + tone : "");
-    }
-
     function showError(element, message) {
       element.textContent = message;
-      element.className = "error-box show";
+      element.classList.add("show");
     }
 
-    function showInfo(element, message) {
-      element.textContent = message;
-      element.className = "info-box show";
-    }
-
-    function hideBox(element) {
+    function hideError(element) {
       element.textContent = "";
       element.classList.remove("show");
-    }
-
-    function cleanFirebaseError(error) {
-      return String(error?.message || error || "Unbekannter Fehler")
-        .replace("Firebase: ", "")
-        .replace(/\(auth\/.*?\)\.?/g, "")
-        .replace(/\(firestore\/.*?\)\.?/g, "")
-        .trim();
     }
 
     function escapeHtml(value) {
@@ -1515,4 +1349,3 @@
   </script>
 </body>
 </html>
-
