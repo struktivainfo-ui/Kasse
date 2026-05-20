@@ -6,393 +6,64 @@
   <title>Lotto-Kasse Salon Karola</title>
   <meta name="theme-color" content="#121217" />
   <style>
-    :root {
-      --bg: #121217;
-      --bg-soft: #181a21;
-      --card: #1e2029;
-      --line: #333847;
-      --txt: #f4efe4;
-      --muted: #beb7a6;
-      --gold: #c7a45b;
-      --gold-soft: #dfc68f;
-      --ok: #33bc89;
-      --bad: #d56a6a;
-      --r: 14px;
-      --shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; min-height: 100%; }
-    body {
-      background: radial-gradient(circle at 12% -15%, #262116 0%, var(--bg) 46%);
-      color: var(--txt);
-      font-family: "Segoe UI", Arial, sans-serif;
-      line-height: 1.32;
-    }
-    h1, h2, h3, th {
-      margin: 0;
-      font-family: Cambria, Georgia, serif;
-      letter-spacing: -0.01em;
-    }
-    .app {
-      width: min(1320px, calc(100% - 20px));
-      margin: 10px auto 20px;
-      display: grid;
-      gap: 10px;
-    }
-    .card {
-      background: linear-gradient(180deg, var(--card), #181a21);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-    }
-    .hidden { display: none !important; }
-
-    .topbar {
-      padding: 10px 12px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 8px;
-    }
-    .brand small {
-      display: block;
-      color: var(--gold-soft);
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 2px;
-    }
-    .brand h1 { font-size: clamp(1.1rem, 1.8vw, 1.45rem); }
-    .top-actions {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .chip {
-      min-height: 30px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #1a1c24;
-      color: var(--muted);
-      padding: 5px 10px;
-      display: inline-flex;
-      align-items: center;
-      font-size: 0.77rem;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .chip strong { color: var(--txt); margin-left: 4px; }
-    .chip.alert {
-      color: #ffe0e0;
-      background: rgba(213, 106, 106, 0.12);
-      border-color: rgba(213, 106, 106, 0.35);
-    }
-
-    .btn {
-      border: 1px solid transparent;
-      border-radius: 10px;
-      padding: 8px 11px;
-      font-weight: 700;
-      font-size: 0.84rem;
-      cursor: pointer;
-      line-height: 1.2;
-    }
-    .btn:disabled { opacity: 0.62; cursor: not-allowed; }
-    .btn:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(199, 164, 91, 0.25);
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold-soft), var(--gold));
-      color: #2a220f;
-    }
-    .btn-muted {
-      background: #232632;
-      border-color: #3a4050;
-      color: var(--txt);
-    }
-    .btn-picker {
-      background: #1f222c;
-      border-color: #42495d;
-      color: var(--gold-soft);
-      white-space: nowrap;
-    }
-    .btn-danger {
-      background: rgba(213, 106, 106, 0.12);
-      border-color: rgba(213, 106, 106, 0.42);
-      color: #ffdede;
-    }
-
-    .login { padding: 14px; }
-    .login-box {
-      max-width: 430px;
-      margin: 0 auto;
-      display: grid;
-      gap: 10px;
-    }
-    .login-sub { margin: 0; color: var(--muted); font-size: 0.9rem; }
-
-    .grid { display: grid; gap: 8px; }
-    .grid-2 { grid-template-columns: 1fr 1fr; }
-
-    label {
-      display: grid;
-      gap: 4px;
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 700;
-    }
-    input, textarea, select {
-      width: 100%;
-      border: 1px solid #3a4050;
-      background: #12141b;
-      color: var(--txt);
-      border-radius: 9px;
-      padding: 9px 10px;
-      font: inherit;
-      font-size: 0.9rem;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 66px;
-      line-height: 1.35;
-    }
-    .stay {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 0.82rem;
-    }
-    .stay input {
-      width: 15px;
-      height: 15px;
-      accent-color: var(--gold);
-      margin: 0;
-    }
-    .picker-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 6px;
-      align-items: center;
-    }
-    .error {
-      display: none;
-      border: 1px solid rgba(213, 106, 106, 0.35);
-      background: rgba(213, 106, 106, 0.12);
-      color: #ffdede;
-      border-radius: 9px;
-      padding: 8px 10px;
-      font-size: 0.84rem;
-    }
-    .error.show { display: block; }
-
-    .splash {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(8, 8, 12, 0.94);
-      backdrop-filter: blur(5px);
-    }
-    .splash-box {
-      width: min(430px, calc(100% - 24px));
-      padding: 16px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      text-align: center;
-      background: linear-gradient(180deg, #242733, #191b24);
-    }
-    .splash-box small {
-      display: block;
-      color: var(--gold-soft);
-      font-size: 0.72rem;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-    .splash-box h2 { font-size: clamp(1.25rem, 2vw, 1.7rem); margin-bottom: 4px; }
-    .splash-box p { margin: 0; color: var(--muted); font-size: 0.9rem; }
-
-    .workspace { padding: 10px; }
-    .stats {
-      display: grid;
-      gap: 7px;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-    }
-    .stat {
-      background: var(--bg-soft);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 8px 9px;
-      min-height: 68px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .stat small {
-      color: var(--muted);
-      font-size: 0.66rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .stat strong { font-size: clamp(0.96rem, 1.4vw, 1.18rem); }
-
-    .layout {
-      margin-top: 8px;
-      display: grid;
-      gap: 9px;
-      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
-      align-items: start;
-    }
-    .head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 7px;
-    }
-    .head h2 { font-size: 1.08rem; }
-
-    .receipt-box {
-      border: 1px solid var(--line);
-      border-radius: 9px;
-      background: #171920;
-      padding: 8px;
-      display: grid;
-      gap: 7px;
-    }
-
-    .metrics { display: grid; gap: 7px; }
-    .metric {
-      background: var(--bg-soft);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 9px;
-    }
-    .metric small {
-      display: block;
-      color: var(--muted);
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-bottom: 3px;
-    }
-    .metric strong { font-size: clamp(1rem, 1.5vw, 1.25rem); }
-    .metric.ok strong { color: var(--ok); }
-    .metric.bad strong { color: var(--bad); }
-    .state { margin-top: 4px; color: var(--muted); font-size: 0.82rem; }
-
-    .last {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--bg-soft);
-      padding: 9px;
-      display: grid;
-      gap: 3px;
-      color: #ddd5c4;
-      font-size: 0.82rem;
-      margin-top: 7px;
-    }
-
-    .table-card { padding: 10px; }
-    .toolbar {
-      display: grid;
-      gap: 6px;
-      grid-template-columns: minmax(180px, 240px) max-content repeat(4, max-content);
-      align-items: end;
-      margin-bottom: 8px;
-    }
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: #191b23;
-    }
-    table { width: 100%; min-width: 1540px; border-collapse: collapse; }
-    th, td {
-      border-bottom: 1px solid #2f3441;
-      padding: 7px 7px;
-      text-align: left;
-      vertical-align: top;
-      font-size: 0.78rem;
-    }
-    th {
-      position: sticky;
-      top: 0;
-      background: #232632;
-      color: var(--gold-soft);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      font-size: 0.64rem;
-      z-index: 1;
-    }
-    .num, th.num { text-align: right; white-space: nowrap; }
-    .badge {
-      display: inline-flex;
-      justify-content: center;
-      min-width: 72px;
-      border-radius: 999px;
-      padding: 3px 7px;
-      font-size: 0.65rem;
-      font-weight: 800;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-    }
-    .badge.ok {
-      color: #cff7e7;
-      border: 1px solid rgba(51, 188, 137, 0.4);
-      background: rgba(51, 188, 137, 0.16);
-    }
-    .badge.bad {
-      color: #ffd8d8;
-      border: 1px solid rgba(213, 106, 106, 0.4);
-      background: rgba(213, 106, 106, 0.15);
-    }
-    .truncate {
-      max-width: 190px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .summary { margin-top: 6px; color: var(--muted); font-size: 0.8rem; }
-    .empty { text-align: center; color: var(--muted); padding: 16px; }
-    .print-only { display: none; }
-
-    @media (max-width: 1100px) {
-      .topbar, .layout, .toolbar, .grid-2 { grid-template-columns: 1fr; }
-      .top-actions { justify-content: flex-start; }
-      .toolbar .btn { width: 100%; }
-      .picker-row { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (max-width: 640px) {
-      .app { width: calc(100% - 14px); margin: 7px auto 14px; gap: 8px; }
-      .topbar { padding: 8px 9px; }
-      .workspace, .table-card, .login { padding: 9px; }
-      .stats { grid-template-columns: 1fr 1fr; }
-      .stat { min-height: 60px; padding: 7px; }
-      .btn { padding: 9px 10px; font-size: 0.82rem; }
-      input, textarea, select { padding: 10px; font-size: 0.89rem; }
-      table { min-width: 1160px; }
-    }
-    @media print {
-      body { background: #fff; color: #000; }
-      .topbar, #loginCard, #formSection, .toolbar, .table-actions, #printButton, #csvButton, #reloadButton, #currentMonthButton, #clearFilterButton, #openMonthPicker, #splash {
-        display: none !important;
-      }
-      .card, .table-wrap, .stat, .last, .metric {
-        background: #fff !important;
-        color: #000 !important;
-        border-color: #ddd !important;
-        box-shadow: none !important;
-      }
-      th, td { color: #000 !important; border-color: #ddd !important; }
-      .print-only { display: block; font-size: 1.2rem; margin-bottom: 8px; }
-    }
+    :root { --bg:#121217;--bg-soft:#181a21;--card:#1e2029;--line:#333847;--txt:#f4efe4;--muted:#beb7a6;--gold:#c7a45b;--gold-soft:#dfc68f;--ok:#33bc89;--bad:#d56a6a;--r:14px;--shadow:0 10px 24px rgba(0,0,0,.28);}
+    *{box-sizing:border-box} html,body{margin:0;padding:0;min-height:100%}
+    body{background:radial-gradient(circle at 12% -15%,#262116 0%,var(--bg) 46%);color:var(--txt);font-family:"Segoe UI",Arial,sans-serif;line-height:1.32}
+    h1,h2,h3,th{margin:0;font-family:Cambria,Georgia,serif;letter-spacing:-.01em}
+    .app{width:min(1320px,calc(100% - 20px));margin:10px auto 20px;display:grid;gap:10px}
+    .card{background:linear-gradient(180deg,var(--card),#181a21);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)} .hidden{display:none!important}
+    .topbar{padding:10px 12px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px}
+    .brand small{display:block;color:var(--gold-soft);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
+    .brand h1{font-size:clamp(1.1rem,1.8vw,1.45rem)}
+    .top-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+    .chip{min-height:30px;border:1px solid var(--line);border-radius:999px;background:#1a1c24;color:var(--muted);padding:5px 10px;display:inline-flex;align-items:center;font-size:.77rem;font-weight:600;white-space:nowrap}
+    .chip strong{color:var(--txt);margin-left:4px}
+    .chip.alert{color:#ffe0e0;background:rgba(213,106,106,.12);border-color:rgba(213,106,106,.35)}
+    .btn{border:1px solid transparent;border-radius:10px;padding:8px 11px;font-weight:700;font-size:.84rem;cursor:pointer;line-height:1.2}
+    .btn:disabled{opacity:.62;cursor:not-allowed}
+    .btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(199,164,91,.25)}
+    .btn-primary{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#2a220f}
+    .btn-muted{background:#232632;border-color:#3a4050;color:var(--txt)}
+    .btn-picker{background:#1f222c;border-color:#42495d;color:var(--gold-soft);white-space:nowrap}
+    .btn-danger{background:rgba(213,106,106,.12);border-color:rgba(213,106,106,.42);color:#ffdede}
+    .login{padding:14px}.login-box{max-width:430px;margin:0 auto;display:grid;gap:10px}.login-sub{margin:0;color:var(--muted);font-size:.9rem}
+    .grid{display:grid;gap:8px}.grid-2{grid-template-columns:1fr 1fr}
+    label{display:grid;gap:4px;color:var(--muted);font-size:.78rem;font-weight:700}
+    input,textarea,select{width:100%;border:1px solid #3a4050;background:#12141b;color:var(--txt);border-radius:9px;padding:9px 10px;font:inherit;font-size:.9rem}
+    textarea{resize:vertical;min-height:66px;line-height:1.35}
+    .stay{display:inline-flex;align-items:center;gap:7px;font-size:.82rem}.stay input{width:15px;height:15px;accent-color:var(--gold);margin:0}
+    .picker-row{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center}
+    .error{display:none;border:1px solid rgba(213,106,106,.35);background:rgba(213,106,106,.12);color:#ffdede;border-radius:9px;padding:8px 10px;font-size:.84rem}
+    .error.show{display:block}
+    .splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:rgba(8,8,12,.94);backdrop-filter:blur(5px)}
+    .splash-box{width:min(430px,calc(100% - 24px));padding:16px;border-radius:12px;border:1px solid var(--line);text-align:center;background:linear-gradient(180deg,#242733,#191b24)}
+    .splash-box small{display:block;color:var(--gold-soft);font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;margin-bottom:5px}
+    .splash-box h2{font-size:clamp(1.25rem,2vw,1.7rem);margin-bottom:4px}.splash-box p{margin:0;color:var(--muted);font-size:.9rem}
+    .workspace{padding:10px}.stats{display:grid;gap:7px;grid-template-columns:repeat(5,minmax(0,1fr))}
+    .stat{background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:8px 9px;min-height:68px;display:flex;flex-direction:column;justify-content:space-between}
+    .stat small{color:var(--muted);font-size:.66rem;text-transform:uppercase;letter-spacing:.08em}.stat strong{font-size:clamp(.96rem,1.4vw,1.18rem)}
+    .layout{margin-top:8px;display:grid;gap:9px;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);align-items:start}
+    .head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}.head h2{font-size:1.08rem}
+    .receipt-box{border:1px solid var(--line);border-radius:9px;background:#171920;padding:8px;display:grid;gap:7px}
+    .metrics{display:grid;gap:7px}.metric{background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:9px}
+    .metric small{display:block;color:var(--muted);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+    .metric strong{font-size:clamp(1rem,1.5vw,1.25rem)} .metric.ok strong{color:var(--ok)} .metric.bad strong{color:var(--bad)}
+    .state{margin-top:4px;color:var(--muted);font-size:.82rem}
+    .last{border:1px solid var(--line);border-radius:10px;background:var(--bg-soft);padding:9px;display:grid;gap:3px;color:#ddd5c4;font-size:.82rem;margin-top:7px}
+    .table-card{padding:10px}.toolbar{display:grid;gap:6px;grid-template-columns:minmax(180px,240px) max-content repeat(4,max-content);align-items:end;margin-bottom:8px}
+    .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:#191b23}
+    table{width:100%;min-width:1540px;border-collapse:collapse}
+    th,td{border-bottom:1px solid #2f3441;padding:7px 7px;text-align:left;vertical-align:top;font-size:.78rem}
+    th{position:sticky;top:0;background:#232632;color:var(--gold-soft);text-transform:uppercase;letter-spacing:.07em;font-size:.64rem;z-index:1}
+    .num,th.num{text-align:right;white-space:nowrap}
+    .badge{display:inline-flex;justify-content:center;min-width:72px;border-radius:999px;padding:3px 7px;font-size:.65rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+    .badge.ok{color:#cff7e7;border:1px solid rgba(51,188,137,.4);background:rgba(51,188,137,.16)}
+    .badge.bad{color:#ffd8d8;border:1px solid rgba(213,106,106,.4);background:rgba(213,106,106,.15)}
+    .truncate{max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .summary{margin-top:6px;color:var(--muted);font-size:.8rem}.empty{text-align:center;color:var(--muted);padding:16px}.print-only{display:none}
+    @media (max-width:1100px){.topbar,.layout,.toolbar,.grid-2{grid-template-columns:1fr}.top-actions{justify-content:flex-start}.toolbar .btn{width:100%}.picker-row{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:640px){.app{width:calc(100% - 14px);margin:7px auto 14px;gap:8px}.topbar{padding:8px 9px}.workspace,.table-card,.login{padding:9px}.stats{grid-template-columns:1fr 1fr}.stat{min-height:60px;padding:7px}.btn{padding:9px 10px;font-size:.82rem}input,textarea,select{padding:10px;font-size:.89rem}table{min-width:1160px}}
+    @media print{body{background:#fff;color:#000}.topbar,#loginCard,#formSection,.toolbar,.table-actions,#printButton,#csvButton,#reloadButton,#currentMonthButton,#clearFilterButton,#openMonthPicker,#splash{display:none!important}.card,.table-wrap,.stat,.last,.metric{background:#fff!important;color:#000!important;border-color:#ddd!important;box-shadow:none!important}th,td{color:#000!important;border-color:#ddd!important}.print-only{display:block;font-size:1.2rem;margin-bottom:8px}}
   </style>
 </head>
 <body>
@@ -404,7 +75,6 @@
         <p id="splashSub">Digitaler Tagesabschluss</p>
       </div>
     </section>
-
     <header class="card topbar">
       <div class="brand">
         <small>Salon Karola · Lotto-Kasse</small>
@@ -417,7 +87,6 @@
         <button id="logoutBtn" type="button" class="btn btn-muted hidden">Ausloggen</button>
       </div>
     </header>
-
     <section id="loginCard" class="card login">
       <div class="login-box">
         <h2>Lotto-Kasse Salon Karola</h2>
@@ -431,10 +100,8 @@
         <div id="loginError" class="error"></div>
       </div>
     </section>
-
     <section id="dashboardCard" class="card workspace hidden">
       <h2 class="print-only">Lotto-Kasse Salon Karola</h2>
-
       <div class="stats">
         <article class="stat"><small>Tagesabschluss gesamt</small><strong id="sumDaily">0,00 €</strong></article>
         <article class="stat"><small>EC-Zahlungen</small><strong id="sumCard">0,00 €</strong></article>
@@ -442,30 +109,20 @@
         <article class="stat"><small>Abschöpfung</small><strong id="sumSkim">0,00 €</strong></article>
         <article class="stat"><small>Tage mit Differenz</small><strong id="sumDiffDays">0</strong></article>
       </div>
-
       <div class="layout">
         <section id="formSection">
           <div class="head"><h2>Tagesabschluss</h2></div>
           <form id="entryForm" class="grid grid-2" novalidate>
-            <label>
-              Datum
-              <div class="picker-row">
-                <input id="date" type="date" required />
-                <button id="openDatePicker" class="btn btn-picker" type="button">Kalender</button>
-              </div>
-            </label>
+            <label>Datum<div class="picker-row"><input id="date" type="date" required /><button id="openDatePicker" class="btn btn-picker" type="button">Kalender</button></div></label>
             <label>Wechselgeld Anfang<input id="startCash" type="text" inputmode="decimal" required /></label>
             <label>Tagesabschluss gesamt<input id="dailyTotal" type="text" inputmode="decimal" required /></label>
             <label>EC-Zahlungen<input id="cardPayments" type="text" inputmode="decimal" required /></label>
             <label>Abschöpfung<input id="skimming" type="text" inputmode="decimal" required /></label>
             <label>Wechselgeld Ende gezählt<input id="endCashCounted" type="text" inputmode="decimal" required /></label>
             <label style="grid-column:1 / -1;">Bemerkung<textarea id="note" placeholder="Optional"></textarea></label>
-            <label style="grid-column:1 / -1;">
-              Beleg-Hinweis
+            <label style="grid-column:1 / -1;">Beleg-Hinweis
               <div class="receipt-box">
-                <label>Beleg vorhanden
-                  <select id="hasReceipt"><option value="false" selected>Nein</option><option value="true">Ja</option></select>
-                </label>
+                <label>Beleg vorhanden<select id="hasReceipt"><option value="false" selected>Nein</option><option value="true">Ja</option></select></label>
                 <label>Belegnummer<input id="receiptNumber" type="text" placeholder="z. B. B-2026-001" /></label>
                 <label>Beleg-Hinweis<textarea id="receiptNote" placeholder="z. B. Beleg liegt im Ordner Mai 2026"></textarea></label>
               </div>
@@ -478,7 +135,6 @@
           </form>
           <div id="formError" class="error"></div>
         </section>
-
         <section>
           <div class="head"><h2>Live-Kontrolle</h2></div>
           <div class="metrics">
@@ -494,7 +150,6 @@
         </section>
       </div>
     </section>
-
     <section id="tableCard" class="card table-card hidden">
       <div class="head">
         <h2>Monatsübersicht</h2>
@@ -526,483 +181,6 @@
       <div id="tableSummary" class="summary"></div>
     </section>
   </main>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-    import {
-      getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
-      setPersistence, browserLocalPersistence, browserSessionPersistence
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-    import {
-      getFirestore, doc, getDoc, setDoc, deleteDoc, collection, query, orderBy, onSnapshot, serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCjVk6GVn7Zttyl3O6G1C85rAHmMhu8XEE",
-      authDomain: "kasse-81337.firebaseapp.com",
-      projectId: "kasse-81337",
-      storageBucket: "kasse-81337.firebasestorage.app",
-      messagingSenderId: "861345289461",
-      appId: "1:861345289461:web:22ec03e33b5fd5e13761bc"
-    };
-
-    const euro = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
-    const dateDE = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
-    const dateTimeDE = new Intl.DateTimeFormat("de-DE", { dateStyle: "short", timeStyle: "short" });
-
-    const ui = {
-      splash: byId("splash"), splashTitle: byId("splashTitle"), splashSub: byId("splashSub"),
-      loginCard: byId("loginCard"), loginForm: byId("loginForm"), email: byId("email"), password: byId("password"), rememberMe: byId("rememberMe"), loginError: byId("loginError"),
-      dashboardCard: byId("dashboardCard"), tableCard: byId("tableCard"), formSection: byId("formSection"), entryForm: byId("entryForm"), formError: byId("formError"),
-      userChip: byId("userChip"), roleChip: byId("roleChip"), userMail: byId("userMail"), roleText: byId("roleText"), logoutBtn: byId("logoutBtn"), connectionChip: byId("connectionChip"),
-      date: byId("date"), openDatePicker: byId("openDatePicker"), startCash: byId("startCash"), dailyTotal: byId("dailyTotal"), cardPayments: byId("cardPayments"), skimming: byId("skimming"), endCashCounted: byId("endCashCounted"),
-      note: byId("note"), hasReceipt: byId("hasReceipt"), receiptNumber: byId("receiptNumber"), receiptNote: byId("receiptNote"),
-      saveBtn: byId("saveBtn"), resetBtn: byId("resetBtn"), cancelEditBtn: byId("cancelEditBtn"),
-      liveCashShare: byId("liveCashShare"), liveEndExpected: byId("liveEndExpected"), liveDiff: byId("liveDiff"), liveDiffMetric: byId("liveDiffMetric"), liveState: byId("liveState"),
-      monthFilter: byId("monthFilter"), openMonthPicker: byId("openMonthPicker"), currentMonthButton: byId("currentMonthButton"), clearFilterButton: byId("clearFilterButton"), reloadButton: byId("reloadButton"),
-      printButton: byId("printButton"), csvButton: byId("csvButton"), entriesBody: byId("entriesBody"), tableSummary: byId("tableSummary"),
-      sumDaily: byId("sumDaily"), sumCard: byId("sumCard"), sumCash: byId("sumCash"), sumSkim: byId("sumSkim"), sumDiffDays: byId("sumDiffDays"),
-      lastDate: byId("lastDate"), lastDiff: byId("lastDiff"), lastBy: byId("lastBy")
-    };
-
-    const state = { auth: null, db: null, user: null, role: null, entries: [], editingId: null, unsub: null, loggingOut: false };
-
-    init();
-
-    function init() {
-      const app = initializeApp(firebaseConfig);
-      state.auth = getAuth(app);
-      state.db = getFirestore(app);
-      ui.monthFilter.value = currentMonthIso();
-      ui.date.value = todayIso();
-      bindEvents();
-      watchConnectivity();
-      watchAuth();
-      calcLive();
-    }
-
-    function bindEvents() {
-      ui.loginForm.addEventListener("submit", onLogin);
-      ui.logoutBtn.addEventListener("click", onLogout);
-      ui.entryForm.addEventListener("submit", onSave);
-      ui.resetBtn.addEventListener("click", resetForm);
-      ui.cancelEditBtn.addEventListener("click", cancelEdit);
-      ui.currentMonthButton.addEventListener("click", () => { ui.monthFilter.value = currentMonthIso(); render(); });
-      ui.clearFilterButton.addEventListener("click", () => { ui.monthFilter.value = ""; render(); });
-      ui.monthFilter.addEventListener("change", render);
-      ui.reloadButton.addEventListener("click", render);
-      ui.printButton.addEventListener("click", () => window.print());
-      ui.csvButton.addEventListener("click", exportCsv);
-      ui.openDatePicker.addEventListener("click", () => openNativePicker(ui.date));
-      ui.openMonthPicker.addEventListener("click", () => openNativePicker(ui.monthFilter));
-      [ui.startCash, ui.dailyTotal, ui.cardPayments, ui.skimming, ui.endCashCounted].forEach((el) => {
-        el.addEventListener("input", calcLive);
-        el.addEventListener("blur", normalizeMoneyInput);
-      });
-    }
-
-    function openNativePicker(input) {
-      if (!input) return;
-      if (typeof input.showPicker === "function") input.showPicker();
-      else { input.focus(); input.click(); }
-    }
-
-    function watchConnectivity() {
-      const sync = () => {
-        const offline = !navigator.onLine;
-        ui.connectionChip.classList.toggle("hidden", !offline);
-        ui.connectionChip.classList.toggle("alert", offline);
-      };
-      window.addEventListener("online", sync);
-      window.addEventListener("offline", sync);
-      sync();
-    }
-
-    function watchAuth() {
-      onAuthStateChanged(state.auth, async (user) => {
-        if (!user) return showLoggedOut();
-        state.user = user;
-        state.role = await loadRole(user.uid);
-        ui.userMail.textContent = user.email || "-";
-        ui.roleText.textContent = state.role === "admin" ? "Admin" : "Steuerberater";
-        ui.userChip.classList.remove("hidden");
-        ui.roleChip.classList.remove("hidden");
-        ui.logoutBtn.classList.remove("hidden");
-        ui.loginCard.classList.add("hidden");
-        ui.dashboardCard.classList.remove("hidden");
-        ui.tableCard.classList.remove("hidden");
-        ui.formSection.classList.toggle("hidden", state.role !== "admin");
-        if (!state.loggingOut) await showSplash(state.role);
-        subscribeEntries();
-      });
-    }
-
-    async function onLogin(event) {
-      event.preventDefault();
-      hideError(ui.loginError);
-      try {
-        await setPersistence(state.auth, ui.rememberMe.checked ? browserLocalPersistence : browserSessionPersistence);
-        await signInWithEmailAndPassword(state.auth, ui.email.value.trim(), ui.password.value);
-        ui.password.value = "";
-      } catch {
-        showError(ui.loginError, navigator.onLine ? "Login fehlgeschlagen. Bitte E-Mail und Passwort prüfen." : "Verbindung konnte nicht hergestellt werden.");
-      }
-    }
-
-    async function onLogout() {
-      try {
-        state.loggingOut = true;
-        await signOut(state.auth);
-      } catch {
-        showError(ui.loginError, "Abmeldung fehlgeschlagen.");
-      }
-    }
-
-    function showLoggedOut() {
-      state.user = null;
-      state.role = null;
-      state.entries = [];
-      state.editingId = null;
-      ui.loginCard.classList.remove("hidden");
-      ui.dashboardCard.classList.add("hidden");
-      ui.tableCard.classList.add("hidden");
-      ui.userChip.classList.add("hidden");
-      ui.roleChip.classList.add("hidden");
-      ui.logoutBtn.classList.add("hidden");
-      clearTable();
-      resetSummary();
-      if (state.unsub) { state.unsub(); state.unsub = null; }
-      state.loggingOut = false;
-    }
-
-    async function showSplash(role) {
-      const h = new Date().getHours();
-      const greeting = h >= 5 && h <= 10 ? "Guten Morgen" : h >= 11 && h <= 17 ? "Guten Tag" : "Guten Abend";
-      const name = role === "admin" ? "Sven" : "Sarah";
-      ui.splashTitle.textContent = `${greeting}, ${name}`;
-      ui.splashSub.textContent = role === "admin" ? "Lotto-Kasse Salon Karola" : "Steuerberater-Zugang";
-      ui.splash.classList.remove("hidden");
-      await wait(1700);
-      ui.splash.classList.add("hidden");
-    }
-
-    async function loadRole(uid) {
-      try {
-        const snap = await getDoc(doc(state.db, "users", uid));
-        return snap.exists() && snap.data().role === "admin" ? "admin" : "viewer";
-      } catch {
-        return "viewer";
-      }
-    }
-
-    function subscribeEntries() {
-      if (state.unsub) state.unsub();
-      const q = query(collection(state.db, "lottoKasse"), orderBy("date", "desc"));
-      state.unsub = onSnapshot(q, (snap) => {
-        state.entries = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        render();
-      }, () => showError(ui.formError, "Verbindung konnte nicht hergestellt werden."));
-    }
-
-    async function onSave(event) {
-      event.preventDefault();
-      hideError(ui.formError);
-      if (state.role !== "admin") return showError(ui.formError, "Nur Admin darf speichern.");
-      const entry = buildEntry();
-      if (!entry) return;
-      try {
-        ui.saveBtn.disabled = true;
-        ui.saveBtn.textContent = "Wird gespeichert…";
-        const ref = doc(state.db, "lottoKasse", entry.date);
-        const existing = await getDoc(ref);
-        const exists = existing.exists();
-        const conflict = (exists && !state.editingId) || (exists && state.editingId && state.editingId !== entry.date);
-        if (conflict) {
-          const ok = window.confirm("Für dieses Datum gibt es bereits einen Tagesabschluss. Möchtest du aktualisieren?");
-          if (!ok) { ui.saveBtn.disabled = false; ui.saveBtn.textContent = "Speichern"; return; }
-        }
-        const old = exists ? existing.data() : null;
-        await setDoc(ref, {
-          date: entry.date,
-          startCash: entry.startCash,
-          dailyTotal: entry.dailyTotal,
-          cardPayments: entry.cardPayments,
-          cashShare: entry.cashShare,
-          skimming: entry.skimming,
-          endExpected: entry.endExpected,
-          endCashCounted: entry.endCashCounted,
-          diff: entry.diff,
-          note: entry.note,
-          hasReceipt: entry.hasReceipt,
-          receiptNumber: entry.receiptNumber,
-          receiptNote: entry.receiptNote,
-          updatedAt: serverTimestamp(),
-          updatedBy: state.user.email || "",
-          createdAt: old?.createdAt ?? serverTimestamp(),
-          createdBy: old?.createdBy ?? (state.user.email || "")
-        });
-        ui.saveBtn.textContent = "Gespeichert";
-        await wait(700);
-        ui.saveBtn.textContent = "Speichern";
-        ui.saveBtn.disabled = false;
-        resetForm();
-      } catch {
-        ui.saveBtn.disabled = false;
-        ui.saveBtn.textContent = "Speichern";
-        showError(ui.formError, "Speichern fehlgeschlagen.");
-      }
-    }
-
-    async function deleteEntry(id, dateLabel) {
-      if (state.role !== "admin") return;
-      if (!window.confirm(`Eintrag vom ${dateLabel} wirklich entfernen?`)) return;
-      try {
-        await deleteDoc(doc(state.db, "lottoKasse", id));
-        if (state.editingId === id) resetForm();
-      } catch {
-        showError(ui.formError, "Eintrag konnte nicht entfernt werden.");
-      }
-    }
-
-    function buildEntry() {
-      const date = ui.date.value;
-      if (!date) return showFormError("Datum ist Pflicht.");
-      const startCash = parseMoney(ui.startCash.value);
-      const dailyTotal = parseMoney(ui.dailyTotal.value);
-      const cardPayments = parseMoney(ui.cardPayments.value);
-      const skimming = parseMoney(ui.skimming.value);
-      const endCashCounted = parseMoney(ui.endCashCounted.value);
-      const checks = [
-        ["Wechselgeld Anfang", startCash], ["Tagesabschluss gesamt", dailyTotal], ["EC-Zahlungen", cardPayments],
-        ["Abschöpfung", skimming], ["Wechselgeld Ende gezählt", endCashCounted]
-      ];
-      for (const [label, value] of checks) {
-        if (value === null) return showFormError(`${label}: ungültiger Betrag.`);
-        if (value < 0) return showFormError(`${label}: keine negativen Werte erlaubt.`);
-      }
-      if (cardPayments > dailyTotal) return showFormError("EC-Zahlungen dürfen nicht höher als der Tagesabschluss gesamt sein.");
-      const cashShare = round2(dailyTotal - cardPayments);
-      const endExpected = round2(startCash + cashShare - skimming);
-      const diff = round2(endCashCounted - endExpected);
-      return {
-        date, startCash, dailyTotal, cardPayments, cashShare, skimming, endExpected, endCashCounted, diff,
-        note: ui.note.value.trim(),
-        hasReceipt: ui.hasReceipt.value === "true",
-        receiptNumber: ui.receiptNumber.value.trim(),
-        receiptNote: ui.receiptNote.value.trim()
-      };
-    }
-
-    function calcLive() {
-      const startCash = parseMoney(ui.startCash.value) ?? 0;
-      const dailyTotal = parseMoney(ui.dailyTotal.value) ?? 0;
-      const cardPayments = parseMoney(ui.cardPayments.value) ?? 0;
-      const skimming = parseMoney(ui.skimming.value) ?? 0;
-      const endCashCounted = parseMoney(ui.endCashCounted.value) ?? 0;
-      const cashShare = round2(dailyTotal - cardPayments);
-      const endExpected = round2(startCash + cashShare - skimming);
-      const diff = round2(endCashCounted - endExpected);
-      ui.liveCashShare.textContent = money(cashShare);
-      ui.liveEndExpected.textContent = money(endExpected);
-      ui.liveDiff.textContent = money(diff);
-      ui.liveDiffMetric.classList.toggle("ok", diff === 0);
-      ui.liveDiffMetric.classList.toggle("bad", diff !== 0);
-      ui.liveState.textContent = diff === 0 ? "OK" : "Prüfen";
-    }
-
-    function render() {
-      const entries = filteredEntries();
-      ui.entriesBody.innerHTML = "";
-      if (!entries.length) {
-        ui.entriesBody.innerHTML = '<tr><td colspan="17" class="empty">Keine Einträge vorhanden.</td></tr>';
-        resetSummary();
-        return;
-      }
-      for (const entry of entries) {
-        const diffOk = round2(num(entry.diff)) === 0;
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${esc(formatDate(entry.date))}</td>
-          <td class="num">${money(entry.startCash)}</td>
-          <td class="num">${money(entry.dailyTotal)}</td>
-          <td class="num">${money(entry.cardPayments)}</td>
-          <td class="num">${money(entry.cashShare)}</td>
-          <td class="num">${money(entry.skimming)}</td>
-          <td class="num">${money(entry.endExpected)}</td>
-          <td class="num">${money(entry.endCashCounted)}</td>
-          <td class="num">${money(entry.diff)}</td>
-          <td><span class="badge ${diffOk ? "ok" : "bad"}">${diffOk ? "OK" : "Prüfen"}</span></td>
-          <td title="${esc(entry.note || "")}"><div class="truncate">${esc(entry.note || "") || "—"}</div></td>
-          <td>${entry.hasReceipt ? "Ja" : "Nein"}</td>
-          <td title="${esc(entry.receiptNumber || "")}"><div class="truncate">${esc(entry.receiptNumber || "") || "—"}</div></td>
-          <td title="${esc(entry.receiptNote || "")}"><div class="truncate">${esc(entry.receiptNote || "") || "—"}</div></td>
-          <td>${esc(entry.updatedBy || "—")}</td>
-          <td>${entry.updatedAt?.toDate ? dateTimeDE.format(entry.updatedAt.toDate()) : "—"}</td>
-          <td class="table-actions">${state.role === "admin" ? `<button class="btn btn-muted" type="button" data-edit="${entry.id}">Bearbeiten</button> <button class="btn btn-danger" type="button" data-del="${entry.id}" data-label="${esc(formatDate(entry.date))}">Eintrag entfernen</button>` : "—"}</td>
-        `;
-        ui.entriesBody.appendChild(tr);
-      }
-      if (state.role === "admin") {
-        ui.entriesBody.querySelectorAll("[data-edit]").forEach((b) => b.addEventListener("click", () => editEntry(b.getAttribute("data-edit"))));
-        ui.entriesBody.querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", () => deleteEntry(b.getAttribute("data-del"), b.getAttribute("data-label"))));
-      }
-      renderSummary(entries);
-      const last = [...state.entries].sort((a, b) => String(b.date).localeCompare(String(a.date)))[0];
-      ui.lastDate.textContent = last ? formatDate(last.date) : "-";
-      ui.lastDiff.textContent = last ? money(last.diff) : "0,00 €";
-      ui.lastBy.textContent = last?.updatedBy || last?.createdBy || "-";
-      ui.tableSummary.textContent = `${entries.length} Tag${entries.length === 1 ? "" : "e"} angezeigt${ui.monthFilter.value ? ` (${monthLabel(ui.monthFilter.value)})` : ""}.`;
-    }
-
-    function renderSummary(entries) {
-      const sums = entries.reduce((acc, e) => {
-        acc.daily += num(e.dailyTotal);
-        acc.card += num(e.cardPayments);
-        acc.cash += num(e.cashShare);
-        acc.skim += num(e.skimming);
-        if (round2(num(e.diff)) !== 0) acc.diffDays += 1;
-        return acc;
-      }, { daily: 0, card: 0, cash: 0, skim: 0, diffDays: 0 });
-      ui.sumDaily.textContent = money(sums.daily);
-      ui.sumCard.textContent = money(sums.card);
-      ui.sumCash.textContent = money(sums.cash);
-      ui.sumSkim.textContent = money(sums.skim);
-      ui.sumDiffDays.textContent = String(sums.diffDays);
-    }
-
-    function editEntry(id) {
-      const e = state.entries.find((x) => x.id === id);
-      if (!e || state.role !== "admin") return;
-      state.editingId = id;
-      ui.date.value = e.date || todayIso();
-      ui.startCash.value = toInput(e.startCash);
-      ui.dailyTotal.value = toInput(e.dailyTotal);
-      ui.cardPayments.value = toInput(e.cardPayments);
-      ui.skimming.value = toInput(e.skimming);
-      ui.endCashCounted.value = toInput(e.endCashCounted);
-      ui.note.value = e.note || "";
-      ui.hasReceipt.value = e.hasReceipt ? "true" : "false";
-      ui.receiptNumber.value = e.receiptNumber || "";
-      ui.receiptNote.value = e.receiptNote || "";
-      ui.saveBtn.textContent = "Aktualisieren";
-      ui.cancelEditBtn.classList.remove("hidden");
-      calcLive();
-      hideError(ui.formError);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function cancelEdit() {
-      state.editingId = null;
-      ui.saveBtn.textContent = "Speichern";
-      ui.cancelEditBtn.classList.add("hidden");
-    }
-
-    function resetForm() {
-      ui.entryForm.reset();
-      ui.date.value = todayIso();
-      ui.hasReceipt.value = "false";
-      ui.receiptNumber.value = "";
-      ui.receiptNote.value = "";
-      cancelEdit();
-      calcLive();
-      hideError(ui.formError);
-      ui.saveBtn.disabled = false;
-      ui.saveBtn.textContent = "Speichern";
-    }
-
-    function filteredEntries() {
-      const month = ui.monthFilter.value;
-      const rows = [...state.entries].sort((a, b) => String(b.date).localeCompare(String(a.date)));
-      if (!month) return rows;
-      return rows.filter((e) => String(e.date).startsWith(month));
-    }
-
-    function exportCsv() {
-      const rows = filteredEntries().sort((a, b) => String(a.date).localeCompare(String(b.date)));
-      const header = [
-        "Datum", "Wechselgeld Anfang", "Tagesabschluss gesamt", "EC-Zahlungen", "Bar-Anteil", "Abschöpfung",
-        "Wechselgeld Ende Soll", "Wechselgeld Ende gezählt", "Differenz", "Status", "Bemerkung",
-        "Beleg vorhanden", "Belegnummer", "Beleg-Hinweis", "Bearbeitet von", "Bearbeitet am"
-      ];
-      const data = rows.map((e) => {
-        const diffOk = round2(num(e.diff)) === 0;
-        return [
-          e.date || "", toCsv(e.startCash), toCsv(e.dailyTotal), toCsv(e.cardPayments), toCsv(e.cashShare), toCsv(e.skimming),
-          toCsv(e.endExpected), toCsv(e.endCashCounted), toCsv(e.diff), diffOk ? "OK" : "Prüfen", e.note || "",
-          e.hasReceipt ? "Ja" : "Nein", e.receiptNumber || "", e.receiptNote || "", e.updatedBy || "",
-          e.updatedAt?.toDate ? dateTimeDE.format(e.updatedAt.toDate()) : ""
-        ];
-      });
-      const csv = [header, ...data].map((r) => r.map((c) => `"${String(c).replaceAll('"', '""')}"`).join(";")).join("\n");
-      const month = ui.monthFilter.value || "gesamt";
-      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `lotto-kasse-salon-karola-${month}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    function clearTable() { ui.entriesBody.innerHTML = ""; ui.tableSummary.textContent = ""; }
-    function resetSummary() {
-      ui.sumDaily.textContent = "0,00 €";
-      ui.sumCard.textContent = "0,00 €";
-      ui.sumCash.textContent = "0,00 €";
-      ui.sumSkim.textContent = "0,00 €";
-      ui.sumDiffDays.textContent = "0";
-      ui.lastDate.textContent = "-";
-      ui.lastDiff.textContent = "0,00 €";
-      ui.lastBy.textContent = "-";
-    }
-
-    function normalizeMoneyInput(e) {
-      const n = parseMoney(e.target.value);
-      if (n !== null) e.target.value = toInput(n);
-      calcLive();
-    }
-
-    function parseMoney(v) {
-      const t = String(v ?? "").trim();
-      if (!t) return 0;
-      const s = t.replace(/€/g, "").replace(/\s/g, "");
-      const n = s.includes(",") ? s.replace(/\./g, "").replace(",", ".") : s;
-      if (!/^-?\d+(\.\d{1,2})?$/.test(n) && !/^-?\d+$/.test(n)) return null;
-      const value = Number(n);
-      if (!Number.isFinite(value)) return null;
-      return round2(value);
-    }
-
-    function round2(n) { return Math.round((Number(n) + Number.EPSILON) * 100) / 100; }
-    function num(v) { const n = Number(v); return Number.isFinite(n) ? n : 0; }
-    function money(v) { return euro.format(num(v)); }
-    function toInput(v) { return round2(num(v)).toFixed(2).replace(".", ","); }
-    function toCsv(v) { return round2(num(v)).toFixed(2).replace(".", ","); }
-    function formatDate(iso) { return iso ? dateDE.format(new Date(`${iso}T12:00:00`)) : ""; }
-    function monthLabel(m) {
-      const [y, mm] = m.split("-");
-      return new Intl.DateTimeFormat("de-DE", { month: "long", year: "numeric" }).format(new Date(Number(y), Number(mm) - 1, 1));
-    }
-    function todayIso() {
-      const d = new Date();
-      return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-    }
-    function currentMonthIso() { return todayIso().slice(0, 7); }
-    function showError(el, msg) { el.textContent = msg; el.classList.add("show"); }
-    function hideError(el) { el.textContent = ""; el.classList.remove("show"); }
-    function showFormError(msg) { showError(ui.formError, msg); return null; }
-    function byId(id) { return document.getElementById(id); }
-    function wait(ms) { return new Promise((r) => setTimeout(r, ms)); }
-    function esc(v) {
-      return String(v)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-  </script>
+  <script type="module" src="/main.js"></script>
 </body>
 </html>
